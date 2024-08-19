@@ -1,5 +1,11 @@
 package pl.meetingapp.frontendtest.controller;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.Scanner;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,13 +15,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import org.json.JSONObject;  // Dodaj import do obsługi JSON
 import pl.meetingapp.frontendtest.JavaFXApp;
-
-import java.io.IOException;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.Scanner;
 
 public class LoginController {
 
@@ -65,18 +66,22 @@ public class LoginController {
                 }
                 scanner.close();
 
-                if (response.toString().contains("username")) {
+                JSONObject jsonResponse = new JSONObject(response.toString());
+                String token = jsonResponse.optString("token");
+
+                if (!token.isEmpty()) {
+                    JavaFXApp.setJwtToken(token);
                     loginMessageLabel.setText("Logowanie się powiodło!");
-//                    JavaFXApp.getStage().setScene(new Scene(FXMLLoader.load(getClass().getResource("/fxml/MainScene.fxml"))));
+                    JavaFXApp.getStage().setScene(new Scene(FXMLLoader.load(getClass().getResource("/fxml/mainScene.fxml"))));
                 } else {
                     loginMessageLabel.setText("Niepoprawna nazwa użytkownika lub hasło!");
                 }
             } else {
-                loginMessageLabel.setText("Nie udało się połączyć z serwerem.");
+                loginMessageLabel.setText("Nie udało się połączyć z serwerem. Kod błędu: " + responseCode);
             }
         } catch (IOException e) {
             e.printStackTrace();
-            loginMessageLabel.setText("An error occurred.");
+            loginMessageLabel.setText("Wystąpił błąd.");
         }
     }
 
@@ -84,6 +89,7 @@ public class LoginController {
     private void registrationButtonOnAction(ActionEvent e) throws IOException {
         JavaFXApp.getStage().setScene(new Scene(FXMLLoader.load(getClass().getResource("/fxml/registrationSceneFRONT.fxml"))));
     }
+
     @FXML
     public void cancelButtonAction(ActionEvent e) {
         Stage stage = (Stage) cancelButton.getScene().getWindow();

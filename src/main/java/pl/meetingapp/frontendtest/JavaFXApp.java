@@ -5,17 +5,19 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
 import java.io.IOException;
 
 public class JavaFXApp extends Application {
 
     private static Stage stage;
+    private static String jwtToken;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         stage = primaryStage;
         primaryStage.setResizable(false);
-        loadScene("/fxml/loginSceneFRONT.fxml", 585.0, 464.0); // Set default size
+        loadScene("/fxml/loginSceneFRONT.fxml", 585.0, 464.0); // Ustawienie domyślnego rozmiaru
     }
 
     public static void setStage(Stage primaryStage) {
@@ -26,19 +28,13 @@ public class JavaFXApp extends Application {
         return stage;
     }
 
-//    public void changeScene(String fxml, double width, double height) throws IOException {
-//        FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
-//        Parent pane = loader.load();
-//        Scene newScene = new Scene(pane);
-//
-//        Stage currentStage = getStage();
-//        currentStage.setScene(newScene);
-//
-//        if (width > 0 && height > 0) {
-//            currentStage.setWidth(width);
-//            currentStage.setHeight(height);
-//        }
-//    }
+    public static void setJwtToken(String token) {
+        jwtToken = token;
+    }
+
+    public static String getJwtToken() {
+        return jwtToken;
+    }
 
     public void loadScene(String fxml, double width, double height) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
