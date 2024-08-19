@@ -1,6 +1,8 @@
 package pl.meetingapp.frontendtest.controller;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -66,6 +68,7 @@ public class CreatMeetingController {
             int code = conn.getResponseCode();
             if (code == HttpURLConnection.HTTP_OK) {
                 messageLabel.setText("The meeting has been created.");
+                JavaFXApp.getStage().setScene(new Scene(FXMLLoader.load(getClass().getResource("/fxml/mainScene.fxml"))));
             } else {
                 StringBuilder response = new StringBuilder();
                 InputStream errorStream = conn.getErrorStream();

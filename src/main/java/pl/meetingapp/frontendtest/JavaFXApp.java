@@ -45,4 +45,7 @@ public class JavaFXApp extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
+    public static void clearJwtToken() {
+        jwtToken = null;
+    }
 }
