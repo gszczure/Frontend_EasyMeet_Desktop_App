@@ -9,8 +9,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import pl.meetingapp.frontendtest.JavaFXApp;
-
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
@@ -80,6 +78,7 @@ public class RegistrationController {
             registrationLabelMessage.setText("Invalid email format!");
             return;
         }
+
         if (!phoneNumber.matches("\\d{9}")) {
             registrationLabelMessage.setText("Phone number must be at least 9 numbers long!");
             return;
@@ -101,7 +100,9 @@ public class RegistrationController {
 
             int responseCode = connection.getResponseCode();
             if (responseCode == HttpURLConnection.HTTP_OK) {
-                JavaFXApp.getStage().setScene(new Scene(FXMLLoader.load(getClass().getResource("/fxml/loginSceneFRONT.fxml"))));
+                Stage stage = (Stage) registrationButton.getScene().getWindow();
+                Scene newScene = new Scene(FXMLLoader.load(getClass().getResource("/fxml/loginSceneFRONT.fxml")));
+                stage.setScene(newScene);
             } else {
                 registrationLabelMessage.setText("Registration failed.");
             }
@@ -113,8 +114,11 @@ public class RegistrationController {
 
     @FXML
     private void backButtonOnAction() throws IOException {
-        JavaFXApp.getStage().setScene(new Scene(FXMLLoader.load(getClass().getResource("/fxml/loginSceneFRONT.fxml"))));
+        Stage stage = (Stage) backButton.getScene().getWindow();
+        Scene newScene = new Scene(FXMLLoader.load(getClass().getResource("/fxml/loginSceneFRONT.fxml")));
+        stage.setScene(newScene);
     }
+
     @FXML
     public void cancelButtonAction(ActionEvent e) {
         Stage stage = (Stage) cancelButton.getScene().getWindow();

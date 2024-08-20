@@ -8,8 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.VBox;
-import pl.meetingapp.frontendtest.JavaFXApp;
-
+import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -17,13 +16,21 @@ import java.util.Scanner;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import pl.meetingapp.frontendtest.JavaFXApp;
 
 public class MainSceneController {
 
     @FXML
     private Accordion accordion;
+
     @FXML
     private Button logoutButton;
+
+    @FXML
+    private Button jointMeetingButton;
+
+    @FXML
+    private Button addMeetingButton;
 
     @FXML
     private void initialize() {
@@ -35,10 +42,14 @@ public class MainSceneController {
         String token = JavaFXApp.getJwtToken();
 
         if (token == null || token.isEmpty()) {
-            JavaFXApp.getStage().setScene(new Scene(FXMLLoader.load(getClass().getResource("/fxml/loginScene.fxml"))));
+            Stage stage = (Stage) addMeetingButton.getScene().getWindow();
+            Scene newScene = new Scene(FXMLLoader.load(getClass().getResource("/fxml/loginScene.fxml")));
+            stage.setScene(newScene);
         } else {
             // Przejście do sceny tworzenia spotkania
-            JavaFXApp.getStage().setScene(new Scene(FXMLLoader.load(getClass().getResource("/fxml/createMeetingScene.fxml"))));
+            Stage stage = (Stage) addMeetingButton.getScene().getWindow();
+            Scene newScene = new Scene(FXMLLoader.load(getClass().getResource("/fxml/createMeetingScene.fxml")));
+            stage.setScene(newScene);
 
             // Po powrocie do tej sceny, załaduj zaktualizowaną listę spotkań
             loadMeetings();
@@ -88,7 +99,6 @@ public class MainSceneController {
         }
     }
 
-    // Dodawanie spotkanai do listy na srodku ekranu
     private void addMeetingToAccordion(String name, String ownerName, String code) {
         String title = name + " ( Owner: " + ownerName + " )";
         TitledPane titledPane = new TitledPane();
@@ -106,6 +116,11 @@ public class MainSceneController {
     private void handleLogoutButtonAction() throws IOException {
         JavaFXApp.clearJwtToken();
 
-        JavaFXApp.getStage().setScene(new Scene(FXMLLoader.load(getClass().getResource("/fxml/loginSceneFRONT.fxml"))));
+        Stage stage = (Stage) logoutButton.getScene().getWindow();
+        Scene newScene = new Scene(FXMLLoader.load(getClass().getResource("/fxml/loginSceneFRONT.fxml")));
+        stage.setScene(newScene);
     }
+
+    // @FXML
+    // private void handleJoinMeetingButtonAction
 }

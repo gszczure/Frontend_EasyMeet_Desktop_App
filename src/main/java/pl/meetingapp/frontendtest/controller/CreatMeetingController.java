@@ -8,14 +8,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.event.ActionEvent;
 import javafx.stage.Stage;
-import pl.meetingapp.frontendtest.JavaFXApp;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.io.OutputStream;
 import java.util.Scanner;
+import pl.meetingapp.frontendtest.JavaFXApp;
 
 public class CreatMeetingController {
 
@@ -54,7 +53,6 @@ public class CreatMeetingController {
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Content-Type", "application/json; utf-8");
             conn.setRequestProperty("Accept", "application/json");
-            // Dodanie nagłówka Authorization z tokenem JWT
             conn.setRequestProperty("Authorization", "Bearer " + jwtToken);
             conn.setDoOutput(true);
 
@@ -68,7 +66,9 @@ public class CreatMeetingController {
             int code = conn.getResponseCode();
             if (code == HttpURLConnection.HTTP_OK) {
                 messageLabel.setText("The meeting has been created.");
-                JavaFXApp.getStage().setScene(new Scene(FXMLLoader.load(getClass().getResource("/fxml/mainScene.fxml"))));
+                Stage stage = (Stage) saveButton.getScene().getWindow();
+                Scene newScene = new Scene(FXMLLoader.load(getClass().getResource("/fxml/mainScene.fxml")));
+                stage.setScene(newScene);
             } else {
                 StringBuilder response = new StringBuilder();
                 InputStream errorStream = conn.getErrorStream();

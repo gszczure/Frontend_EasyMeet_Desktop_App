@@ -15,7 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import org.json.JSONObject;  // Dodaj import do obsługi JSON
+import org.json.JSONObject;
 import pl.meetingapp.frontendtest.JavaFXApp;
 
 public class LoginController {
@@ -72,13 +72,14 @@ public class LoginController {
                 if (!token.isEmpty()) {
                     JavaFXApp.setJwtToken(token);
                     loginMessageLabel.setText("Logowanie się powiodło!");
-                    JavaFXApp.getStage().setScene(new Scene(FXMLLoader.load(getClass().getResource("/fxml/mainScene.fxml"))));
+                    Stage stage = (Stage) loginButton.getScene().getWindow();
+                    Scene newScene = new Scene(FXMLLoader.load(getClass().getResource("/fxml/mainScene.fxml")));
+                    stage.setScene(newScene);
                 } else {
                     loginMessageLabel.setText("Niepoprawna nazwa użytkownika lub hasło!");
                 }
             } else {
                 loginMessageLabel.setText("Nie udało się połączyć z serwerem. Kod błędu: " + responseCode);
-                // do naprawy przy wpisywaniu blednych danych wyswietla sie ten komunikat zamiast tego wyzej
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -88,7 +89,9 @@ public class LoginController {
 
     @FXML
     private void registrationButtonOnAction(ActionEvent e) throws IOException {
-        JavaFXApp.getStage().setScene(new Scene(FXMLLoader.load(getClass().getResource("/fxml/registrationSceneFRONT.fxml"))));
+        Stage stage = (Stage) registrationButton.getScene().getWindow();
+        Scene newScene = new Scene(FXMLLoader.load(getClass().getResource("/fxml/registrationSceneFRONT.fxml")));
+        stage.setScene(newScene);
     }
 
     @FXML
