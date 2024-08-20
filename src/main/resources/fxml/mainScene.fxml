@@ -8,6 +8,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
+<!-- TODO: zrobic ladniejszy widok mainScene.fxml -->
+
+
 <AnchorPane prefHeight="496.0" prefWidth="613.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.meetingapp.frontendtest.controller.MainSceneController">
     <!-- VBox dla Accordion -->
     <VBox alignment="CENTER" layoutX="38.0" layoutY="153.0" prefHeight="234.0" prefWidth="336.0" spacing="20" AnchorPane.bottomAnchor="109.0" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="266.0" AnchorPane.topAnchor="153.0">

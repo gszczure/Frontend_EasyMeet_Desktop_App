@@ -74,6 +74,7 @@ public class LoginController {
                     loginMessageLabel.setText("Niepoprawna nazwa użytkownika lub hasło!");
                 }
             } else {
+                // TODO: Naprawic loginMassageLabel poniewaz przy wpisywaniu zlego loginu lub hasla wyswietla sie nie ten text co potrzeba
                 loginMessageLabel.setText("Nie udało się połączyć z serwerem. Kod błędu: " + responseCode);
             }
         } catch (IOException e) {
