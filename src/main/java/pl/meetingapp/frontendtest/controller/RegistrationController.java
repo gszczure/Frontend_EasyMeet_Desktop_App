@@ -12,7 +12,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
-import java.net.URL;
+import pl.meetingapp.frontendtest.util.HttpUtils;
 
 public class RegistrationController {
 
@@ -84,12 +84,9 @@ public class RegistrationController {
             return;
         }
 
+        HttpURLConnection connection = null;
         try {
-            URL url = new URL("http://localhost:8080/api/auth/register");
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("POST");
-            connection.setDoOutput(true);
-            connection.setRequestProperty("Content-Type", "application/json; utf-8");
+            connection = HttpUtils.createConnection("http://localhost:8080/api/auth/register", "POST", null, true);
 
             String jsonInputString = "{\"username\": \"" + username + "\", \"password\": \"" + password + "\", \"email\": \"" + email + "\", \"firstName\": \"" + firstName + "\", \"lastName\": \"" + lastName + "\", \"phoneNumber\": \"" + phoneNumber + "\"}";
 
@@ -109,6 +106,10 @@ public class RegistrationController {
         } catch (IOException e) {
             e.printStackTrace();
             registrationLabelMessage.setText("An error occurred.");
+        } finally {
+            if (connection != null) {
+                connection.disconnect();
+            }
         }
     }
 

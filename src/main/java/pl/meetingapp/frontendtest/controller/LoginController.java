@@ -3,9 +3,7 @@ package pl.meetingapp.frontendtest.controller;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.Scanner;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,6 +15,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.json.JSONObject;
 import pl.meetingapp.frontendtest.JavaFXApp;
+import pl.meetingapp.frontendtest.util.HttpUtils;
 
 public class LoginController {
 
@@ -44,11 +43,7 @@ public class LoginController {
         String password = passwordPasswordField.getText().trim();
 
         try {
-            URL url = new URL("http://localhost:8080/api/auth/login");
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("POST");
-            connection.setDoOutput(true);
-            connection.setRequestProperty("Content-Type", "application/json");
+            HttpURLConnection connection = HttpUtils.createConnection("http://localhost:8080/api/auth/login", "POST", null, true);
 
             String jsonInputString = "{\"username\": \"" + username + "\", \"password\": \"" + password + "\"}";
 

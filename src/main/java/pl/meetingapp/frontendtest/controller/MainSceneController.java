@@ -10,12 +10,13 @@ import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import javafx.stage.Stage;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.Scanner;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import pl.meetingapp.frontendtest.JavaFXApp;
+import pl.meetingapp.frontendtest.util.HttpUtils;
 
 public class MainSceneController {
 
@@ -44,14 +45,21 @@ public class MainSceneController {
     private Button cancelButton;
 
     @FXML
+    private Label messageLabel;
+
+    private String jwtToken;
+
+    @FXML
     private void initialize() {
         loadMeetings();
         slideInPane.setVisible(false);
+        this.jwtToken = JavaFXApp.getJwtToken();
+
     }
 
     @FXML
     private void handleCreateMeetingButtonAction() throws IOException {
-        String token = JavaFXApp.getJwtToken();
+        String token = jwtToken;
 
         if (token == null || token.isEmpty()) {
             Stage stage = (Stage) addMeetingButton.getScene().getWindow();
@@ -61,8 +69,6 @@ public class MainSceneController {
             Stage stage = (Stage) addMeetingButton.getScene().getWindow();
             Scene newScene = new Scene(FXMLLoader.load(getClass().getResource("/fxml/createMeetingScene.fxml")));
             stage.setScene(newScene);
-
-            loadMeetings();
         }
     }
 
@@ -72,11 +78,7 @@ public class MainSceneController {
 
         HttpURLConnection conn = null;
         try {
-            URL url = new URL("http://localhost:8080/api/meetings/for-user");
-            conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
-            conn.setRequestProperty("Authorization", "Bearer " + jwtToken);
-            conn.setRequestProperty("Accept", "application/json");
+            conn = HttpUtils.createConnection("http://localhost:8080/api/meetings/for-user", "GET", jwtToken, false);
 
             int responseCode = conn.getResponseCode();
             if (responseCode == HttpURLConnection.HTTP_OK) {
@@ -145,8 +147,37 @@ public class MainSceneController {
     @FXML
     private void handleJoinButtonAction() {
         String meetingCode = meetingCodeTextField.getText().trim();
-        System.out.println("Meeting code entered: " + meetingCode);
-        closeSlideInPane();
+        if (meetingCode.isEmpty()) {
+            messageLabel.setText("Meeting code cannot be empty.");
+            return;
+        }
+
+        HttpURLConnection conn = null;
+        try {
+            conn = HttpUtils.createConnection("http://localhost:8080/api/meetings/join", "POST", jwtToken, true);
+
+            String jsonPayload = "{\"code\":\"" + meetingCode + "\"}";
+            try (OutputStream os = conn.getOutputStream()) {
+                byte[] input = jsonPayload.getBytes("utf-8");
+                os.write(input, 0, input.length);
+            }
+
+            int responseCode = conn.getResponseCode();
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                messageLabel.setText("Successfully joined the meeting.");
+                loadMeetings();
+                closeSlideInPane();
+            } else {
+                messageLabel.setText("Failed to join the meeting.");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            messageLabel.setText("An error occurred while joining the meeting.");
+        } finally {
+            if (conn != null) {
+                conn.disconnect();
+            }
+        }
     }
 
     @FXML

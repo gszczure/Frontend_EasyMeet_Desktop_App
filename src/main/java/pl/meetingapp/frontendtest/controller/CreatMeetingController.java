@@ -10,11 +10,11 @@ import javafx.event.ActionEvent;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.io.OutputStream;
+import java.net.HttpURLConnection;
 import java.util.Scanner;
 import pl.meetingapp.frontendtest.JavaFXApp;
+import pl.meetingapp.frontendtest.util.HttpUtils;
 
 public class CreatMeetingController {
 
@@ -48,13 +48,7 @@ public class CreatMeetingController {
 
         HttpURLConnection conn = null;
         try {
-            URL url = new URL("http://localhost:8080/api/meetings/create");
-            conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("POST");
-            conn.setRequestProperty("Content-Type", "application/json; utf-8");
-            conn.setRequestProperty("Accept", "application/json");
-            conn.setRequestProperty("Authorization", "Bearer " + jwtToken);
-            conn.setDoOutput(true);
+            conn = HttpUtils.createConnection("http://localhost:8080/api/meetings/create", "POST", jwtToken, true);
 
             String jsonPayload = "{\"name\":\"" + meetingTitle + "\"}";
 

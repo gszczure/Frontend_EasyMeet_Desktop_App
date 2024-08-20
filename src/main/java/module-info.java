@@ -18,4 +18,5 @@ module pl.meetingapp.frontendtest {
 
     exports pl.meetingapp.frontendtest;
     exports pl.meetingapp.frontendtest.controller;
+    exports pl.meetingapp.frontendtest.util;
 }
