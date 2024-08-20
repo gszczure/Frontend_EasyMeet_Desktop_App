@@ -78,6 +78,7 @@ public class LoginController {
                 }
             } else {
                 loginMessageLabel.setText("Nie udało się połączyć z serwerem. Kod błędu: " + responseCode);
+                // do naprawy przy wpisywaniu blednych danych wyswietla sie ten komunikat zamiast tego wyzej
             }
         } catch (IOException e) {
             e.printStackTrace();

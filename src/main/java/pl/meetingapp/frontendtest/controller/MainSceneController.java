@@ -51,7 +51,7 @@ public class MainSceneController {
 
         HttpURLConnection conn = null;
         try {
-            URL url = new URL("http://localhost:8080/api/meetings/user");
+            URL url = new URL("http://localhost:8080/api/meetings/for-user");
             conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Authorization", "Bearer " + jwtToken);
