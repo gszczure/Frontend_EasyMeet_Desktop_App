@@ -113,6 +113,7 @@ public class MainSceneController {
     // TODO: Zrobic by tylko Owner widdzial code spotkania
     // TODO: Zrobic by imiona i nazwiska uczestnikow sie wyswietlaly w tym accordion
     // TODO: Zrobic by kazdy zaznaczal date w ktorej jest dostepny i zaby w spotkaniu wypisywac daty ktore sa najlepsze do spotkania (daty w ktorych kazda osoba moze sie spotkac)
+    // TODO: Zrobic by walsciciel wybieral z posrod dostepnych dat date do spotkania ktora wyswietli sie obok  zalozyciela w spotkaniu
     // TODO: Zrobic usuwanie uzytkownika ze spotkania (tylko wlasciciel) oraz by uzytkownik sam mogl wychodzic ze spotkania
     // TODO: Zrobic aby zalozyciel mogl usuwac spotkanie
     private void addMeetingToAccordion(String name, String ownerName, String code) {
