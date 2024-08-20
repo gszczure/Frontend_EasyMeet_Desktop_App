@@ -1,19 +1,18 @@
 package pl.meetingapp.frontendtest.controller;
 
+import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Accordion;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TitledPane;
+import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Scanner;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 import pl.meetingapp.frontendtest.JavaFXApp;
@@ -33,8 +32,21 @@ public class MainSceneController {
     private Button addMeetingButton;
 
     @FXML
+    private AnchorPane slideInPane;
+
+    @FXML
+    private TextField meetingCodeTextField;
+
+    @FXML
+    private Button joinButton;
+
+    @FXML
+    private Button cancelButton;
+
+    @FXML
     private void initialize() {
-        loadMeetings(); // Ładowanie spotkań przy starcie sceny
+        loadMeetings();
+        slideInPane.setVisible(false);
     }
 
     @FXML
@@ -46,18 +58,16 @@ public class MainSceneController {
             Scene newScene = new Scene(FXMLLoader.load(getClass().getResource("/fxml/loginScene.fxml")));
             stage.setScene(newScene);
         } else {
-            // Przejście do sceny tworzenia spotkania
             Stage stage = (Stage) addMeetingButton.getScene().getWindow();
             Scene newScene = new Scene(FXMLLoader.load(getClass().getResource("/fxml/createMeetingScene.fxml")));
             stage.setScene(newScene);
 
-            // Po powrocie do tej sceny, załaduj zaktualizowaną listę spotkań
             loadMeetings();
         }
     }
 
     private void loadMeetings() {
-        accordion.getPanes().clear(); // Czyścimy obecne spotkania przed załadowaniem nowych
+        accordion.getPanes().clear();
         String jwtToken = JavaFXApp.getJwtToken();
 
         HttpURLConnection conn = null;
@@ -121,6 +131,34 @@ public class MainSceneController {
         stage.setScene(newScene);
     }
 
-    // @FXML
-    // private void handleJoinMeetingButtonAction
+    @FXML
+    private void handleJoinMeetingButtonAction() {
+        if (!slideInPane.isVisible()) {
+            slideInPane.setVisible(true);
+            TranslateTransition slideIn = new TranslateTransition(Duration.millis(300), slideInPane);
+            slideIn.setFromX(slideInPane.getTranslateX());
+            slideIn.setToX(0);
+            slideIn.play();
+        }
+    }
+
+    @FXML
+    private void handleJoinButtonAction() {
+        String meetingCode = meetingCodeTextField.getText().trim();
+        System.out.println("Meeting code entered: " + meetingCode);
+        closeSlideInPane();
+    }
+
+    @FXML
+    private void handleCancelButtonAction() {
+        closeSlideInPane();
+    }
+
+    private void closeSlideInPane() {
+        TranslateTransition slideOut = new TranslateTransition(Duration.millis(300), slideInPane);
+        slideOut.setFromX(slideInPane.getTranslateX());
+        slideOut.setToX(slideInPane.getWidth());
+        slideOut.setOnFinished(event -> slideInPane.setVisible(false));
+        slideOut.play();
+    }
 }

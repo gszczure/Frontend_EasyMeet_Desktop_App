@@ -94,9 +94,9 @@ public class CreatMeetingController {
     }
 
     @FXML
-    private void handleCancelButtonAction(ActionEvent event) {
+    private void handleCancelButtonAction(ActionEvent e) throws IOException {
         Stage stage = (Stage) cancelButton.getScene().getWindow();
-        stage.close();
-        System.exit(0);
+        Scene newScene = new Scene(FXMLLoader.load(getClass().getResource("/fxml/mainScene.fxml")));
+        stage.setScene(newScene);
     }
 }
