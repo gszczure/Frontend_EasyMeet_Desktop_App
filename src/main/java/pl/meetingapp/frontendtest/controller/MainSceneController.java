@@ -1,6 +1,7 @@
 package pl.meetingapp.frontendtest.controller;
 
 import javafx.animation.TranslateTransition;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -47,14 +48,22 @@ public class MainSceneController {
     @FXML
     private Label messageLabel;
 
+    @FXML
+    private AnchorPane usersSlideInPane;
+
+    @FXML
+    private VBox usersListVBox;
+
+    private int lastUserNumber = 0;
+
     private String jwtToken;
 
     @FXML
     private void initialize() {
         loadMeetings();
         slideInPane.setVisible(false);
+        usersSlideInPane.setVisible(false);
         this.jwtToken = JavaFXApp.getJwtToken();
-
     }
 
     @FXML
@@ -95,8 +104,9 @@ public class MainSceneController {
                         JSONObject owner = meeting.getJSONObject("owner");
                         String ownerName = owner.getString("firstName") + " " + owner.getString("lastName");
                         String meetingCode = meeting.getString("code");
+                        Long meetingId = meeting.getLong("id"); // Pobierz ID spotkania
 
-                        addMeetingToAccordion(meetingName, ownerName, meetingCode);
+                        addMeetingToAccordion(meetingName, ownerName, meetingCode, meetingId);
                     }
                 }
             } else {
@@ -110,22 +120,26 @@ public class MainSceneController {
             }
         }
     }
-    // TODO: Zrobic by tylko Owner widdzial code spotkania
-    // TODO: Zrobic by imiona i nazwiska uczestnikow sie wyswietlaly w tym accordion
-    // TODO: Zrobic by kazdy zaznaczal date w ktorej jest dostepny i zaby w spotkaniu wypisywac daty ktore sa najlepsze do spotkania (daty w ktorych kazda osoba moze sie spotkac)
-    // TODO: Zrobic by walsciciel wybieral z posrod dostepnych dat date do spotkania ktora wyswietli sie obok  zalozyciela w spotkaniu
-    // TODO: Zrobic usuwanie uzytkownika ze spotkania (tylko wlasciciel) oraz by uzytkownik sam mogl wychodzic ze spotkania
-    // TODO: Zrobic aby zalozyciel mogl usuwac spotkanie
-    private void addMeetingToAccordion(String name, String ownerName, String code) {
-        String title = name + " ( Owner: " + ownerName + " )";
+
+    private void addMeetingToAccordion(String name, String ownerName, String code, Long meetingId) {
         TitledPane titledPane = new TitledPane();
+
+        String title = name + "               " + ownerName;
         titledPane.setText(title);
 
         VBox content = new VBox();
+        content.setSpacing(10);
+
         Label codeLabel = new Label("Code: " + code);
         content.getChildren().add(codeLabel);
 
+        Button usersButton = new Button("Users");
+        usersButton.setOnAction(event -> handleUsersButtonAction(meetingId));
+        content.getChildren().add(usersButton);
+
         titledPane.setContent(content);
+        titledPane.setUserData(meetingId);
+
         accordion.getPanes().add(titledPane);
     }
 
@@ -195,6 +209,61 @@ public class MainSceneController {
         slideOut.setFromX(slideInPane.getTranslateX());
         slideOut.setToX(slideInPane.getWidth());
         slideOut.setOnFinished(event -> slideInPane.setVisible(false));
+        slideOut.play();
+    }
+
+    @FXML
+    private void handleUsersButtonAction(Long meetingId) {
+        if (!usersSlideInPane.isVisible()) {
+            usersSlideInPane.setVisible(true);
+            TranslateTransition slideIn = new TranslateTransition(Duration.millis(300), usersSlideInPane);
+            slideIn.setFromX(usersSlideInPane.getTranslateX());
+            slideIn.setToX(0);
+            slideIn.play();
+        }
+
+        // Clear previous users
+        usersListVBox.getChildren().clear();
+
+        // Fetch users from the backend
+        HttpURLConnection conn = null;
+        try {
+            conn = HttpUtils.createConnection("http://localhost:8080/api/meetings/" + meetingId + "/participants", "GET", jwtToken, false);
+            int responseCode = conn.getResponseCode();
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                try (Scanner scanner = new Scanner(conn.getInputStream())) {
+                    StringBuilder response = new StringBuilder();
+                    while (scanner.hasNextLine()) {
+                        response.append(scanner.nextLine());
+                    }
+
+                    JSONArray usersArray = new JSONArray(response.toString());
+                    for (int i = 0; i < usersArray.length(); i++) {
+                        JSONObject user = usersArray.getJSONObject(i);
+                        String userName = user.getString("firstName") + " " + user.getString("lastName");
+                        String numberedUserName = (++lastUserNumber) + ". " + userName;
+                        Label userLabel = new Label(numberedUserName);
+                        usersListVBox.getChildren().add(userLabel);
+                    }
+                }
+            } else {
+                System.out.println("Failed to load users. Server responded with code " + responseCode);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (conn != null) {
+                conn.disconnect();
+            }
+        }
+    }
+
+    @FXML
+    private void handleCloseUsersButtonAction() {
+        TranslateTransition slideOut = new TranslateTransition(Duration.millis(300), usersSlideInPane);
+        slideOut.setFromX(usersSlideInPane.getTranslateX());
+        slideOut.setToX(usersSlideInPane.getPrefWidth());
+        slideOut.setOnFinished(e -> usersSlideInPane.setVisible(false));
         slideOut.play();
     }
 }
