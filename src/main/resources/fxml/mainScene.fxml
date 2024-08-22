@@ -6,6 +6,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
 <!-- TODO: zrobic ladniejszy widok mainScene.fxml -->
@@ -16,23 +17,23 @@
         <Accordion fx:id="accordion" />
     </VBox>
 
-    <Button fx:id="logoutButton" layoutX="14.0" layoutY="10.0" onAction="#handleLogoutButtonAction" style="-fx-background-color: #263F73;" text="Logout" textFill="WHITE" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0" />
+    <Button fx:id="logoutButton" layoutX="14.0" layoutY="23.0" onAction="#handleLogoutButtonAction" prefHeight="26.0" prefWidth="88.0" style="-fx-background-color: #263F73;" text="Logout" textFill="WHITE" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="23.0" />
 
-    <Button fx:id="addMeetingButton" layoutX="578.0" layoutY="10.0" onAction="#handleCreateMeetingButtonAction" style="-fx-background-color: #263F73;" text="Add Meeting" textFill="WHITE" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
+    <Button fx:id="addMeetingButton" layoutX="514.0" layoutY="23.0" onAction="#handleCreateMeetingButtonAction" prefHeight="26.0" prefWidth="88.0" style="-fx-background-color: #263F73;" text="Add Meeting" textFill="WHITE" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="23.0" />
 
-    <Button fx:id="jointMeetingButton" layoutX="515.0" layoutY="47.0" mnemonicParsing="false" onAction="#handleJoinMeetingButtonAction" style="-fx-background-color: #263F73;" text="Join Meeting" textFill="WHITE" AnchorPane.rightAnchor="10.0" />
+    <Button fx:id="jointMeetingButton" layoutX="402.0" layoutY="23.0" mnemonicParsing="false" onAction="#handleJoinMeetingButtonAction" prefHeight="26.0" prefWidth="88.0" style="-fx-background-color: #263F73;" text="Join Meeting" textFill="WHITE" AnchorPane.rightAnchor="125.0" AnchorPane.topAnchor="23.0" />
 
     <!-- Wysuwane okno dołączania spotkania -->
     <AnchorPane fx:id="slideInPane" prefHeight="496.0" prefWidth="250.0" style="-fx-background-color: #ffffff; -fx-border-color: #000000;" visible="false" AnchorPane.rightAnchor="0.0">
         <!-- Zawartość wysuwanego okna -->
-        <Label contentDisplay="CENTER" layoutX="14.0" layoutY="14.0" prefHeight="26.0" prefWidth="278.0" text="Join Meeting" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="30.0">
+        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="14.0" prefHeight="26.0" prefWidth="278.0" text="Join Meeting" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="30.0">
             <font>
                 <Font size="18.0" />
             </font>
         </Label>
         <TextField fx:id="meetingCodeTextField" promptText="Enter meeting code" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="100.0" />
-        <Button fx:id="joinButton" onAction="#handleJoinButtonAction" prefHeight="26.0" prefWidth="56.0" style="-fx-background-color: #263F73;" text="Join" textFill="WHITE" AnchorPane.bottomAnchor="50.0" AnchorPane.rightAnchor="20.0" />
-        <Button fx:id="cancelButton" onAction="#handleCancelButtonAction" prefHeight="26.0" prefWidth="64.0" style="-fx-background-color: #263F73;" text="Cancel" textFill="WHITE" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="20.0" />
+        <Button fx:id="joinButton" onAction="#handleJoinButtonAction" prefHeight="26.0" prefWidth="88.0" style="-fx-background-color: #263F73;" text="Join" textFill="WHITE" AnchorPane.bottomAnchor="50.0" AnchorPane.rightAnchor="20.0" />
+        <Button fx:id="cancelButton" onAction="#handleCancelButtonAction" prefHeight="26.0" prefWidth="88.0" style="-fx-background-color: #263F73;" text="Cancel" textFill="WHITE" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="20.0" />
         <Label fx:id="messageLabel" contentDisplay="CENTER" layoutX="10.0" layoutY="200.0" prefHeight="26.0" prefWidth="230.0" text="" textFill="RED" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
     </AnchorPane>
     <!-- Wysuwany panel z listą użytkowników -->
@@ -45,8 +46,9 @@
         <VBox fx:id="usersListVBox" layoutX="10.0" layoutY="50.0" spacing="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="90.0">
             <!-- Lista użytkowników będzie dodawana tutaj programowo -->
         </VBox>
-        <Button fx:id="closeUsersButton" onAction="#handleCloseUsersButtonAction" text="Close" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="20.0" />
+        <Button fx:id="closeUsersButton" onAction="#handleCloseUsersButtonAction" prefHeight="26.0" prefWidth="88.0" style="-fx-background-color: #263F73;" text="Close" AnchorPane.bottomAnchor="50.0" AnchorPane.rightAnchor="20.0" />
     </AnchorPane>
+   <Line endX="436.5" endY="-66.0" layoutX="179.0" layoutY="129.0" startX="-179.0" startY="-66.0" AnchorPane.topAnchor="72.0" />
 
 
 </AnchorPane>
