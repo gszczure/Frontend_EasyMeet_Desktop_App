@@ -38,7 +38,7 @@
                         <DropShadow />
                     </effect>
                 </Line>
-                <Label alignment="BOTTOM_LEFT" layoutX="27.0" layoutY="358.0" prefHeight="18.0" prefWidth="184.0" text="By Grzegorz Szczurek" textFill="WHITE">
+                <Label alignment="BOTTOM_LEFT" layoutX="27.0" layoutY="358.0" prefHeight="18.0" prefWidth="184.0" text="By Grzegorz Szczurek" textFill="WHITE" AnchorPane.bottomAnchor="24.0">
                     <font>
                         <Font name="Verdana Bold" size="10.0" />
                     </font>

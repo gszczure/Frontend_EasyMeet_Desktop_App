@@ -36,7 +36,7 @@
                         <DropShadow />
                     </effect>
                 </Line>
-                <Label alignment="BOTTOM_LEFT" layoutX="27.0" layoutY="358.0" prefHeight="18.0" prefWidth="184.0" text="By Grzegorz Szczurek" textFill="WHITE">
+                <Label alignment="BOTTOM_LEFT" layoutX="27.0" layoutY="358.0" prefHeight="18.0" prefWidth="184.0" text="By Grzegorz Szczurek" textFill="WHITE" AnchorPane.bottomAnchor="24.0">
                     <font>
                         <Font name="Verdana Bold" size="10.0" />
                     </font>
@@ -68,7 +68,7 @@
                 <TextField fx:id="usernameTextField" layoutX="105.0" layoutY="120.0" promptText="Username" />
                 <PasswordField fx:id="passwordPasswordField" layoutX="105.0" layoutY="161.0" promptText="Password" />
                 <Button fx:id="loginButton" layoutX="32.0" layoutY="252.0" mnemonicParsing="false" onAction="#loginButtonOnAction" prefHeight="31.0" prefWidth="235.0" style="-fx-background-color: #263F73;" text="Login" textFill="WHITE" />
-                <Button fx:id="cancelButton" layoutX="33.0" layoutY="346.0" mnemonicParsing="false" onAction="#cancelButtonAction" prefHeight="31.0" prefWidth="235.0" style="-fx-background-color: #263F73;" text="Cancel" textFill="WHITE" />
+                <Button fx:id="cancelButton" layoutX="33.0" layoutY="346.0" mnemonicParsing="false" onAction="#cancelButtonAction" prefHeight="31.0" prefWidth="235.0" style="-fx-background-color: #263F73;" text="Cancel" textFill="WHITE" AnchorPane.bottomAnchor="23.0" />
                 <Label fx:id="loginMessageLabel" alignment="CENTER" layoutX="28.0" layoutY="95.0" prefHeight="18.0" prefWidth="228.0" textFill="RED">
                     <font>
                         <Font size="12.0" />

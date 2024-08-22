@@ -17,7 +17,7 @@ public class JavaFXApp extends Application {
     public void start(Stage primaryStage) throws Exception {
         stage = primaryStage;
         primaryStage.setResizable(false);
-        loadScene("/fxml/loginSceneFRONT.fxml", 585.0, 464.0); // Ustawienie domyślnego rozmiaru
+        loadScene("/fxml/loginSceneFRONT.fxml", 520, 400); // Ustawienie domyślnego rozmiaru
     }
 
     public static void setStage(Stage primaryStage) {
