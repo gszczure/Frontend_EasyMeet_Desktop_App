@@ -102,6 +102,7 @@ public class MainSceneController {
                         String meetingName = meeting.getString("name");
                         JSONObject owner = meeting.getJSONObject("owner");
                         String ownerName = owner.getString("firstName") + " " + owner.getString("lastName");
+                        //TODO: zrobic by code byl widziany tylko przez zalozyciela spotkania
                         String meetingCode = meeting.getString("code");
                         Long meetingId = meeting.getLong("id"); // Pobierz ID spotkania
 
