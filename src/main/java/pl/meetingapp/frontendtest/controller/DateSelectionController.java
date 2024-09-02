@@ -62,6 +62,7 @@ public class DateSelectionController {
         loadSavedDateRanges();
     }
 
+    //TODO: zrobic by nie bylo ID wyswietlane obok przedzialow dat
     private void loadSavedDateRanges() {
         HttpURLConnection conn = null;
         try {
