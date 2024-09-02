@@ -1,7 +1,6 @@
 package pl.meetingapp.frontendtest.controller;
 
 import javafx.animation.TranslateTransition;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -137,6 +136,10 @@ public class MainSceneController {
         usersButton.setOnAction(event -> handleUsersButtonAction(meetingId));
         content.getChildren().add(usersButton);
 
+        Button dateButton = new Button("Date");
+        dateButton.setOnAction(event -> handleDateButtonAction(meetingId));
+        content.getChildren().add(dateButton);
+
         titledPane.setContent(content);
         titledPane.setUserData(meetingId);
 
@@ -222,10 +225,10 @@ public class MainSceneController {
             slideIn.play();
         }
 
-        // Clear previous users
+        lastUserNumber = 0;
+
         usersListVBox.getChildren().clear();
 
-        // Fetch users from the backend
         HttpURLConnection conn = null;
         try {
             conn = HttpUtils.createConnection("http://localhost:8080/api/meetings/" + meetingId + "/participants", "GET", jwtToken, false);
@@ -266,4 +269,21 @@ public class MainSceneController {
         slideOut.setOnFinished(e -> usersSlideInPane.setVisible(false));
         slideOut.play();
     }
+
+    @FXML
+    private void handleDateButtonAction(Long meetingId) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/dateSelectionScene.fxml"));
+            Stage stage = (Stage) addMeetingButton.getScene().getWindow();
+            Scene newScene = new Scene(loader.load());
+
+            DateSelectionController controller = loader.getController();
+            controller.setMeetingId(meetingId);
+
+            stage.setScene(newScene);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

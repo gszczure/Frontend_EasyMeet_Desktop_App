@@ -21,6 +21,8 @@
             <DatePicker fx:id="endDatePicker" promptText="End Date" />
             <Button fx:id="addDateButton" onAction="#handleAddDateButtonAction" style="-fx-background-color: #263F73; color: white;" text="Add Date Range" textFill="WHITE" />
             <ListView fx:id="dateListView" prefHeight="200.0" prefWidth="400.0" />
+            <!-- New Delete Button -->
+            <Button fx:id="deleteDateButton" onAction="#handleDeleteDateButtonAction" style="-fx-background-color: #E53935; color: white;" text="Delete Selected" textFill="WHITE" />
         </VBox>
     </center>
     <bottom>
