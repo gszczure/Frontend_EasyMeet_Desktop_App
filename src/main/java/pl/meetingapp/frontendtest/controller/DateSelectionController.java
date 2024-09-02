@@ -144,6 +144,7 @@ public class DateSelectionController {
         sendDateRangesToBackend();
     }
 
+    //TODO: zmienic nazwe na back zamiast cancel
     @FXML
     private void handleCancelButtonAction() throws IOException {
         Stage stage = (Stage) cancelButton.getScene().getWindow();
