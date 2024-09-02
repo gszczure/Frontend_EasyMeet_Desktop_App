@@ -85,9 +85,15 @@ public class DateSelectionController {
                         JSONObject dateRange = dateRangesArray.getJSONObject(i);
                         String startDate = dateRange.getString("startDate");
                         String endDate = dateRange.getString("endDate");
+
+                        JSONObject userJson = dateRange.getJSONObject("user");
+                        String firstName = userJson.getString("firstName");
+                        String lastName = userJson.getString("lastName");
+                        String userFullName = firstName + " " + lastName;
+
                         Long dateRangeId = dateRange.getLong("id");
 
-                        String dateRangeDisplay = startDate + " to " + endDate + " (id: " + dateRangeId + ")";
+                        String dateRangeDisplay = startDate + " to " + endDate + " ( Added by: " + userFullName + ", id: " + dateRangeId + ")";
                         selectedDates.add(dateRangeDisplay);
                         dateListView.getItems().add(dateRangeDisplay);
                         existingDateRanges.add(startDate + " to " + endDate);
@@ -112,6 +118,7 @@ public class DateSelectionController {
         loadSavedDateRanges();
     }
 
+    //TODO: zrobic by mozna jednak dodawac dwa razy ta sama date bo 2 roznych urzytkownikow nie moze dodac tych dasmych dat, zrobic cos typu ze uzytkownik ten sam nie moze dwa razy tego samego doac ale inny moze
     @FXML
     private void handleAddDateButtonAction() {
         if (startDatePicker.getValue() != null && endDatePicker.getValue() != null) {
@@ -160,8 +167,11 @@ public class DateSelectionController {
 
                 // Rozdziel przedział dat na start i end
                 String[] parts = dateRange.split(" to ");
-                String startDate = parts[0];
-                String endDate = parts[1].split(" \\(id: ")[0]; // Usuń ID
+                String startDate = parts[0].trim(); // Usuń nadmiarowe spacje
+
+                // Usuń dodatkowe informacje
+                String endDatePart = parts[1];
+                String endDate = endDatePart.split(" \\(")[0].trim();
 
                 // Sprawdzanie, czy daty już istnieją w bazie
                 if (!existingDateRanges.contains(startDate + " to " + endDate)) {
@@ -197,6 +207,7 @@ public class DateSelectionController {
             }
         }
     }
+
 
     @FXML
     private void handleDeleteDateButtonAction() {
