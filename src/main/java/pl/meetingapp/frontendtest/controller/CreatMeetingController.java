@@ -73,7 +73,7 @@ public class CreatMeetingController {
                             response.append(scanner.nextLine());
                         }
                     }
-                    messageLabel.setText("Adding failed. Server responded with code " + code + ": " + response.toString());
+                    messageLabel.setText("Adding failed.");
                 } else {
                     messageLabel.setText("Adding failed. Server responded with code " + code + ". No error stream available.");
                 }

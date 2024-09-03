@@ -275,7 +275,6 @@ public class MainSceneController {
         }
     }
 
-    //TODO: zrobic by byl on na srodku
     @FXML
     private void handleCloseUsersButtonAction() {
         TranslateTransition slideOut = new TranslateTransition(Duration.millis(300), usersSlideInPane);

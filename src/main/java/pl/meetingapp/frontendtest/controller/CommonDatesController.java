@@ -83,7 +83,7 @@ public class CommonDatesController {
                     }
 
                     datesListView.getItems().setAll(dateStrings);
-                    //TODO: zmiana by bylo to na srodku
+
                     messageLabel.setText("Dates successfully fetched.");
                 }
             } else {
