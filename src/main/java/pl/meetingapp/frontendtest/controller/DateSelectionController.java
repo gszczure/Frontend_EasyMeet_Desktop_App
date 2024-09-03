@@ -222,9 +222,18 @@ public class DateSelectionController {
     }
 
     private Long extractDateRangeId(String dateRangeDisplay) {
-        String[] parts = dateRangeDisplay.split(" \\(id: ");
-        return Long.parseLong(parts[1].replace(")", ""));
+        String[] parts = dateRangeDisplay.split(", id: ");
+        if (parts.length > 1) {
+            String idPart = parts[1].replace(")", "").trim();
+            try {
+                return Long.parseLong(idPart);
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
     }
+
 
     private void deleteDateRangeFromBackend(Long dateRangeId) {
         HttpURLConnection conn = null;
