@@ -16,6 +16,7 @@ import java.util.Scanner;
 import pl.meetingapp.frontendtest.JavaFXApp;
 import pl.meetingapp.frontendtest.util.HttpUtils;
 
+//TODO: zrobic by wysuwalo sie jak join a nie zeby byla nowa scena
 public class CreatMeetingController {
 
     @FXML

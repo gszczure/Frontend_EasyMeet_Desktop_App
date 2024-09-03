@@ -132,6 +132,7 @@ public class MainSceneController {
         VBox content = new VBox();
         content.setSpacing(10);
 
+        //TODO: zrobic by code byl widoczny tylko dla wlasciciela
         Label codeLabel = new Label("Code: " + code);
         content.getChildren().add(codeLabel);
 
@@ -274,6 +275,7 @@ public class MainSceneController {
         }
     }
 
+    //TODO: zrobic by byl on na srodku
     @FXML
     private void handleCloseUsersButtonAction() {
         TranslateTransition slideOut = new TranslateTransition(Duration.millis(300), usersSlideInPane);
