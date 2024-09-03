@@ -58,11 +58,9 @@ public class DateSelectionController {
         });
 
         this.jwtToken = JavaFXApp.getJwtToken();
-
         loadSavedDateRanges();
     }
 
-    //TODO: zrobic by nie bylo ID wyswietlane obok przedzialow dat
     private void loadSavedDateRanges() {
         HttpURLConnection conn = null;
         try {
@@ -119,13 +117,11 @@ public class DateSelectionController {
         loadSavedDateRanges();
     }
 
-    //TODO: zrobic by mozna jednak dodawac dwa razy ta sama date bo 2 roznych urzytkownikow nie moze dodac tych dasmych dat, zrobic cos typu ze uzytkownik ten sam nie moze dwa razy tego samego doac ale inny moze
     @FXML
     private void handleAddDateButtonAction() {
         if (startDatePicker.getValue() != null && endDatePicker.getValue() != null) {
             String dateRange = startDatePicker.getValue() + " to " + endDatePicker.getValue();
 
-            // Sprawdzenie, czy przedział dat już istnieje
             if (!dateListView.getItems().contains(dateRange)) {
                 selectedDates.add(dateRange);
                 dateListView.getItems().add(dateRange);
@@ -144,7 +140,6 @@ public class DateSelectionController {
         sendDateRangesToBackend();
     }
 
-    //TODO: zmienic nazwe na back zamiast cancel
     @FXML
     private void handleCancelButtonAction() throws IOException {
         Stage stage = (Stage) cancelButton.getScene().getWindow();
@@ -166,16 +161,10 @@ public class DateSelectionController {
             payload.append("[");
             for (int i = 0; i < selectedDates.size(); i++) {
                 String dateRange = selectedDates.get(i);
-
-                // Rozdziel przedział dat na start i end
                 String[] parts = dateRange.split(" to ");
-                String startDate = parts[0].trim(); // Usuń nadmiarowe spacje
+                String startDate = parts[0].trim();
+                String endDate = parts[1].split(" \\(")[0].trim();
 
-                // Usuń dodatkowe informacje
-                String endDatePart = parts[1];
-                String endDate = endDatePart.split(" \\(")[0].trim();
-
-                // Sprawdzanie, czy daty już istnieją w bazie
                 if (!existingDateRanges.contains(startDate + " to " + endDate)) {
                     payload.append("{\"meetingId\":").append(meetingId)
                             .append(",\"startDate\":\"").append(startDate)
@@ -261,4 +250,5 @@ public class DateSelectionController {
             }
         }
     }
+
 }

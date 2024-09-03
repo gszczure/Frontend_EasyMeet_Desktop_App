@@ -33,6 +33,9 @@ public class MainSceneController {
     private Button addMeetingButton;
 
     @FXML
+    private Button commonDatesButton; // Nowy przycisk
+
+    @FXML
     private AnchorPane slideInPane;
 
     @FXML
@@ -102,7 +105,6 @@ public class MainSceneController {
                         String meetingName = meeting.getString("name");
                         JSONObject owner = meeting.getJSONObject("owner");
                         String ownerName = owner.getString("firstName") + " " + owner.getString("lastName");
-                        //TODO: zrobic by code byl widziany tylko przez zalozyciela spotkania
                         String meetingCode = meeting.getString("code");
                         Long meetingId = meeting.getLong("id"); // Pobierz ID spotkania
 
@@ -136,10 +138,20 @@ public class MainSceneController {
         Button usersButton = new Button("Users");
         usersButton.setOnAction(event -> handleUsersButtonAction(meetingId));
         content.getChildren().add(usersButton);
+        usersButton.setStyle("-fx-background-color: #263F73; -fx-text-fill: white;");
+
 
         Button dateButton = new Button("Date");
         dateButton.setOnAction(event -> handleDateButtonAction(meetingId));
         content.getChildren().add(dateButton);
+        dateButton.setStyle("-fx-background-color: #263F73; -fx-text-fill: white;");
+
+
+        Button commonDatesButton = new Button("Common Dates");
+        commonDatesButton.setOnAction(event -> handleCommonDatesButtonAction(meetingId));
+        content.getChildren().add(commonDatesButton);
+        commonDatesButton.setStyle("-fx-background-color: #263F73; -fx-text-fill: white;");
+
 
         titledPane.setContent(content);
         titledPane.setUserData(meetingId);
@@ -287,4 +299,19 @@ public class MainSceneController {
         }
     }
 
+    @FXML
+    private void handleCommonDatesButtonAction(Long meetingId) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/commonDatesScene.fxml"));
+            Stage stage = (Stage) addMeetingButton.getScene().getWindow();
+            Scene newScene = new Scene(loader.load());
+
+            CommonDatesController controller = loader.getController();
+            controller.setMeetingId(meetingId);
+
+            stage.setScene(newScene);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
