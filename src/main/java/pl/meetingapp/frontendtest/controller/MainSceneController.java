@@ -6,9 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import javafx.stage.Stage;
@@ -143,21 +141,33 @@ public class MainSceneController {
         VBox content = new VBox();
         content.setSpacing(10);
 
+        HBox hbox = new HBox();
+        hbox.setPadding(new Insets(10, 10, 0, 10));
+
         Label dateLabel = new Label();
         dateLabel.setTextFill(Color.GREEN);
-        content.getChildren().add(dateLabel);
+        hbox.getChildren().add(dateLabel);
 
-        fetchMeetingDate(meetingId, dateLabel);
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+        hbox.getChildren().add(spacer);
 
+        // Wyswietlenie Code:... tylko dla wlasciciela spotkania
         if (JavaFXApp.getUserId() != null && JavaFXApp.getUserId().equals(ownerId)) {
             Label codeLabel = new Label("Code: " + code);
             codeLabel.setTextFill(Color.RED);
-            content.getChildren().add(codeLabel);
+            hbox.getChildren().add(codeLabel);
         }
+
+        content.getChildren().add(hbox);
+
+        fetchMeetingDate(meetingId, dateLabel);
 
         HBox buttonBox = new HBox();
         buttonBox.setSpacing(10);
         buttonBox.setPadding(new Insets(10, 0, 0, 0));
+
+        buttonBox.setAlignment(javafx.geometry.Pos.CENTER);
 
         Button usersButton = new Button("Users");
         usersButton.setOnAction(event -> handleUsersButtonAction(meetingId));
@@ -170,6 +180,12 @@ public class MainSceneController {
         Button commonDatesButton = new Button("Common Dates");
         commonDatesButton.setOnAction(event -> handleCommonDatesButtonAction(meetingId));
         commonDatesButton.setStyle("-fx-background-color: #263F73; -fx-text-fill: white;");
+
+        //TODO: pomyslec nad wielkoscia guzikow bo sie nie mieszcza
+        double buttonWidth = 250;
+        usersButton.setPrefWidth(buttonWidth);
+        dateButton.setPrefWidth(buttonWidth);
+        commonDatesButton.setPrefWidth(buttonWidth);
 
         buttonBox.getChildren().addAll(usersButton, dateButton, commonDatesButton);
 

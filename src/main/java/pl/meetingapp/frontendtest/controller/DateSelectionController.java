@@ -117,6 +117,7 @@ public class DateSelectionController {
         loadSavedDateRanges();
     }
 
+    //TODO: pozmieniac by kazda inna osoba mogla dac przedzial innej osoby narazie jest tak ze 2 osoby nie moga ustaeic tego samego przedzialu
     @FXML
     private void handleAddDateButtonAction() {
         if (startDatePicker.getValue() != null && endDatePicker.getValue() != null) {
