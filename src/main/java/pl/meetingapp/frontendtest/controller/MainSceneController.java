@@ -130,6 +130,8 @@ public class MainSceneController {
         String title = name + "               " + ownerName;
         titledPane.setText(title);
 
+        //TODO: zrobic miejsce spotkania zeby bylo mozna wpisac tylko wlasciciel ponownie
+
         VBox content = new VBox();
         content.setSpacing(10);
 
