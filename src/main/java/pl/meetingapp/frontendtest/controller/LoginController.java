@@ -63,9 +63,11 @@ public class LoginController {
 
                 JSONObject jsonResponse = new JSONObject(response.toString());
                 String token = jsonResponse.optString("token");
+                Long userId = jsonResponse.optLong("userId");
 
                 if (!token.isEmpty()) {
                     JavaFXApp.setJwtToken(token);
+                    JavaFXApp.setUserId(userId);
                     loginMessageLabel.setText("Logowanie się powiodło!");
                     Stage stage = (Stage) loginButton.getScene().getWindow();
                     Scene newScene = new Scene(FXMLLoader.load(getClass().getResource("/fxml/mainScene.fxml")));
@@ -74,7 +76,7 @@ public class LoginController {
                     loginMessageLabel.setText("Niepoprawna nazwa użytkownika lub hasło!");
                 }
             } else {
-                // TODO: Naprawic loginMassageLabel poniewaz przy wpisywaniu zlego loginu lub hasla wyswietla sie nie ten text co potrzeba
+                //TODO: Sprawdzic czemu wyswietla sie ten napis ciagle przy wpisywaniu niepoprawnego hasla lub username
                 loginMessageLabel.setText("Nie udało się połączyć z serwerem. Kod błędu: " + responseCode);
             }
         } catch (IOException e) {

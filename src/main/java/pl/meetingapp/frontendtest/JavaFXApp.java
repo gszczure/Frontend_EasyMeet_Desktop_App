@@ -12,6 +12,7 @@ public class JavaFXApp extends Application {
 
     private static Stage stage;
     private static String jwtToken;
+    private static Long userId;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -26,6 +27,14 @@ public class JavaFXApp extends Application {
 
     public static Stage getStage() {
         return stage;
+    }
+
+    public static Long getUserId() {
+        return userId;
+    }
+
+    public static void setUserId(Long userId) {
+        JavaFXApp.userId = userId;
     }
 
     public static void setJwtToken(String token) {
@@ -47,5 +56,8 @@ public class JavaFXApp extends Application {
     }
     public static void clearJwtToken() {
         jwtToken = null;
+    }
+    public static void clearUserId() {
+        userId = null;
     }
 }

@@ -107,9 +107,10 @@ public class MainSceneController {
                         JSONObject owner = meeting.getJSONObject("owner");
                         String ownerName = owner.getString("firstName") + " " + owner.getString("lastName");
                         String meetingCode = meeting.getString("code");
-                        Long meetingId = meeting.getLong("id"); // Pobierz ID spotkania
+                        Long meetingId = meeting.getLong("id");
+                        Long ownerId = owner.getLong("id");
 
-                        addMeetingToAccordion(meetingName, ownerName, meetingCode, meetingId);
+                        addMeetingToAccordion(meetingName, ownerName, meetingCode, meetingId, ownerId);
                     }
                 }
             } else {
@@ -124,31 +125,26 @@ public class MainSceneController {
         }
     }
 
-    private void addMeetingToAccordion(String name, String ownerName, String code, Long meetingId) {
+    private void addMeetingToAccordion(String name, String ownerName, String code, Long meetingId, Long ownerId) {
         TitledPane titledPane = new TitledPane();
 
         String title = name + "               " + ownerName;
         titledPane.setText(title);
 
-        //TODO: zrobic miejsce spotkania zeby bylo mozna wpisac tylko wlasciciel ponownie
-
         VBox content = new VBox();
         content.setSpacing(10);
 
-        // Dodaj Label, który będzie wyświetlać datę
         Label dateLabel = new Label();
         dateLabel.setTextFill(Color.GREEN);
         content.getChildren().add(dateLabel);
 
-        // Wywołaj metodę fetchMeetingDate, aby pobrać datę i zaktualizować Label
         fetchMeetingDate(meetingId, dateLabel);
 
-        //TODO: zrobic by kod by po prawej stronie w prawym gornym rogu
-
-        // Dodaj Label z kodem
-        Label codeLabel = new Label("Code: " + code);
-        codeLabel.setTextFill(Color.RED);
-        content.getChildren().add(codeLabel);
+        if (JavaFXApp.getUserId() != null && JavaFXApp.getUserId().equals(ownerId)) {
+            Label codeLabel = new Label("Code: " + code);
+            codeLabel.setTextFill(Color.RED);
+            content.getChildren().add(codeLabel);
+        }
 
         HBox buttonBox = new HBox();
         buttonBox.setSpacing(10);
@@ -175,6 +171,7 @@ public class MainSceneController {
 
         accordion.getPanes().add(titledPane);
     }
+
 
     private void fetchMeetingDate(Long meetingId, Label dateLabel) {
         String url = "http://localhost:8080/api/meetings/" + meetingId + "/date";
@@ -207,12 +204,10 @@ public class MainSceneController {
         }
     }
 
-
-
-
     @FXML
     private void handleLogoutButtonAction() throws IOException {
         JavaFXApp.clearJwtToken();
+        JavaFXApp.clearUserId(); //TODO: Upewnic sie po co to
 
         Stage stage = (Stage) logoutButton.getScene().getWindow();
         Scene newScene = new Scene(FXMLLoader.load(getClass().getResource("/fxml/loginSceneFRONT.fxml")));
