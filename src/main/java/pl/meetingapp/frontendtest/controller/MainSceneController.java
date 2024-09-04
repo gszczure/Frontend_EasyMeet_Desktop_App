@@ -3,10 +3,13 @@ package pl.meetingapp.frontendtest.controller;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import javafx.stage.Stage;
 import java.io.IOException;
@@ -33,7 +36,7 @@ public class MainSceneController {
     private Button addMeetingButton;
 
     @FXML
-    private Button commonDatesButton; // Nowy przycisk
+    private Button commonDatesButton;
 
     @FXML
     private AnchorPane slideInPane;
@@ -131,31 +134,39 @@ public class MainSceneController {
         content.setSpacing(10);
 
         // Dodaj Label, który będzie wyświetlać datę
-        Label dateLabel = new Label("Date: Loading...");
+        Label dateLabel = new Label();
+        dateLabel.setTextFill(Color.GREEN);
         content.getChildren().add(dateLabel);
 
         // Wywołaj metodę fetchMeetingDate, aby pobrać datę i zaktualizować Label
         fetchMeetingDate(meetingId, dateLabel);
 
+        //TODO: zrobic by kod by po prawej stronie w prawym gornym rogu
+
         // Dodaj Label z kodem
         Label codeLabel = new Label("Code: " + code);
+        codeLabel.setTextFill(Color.RED);
         content.getChildren().add(codeLabel);
 
-        // Przyciski zostają niezmienione
+        HBox buttonBox = new HBox();
+        buttonBox.setSpacing(10);
+        buttonBox.setPadding(new Insets(10, 0, 0, 0));
+
         Button usersButton = new Button("Users");
         usersButton.setOnAction(event -> handleUsersButtonAction(meetingId));
-        content.getChildren().add(usersButton);
         usersButton.setStyle("-fx-background-color: #263F73; -fx-text-fill: white;");
 
         Button dateButton = new Button("Date");
         dateButton.setOnAction(event -> handleDateButtonAction(meetingId));
-        content.getChildren().add(dateButton);
         dateButton.setStyle("-fx-background-color: #263F73; -fx-text-fill: white;");
 
         Button commonDatesButton = new Button("Common Dates");
         commonDatesButton.setOnAction(event -> handleCommonDatesButtonAction(meetingId));
-        content.getChildren().add(commonDatesButton);
         commonDatesButton.setStyle("-fx-background-color: #263F73; -fx-text-fill: white;");
+
+        buttonBox.getChildren().addAll(usersButton, dateButton, commonDatesButton);
+
+        content.getChildren().add(buttonBox);
 
         titledPane.setContent(content);
         titledPane.setUserData(meetingId);
@@ -178,6 +189,7 @@ public class MainSceneController {
                         dateLabel.setText("Date: " + date);
                     } else {
                         dateLabel.setText("Date: none");
+                        dateLabel.setTextFill(Color.RED);
                     }
                 }
             } else {
