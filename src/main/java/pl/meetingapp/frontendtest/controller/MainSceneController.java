@@ -15,6 +15,9 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Scanner;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -101,8 +104,14 @@ public class MainSceneController {
                     }
 
                     JSONArray meetingsArray = new JSONArray(response.toString());
+
+                    List<JSONObject> meetingList = new ArrayList<>();
                     for (int i = 0; i < meetingsArray.length(); i++) {
-                        JSONObject meeting = meetingsArray.getJSONObject(i);
+                        meetingList.add(meetingsArray.getJSONObject(i));
+                    }
+                    meetingList.sort(Comparator.comparing(m -> m.getString("name")));
+
+                    for (JSONObject meeting : meetingList) {
                         String meetingName = meeting.getString("name");
                         JSONObject owner = meeting.getJSONObject("owner");
                         String ownerName = owner.getString("firstName") + " " + owner.getString("lastName");
@@ -300,8 +309,16 @@ public class MainSceneController {
                     }
 
                     JSONArray usersArray = new JSONArray(response.toString());
+
+                    // Sortowanie użytkowników alfabetycznie według imienia i nazwiska
+                    List<JSONObject> userList = new ArrayList<>();
                     for (int i = 0; i < usersArray.length(); i++) {
-                        JSONObject user = usersArray.getJSONObject(i);
+                        userList.add(usersArray.getJSONObject(i));
+                    }
+                    userList.sort(Comparator.comparing(user -> (user.getString("firstName") + " " + user.getString("lastName"))));
+
+                    // Dodanie posortowanych użytkowników do VBox
+                    for (JSONObject user : userList) {
                         String userName = user.getString("firstName") + " " + user.getString("lastName");
                         String numberedUserName = (++lastUserNumber) + ". " + userName;
                         Label userLabel = new Label(numberedUserName);
