@@ -62,10 +62,10 @@ public class MainSceneController {
 
     @FXML
     private void initialize() {
-        loadMeetings();
         slideInPane.setVisible(false);
         usersSlideInPane.setVisible(false);
         this.jwtToken = JavaFXApp.getJwtToken();
+        loadMeetings();
     }
 
     @FXML
@@ -85,8 +85,6 @@ public class MainSceneController {
 
     private void loadMeetings() {
         accordion.getPanes().clear();
-        String jwtToken = JavaFXApp.getJwtToken();
-
         HttpURLConnection conn = null;
         try {
             conn = HttpUtils.createConnection("http://localhost:8080/api/meetings/for-user", "GET", jwtToken, false);
@@ -132,33 +130,71 @@ public class MainSceneController {
         VBox content = new VBox();
         content.setSpacing(10);
 
-        //TODO: zrobic by code byl widoczny tylko dla wlasciciela
+        // Dodaj Label, który będzie wyświetlać datę
+        Label dateLabel = new Label("Date: Loading...");
+        content.getChildren().add(dateLabel);
+
+        // Wywołaj metodę fetchMeetingDate, aby pobrać datę i zaktualizować Label
+        fetchMeetingDate(meetingId, dateLabel);
+
+        // Dodaj Label z kodem
         Label codeLabel = new Label("Code: " + code);
         content.getChildren().add(codeLabel);
 
+        // Przyciski zostają niezmienione
         Button usersButton = new Button("Users");
         usersButton.setOnAction(event -> handleUsersButtonAction(meetingId));
         content.getChildren().add(usersButton);
         usersButton.setStyle("-fx-background-color: #263F73; -fx-text-fill: white;");
-
 
         Button dateButton = new Button("Date");
         dateButton.setOnAction(event -> handleDateButtonAction(meetingId));
         content.getChildren().add(dateButton);
         dateButton.setStyle("-fx-background-color: #263F73; -fx-text-fill: white;");
 
-
         Button commonDatesButton = new Button("Common Dates");
         commonDatesButton.setOnAction(event -> handleCommonDatesButtonAction(meetingId));
         content.getChildren().add(commonDatesButton);
         commonDatesButton.setStyle("-fx-background-color: #263F73; -fx-text-fill: white;");
-
 
         titledPane.setContent(content);
         titledPane.setUserData(meetingId);
 
         accordion.getPanes().add(titledPane);
     }
+
+    private void fetchMeetingDate(Long meetingId, Label dateLabel) {
+        String url = "http://localhost:8080/api/meetings/" + meetingId + "/date";
+        HttpURLConnection conn = null;
+        try {
+            conn = HttpUtils.createConnection(url, "GET", jwtToken, false);
+            int responseCode = conn.getResponseCode();
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                try (Scanner scanner = new Scanner(conn.getInputStream())) {
+                    if (scanner.hasNextLine()) {
+                        String jsonResponse = scanner.nextLine();
+                        JSONObject jsonObject = new JSONObject(jsonResponse);
+                        String date = jsonObject.optString("date", "none");
+                        dateLabel.setText("Date: " + date);
+                    } else {
+                        dateLabel.setText("Date: none");
+                    }
+                }
+            } else {
+                dateLabel.setText("Date: Unavailable");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            dateLabel.setText("Date: Error");
+        } finally {
+            if (conn != null) {
+                conn.disconnect();
+            }
+        }
+    }
+
+
+
 
     @FXML
     private void handleLogoutButtonAction() throws IOException {
