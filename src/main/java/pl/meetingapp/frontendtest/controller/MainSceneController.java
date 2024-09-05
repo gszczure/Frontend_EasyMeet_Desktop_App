@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -312,7 +313,6 @@ public class MainSceneController {
         }
 
         lastUserNumber = 0;
-
         usersListVBox.getChildren().clear();
 
         HttpURLConnection conn = null;
@@ -328,19 +328,27 @@ public class MainSceneController {
 
                     JSONArray usersArray = new JSONArray(response.toString());
 
-                    // Sortowanie użytkowników alfabetycznie według imienia i nazwiska
                     List<JSONObject> userList = new ArrayList<>();
                     for (int i = 0; i < usersArray.length(); i++) {
                         userList.add(usersArray.getJSONObject(i));
                     }
                     userList.sort(Comparator.comparing(user -> (user.getString("firstName") + " " + user.getString("lastName"))));
 
-                    // Dodanie posortowanych użytkowników do VBox
                     for (JSONObject user : userList) {
                         String userName = user.getString("firstName") + " " + user.getString("lastName");
                         String numberedUserName = (++lastUserNumber) + ". " + userName;
+
+                        HBox userBox = new HBox();
+                        userBox.setSpacing(10);
+
                         Label userLabel = new Label(numberedUserName);
-                        usersListVBox.getChildren().add(userLabel);
+                        userBox.getChildren().add(userLabel);
+
+                        Button removeButton = new Button("Remove");
+                        removeButton.setOnAction(event -> handleRemoveUserButtonAction(meetingId, user.getString("username")));
+                        userBox.getChildren().add(removeButton);
+
+                        usersListVBox.getChildren().add(userBox);
                     }
                 }
             } else {
@@ -348,6 +356,31 @@ public class MainSceneController {
             }
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            if (conn != null) {
+                conn.disconnect();
+            }
+        }
+    }
+    private void handleRemoveUserButtonAction(Long meetingId, String username) {
+        HttpURLConnection conn = null;
+        try {
+            URL url = new URL("http://localhost:8080/api/meetings/" + meetingId + "/participants/" + username);
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("DELETE");
+            conn.setRequestProperty("Authorization", "Bearer " + jwtToken);
+            conn.setRequestProperty("Content-Type", "application/json");
+
+            int responseCode = conn.getResponseCode();
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                messageLabel.setText("User removed successfully.");
+                handleUsersButtonAction(meetingId); // Odśwież listę użytkowników
+            } else {
+                messageLabel.setText("Failed to remove user. Server responded with code " + responseCode);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            messageLabel.setText("An error occurred while removing the user.");
         } finally {
             if (conn != null) {
                 conn.disconnect();
