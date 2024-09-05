@@ -276,7 +276,7 @@ public class MainSceneController {
                 loadMeetings();
                 closeSlideInPane();
             } else {
-                messageLabel.setText("Failed to join the meeting.");
+                messageLabel.setText("Invalid meeting code.");
             }
         } catch (IOException e) {
             e.printStackTrace();
