@@ -173,21 +173,23 @@ public class MainSceneController {
         usersButton.setOnAction(event -> handleUsersButtonAction(meetingId));
         usersButton.setStyle("-fx-background-color: #263F73; -fx-text-fill: white;");
 
-        Button dateButton = new Button("Date");
-        dateButton.setOnAction(event -> handleDateButtonAction(meetingId));
-        dateButton.setStyle("-fx-background-color: #263F73; -fx-text-fill: white;");
-
         Button commonDatesButton = new Button("Common Dates");
         commonDatesButton.setOnAction(event -> handleCommonDatesButtonAction(meetingId));
         commonDatesButton.setStyle("-fx-background-color: #263F73; -fx-text-fill: white;");
 
+        Button dateButton = new Button("Date");
+        dateButton.setOnAction(event -> handleDateButtonAction(meetingId));
+        dateButton.setStyle("-fx-background-color: #263F73; -fx-text-fill: white;");
+
+
+
         //TODO: pomyslec nad wielkoscia guzikow bo sie nie mieszcza
-        double buttonWidth = 250;
+        double buttonWidth = 300;
         usersButton.setPrefWidth(buttonWidth);
         dateButton.setPrefWidth(buttonWidth);
         commonDatesButton.setPrefWidth(buttonWidth);
 
-        buttonBox.getChildren().addAll(usersButton, dateButton, commonDatesButton);
+        buttonBox.getChildren().addAll(usersButton,commonDatesButton, dateButton);
 
         content.getChildren().add(buttonBox);
 
@@ -387,6 +389,8 @@ public class MainSceneController {
 
             CommonDatesController controller = loader.getController();
             controller.setMeetingId(meetingId);
+            controller.fetchCommonDates();
+
 
             stage.setScene(newScene);
         } catch (IOException e) {

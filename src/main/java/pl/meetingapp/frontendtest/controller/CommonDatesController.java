@@ -31,10 +31,7 @@ public class CommonDatesController {
     private Button backButton;
 
     @FXML
-    private Button fetchDatesButton;
-
-    @FXML
-    private Button saveDateButton; // Nowy przycisk
+    private Button saveDateButton;
 
     @FXML
     private ListView<String> datesListView;
@@ -42,7 +39,7 @@ public class CommonDatesController {
     private String jwtToken;
     private Long meetingId;
 
-    private String selectedDate; // Dodajemy pole do przechowywania wybranej daty
+    private String selectedDate;
 
     @FXML
     private void initialize() {
@@ -56,7 +53,7 @@ public class CommonDatesController {
         });
 
         datesListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            selectedDate = newValue; // Aktualizuj wybraną datę
+            selectedDate = newValue;
         });
     }
 
@@ -64,12 +61,7 @@ public class CommonDatesController {
         this.meetingId = meetingId;
     }
 
-    @FXML
-    private void handleFetchDatesButtonAction() {
-        fetchCommonDates();
-    }
-
-    private void fetchCommonDates() {
+    public void fetchCommonDates() {
         HttpURLConnection conn = null;
         try {
             conn = HttpUtils.createConnection(
@@ -94,9 +86,14 @@ public class CommonDatesController {
                         dateStrings.add(date);
                     }
 
-                    datesListView.getItems().setAll(dateStrings);
-
-                    messageLabel.setText("Dates successfully fetched.");
+                    //TODO: zmienic zeby na scenei byl ten error
+                    if (dateStrings.isEmpty()) {
+                        showAlert(Alert.AlertType.ERROR, "No Common Dates", "There are no common dates available for this meeting.");
+                        messageLabel.setText("No common dates available.");
+                    } else {
+                        datesListView.getItems().setAll(dateStrings);
+                        messageLabel.setText("Dates successfully fetched.");
+                    }
                 }
             } else {
                 messageLabel.setText("Failed to fetch dates. Server responded with code " + responseCode);
@@ -111,13 +108,13 @@ public class CommonDatesController {
         }
     }
 
+
     @FXML
     private void handleSaveDateButtonAction() {
         if (selectedDate == null) {
             showAlert(AlertType.ERROR, "No Date Selected", "Please select a date to save.");
             return;
         }
-
         saveSelectedDate();
     }
 
@@ -141,7 +138,6 @@ public class CommonDatesController {
             int responseCode = conn.getResponseCode();
             if (responseCode == HttpURLConnection.HTTP_OK) {
                 messageLabel.setText("Date saved successfully.");
-                // Optionally, you can clear the selected date here or perform other actions
             } else {
                 messageLabel.setText("Failed to save date. Server responded with code " + responseCode);
             }

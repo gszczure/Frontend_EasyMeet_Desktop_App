@@ -12,7 +12,6 @@
             <Font size="24.0" />
         </font>
     </Label>
-    <Button fx:id="fetchDatesButton" layoutX="239.0" layoutY="54.0" onAction="#handleFetchDatesButtonAction" style="-fx-background-color: #263F73;" text="Fetch Common Dates" textFill="WHITE" AnchorPane.leftAnchor="239.0" AnchorPane.topAnchor="54.0" />
     <Button fx:id="saveDateButton" layoutX="35.0" layoutY="443.0" onAction="#handleSaveDateButtonAction" prefHeight="26.0" prefWidth="103.0" style="-fx-background-color: green;" text="Save Date" textFill="WHITE" AnchorPane.bottomAnchor="26.0" AnchorPane.leftAnchor="14.0" />
 
     <ListView fx:id="datesListView" layoutX="10.0" layoutY="101.0" prefHeight="294.0" prefWidth="593.0" AnchorPane.bottomAnchor="101.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="101.0" />
