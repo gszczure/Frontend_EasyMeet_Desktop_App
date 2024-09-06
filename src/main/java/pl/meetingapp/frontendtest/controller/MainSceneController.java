@@ -342,6 +342,8 @@ public class MainSceneController {
                 }
                 userList.sort(Comparator.comparing(user -> (user.getString("firstName") + " " + user.getString("lastName"))));
 
+                Long ownerId = JavaFXApp.getUserId(); // Get the current user's ID
+
                 for (JSONObject user : userList) {
                     String userName = user.getString("firstName") + " " + user.getString("lastName");
                     String numberedUserName = (++lastUserNumber) + ". " + userName;
@@ -352,7 +354,7 @@ public class MainSceneController {
                     Label userLabel = new Label(numberedUserName);
                     userBox.getChildren().add(userLabel);
 
-                    if (isOwner(meetingId)) {
+                    if (isOwner(meetingId) && user.getLong("id") != ownerId) {
                         Button removeButton = new Button("Remove");
                         removeButton.setOnAction(event -> handleRemoveUserButtonAction(meetingId, user.getString("username")));
                         userBox.getChildren().add(removeButton);
@@ -371,6 +373,7 @@ public class MainSceneController {
             }
         }
     }
+
 
     private void handleRemoveUserButtonAction(Long meetingId, String username) {
         HttpURLConnection conn = null;
