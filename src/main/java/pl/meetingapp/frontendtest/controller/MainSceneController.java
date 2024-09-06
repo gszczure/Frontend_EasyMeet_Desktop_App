@@ -342,7 +342,9 @@ public class MainSceneController {
                 }
                 userList.sort(Comparator.comparing(user -> (user.getString("firstName") + " " + user.getString("lastName"))));
 
-                Long ownerId = JavaFXApp.getUserId(); // Get the current user's ID
+                // wyodrębnienie ownerID z JSON aby rozrozniac wlasciciela
+                Long ownerId = responseObject.getJSONObject("owner").getLong("id");
+                boolean isMeetingOwner = isOwner(ownerId);
 
                 for (JSONObject user : userList) {
                     String userName = user.getString("firstName") + " " + user.getString("lastName");
@@ -354,8 +356,8 @@ public class MainSceneController {
                     Label userLabel = new Label(numberedUserName);
                     userBox.getChildren().add(userLabel);
 
-                    //TODO: naprawic blad zapisu
-                    if (isOwner(meetingId) && user.getLong("id") != ownerId) {
+                    Long userId = user.getLong("id");
+                    if (isMeetingOwner && !userId.equals(ownerId)) {
                         Button removeButton = new Button("Remove");
                         removeButton.setOnAction(event -> handleRemoveUserButtonAction(meetingId, user.getString("username")));
                         userBox.getChildren().add(removeButton);
