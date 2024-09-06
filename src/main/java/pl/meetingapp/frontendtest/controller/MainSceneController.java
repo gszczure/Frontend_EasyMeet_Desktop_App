@@ -73,6 +73,12 @@ public class MainSceneController {
         loadMeetings();
     }
 
+    private boolean isOwner(Long ownerId) {
+        Long currentUserId = JavaFXApp.getUserId();
+        return currentUserId != null && currentUserId.equals(ownerId);
+    }
+
+
     @FXML
     private void handleCreateMeetingButtonAction() throws IOException {
         String token = jwtToken;
@@ -154,7 +160,7 @@ public class MainSceneController {
         hbox.getChildren().add(spacer);
 
         // Wyswietlenie Code:... tylko dla wlasciciela spotkania
-        if (JavaFXApp.getUserId() != null && JavaFXApp.getUserId().equals(ownerId)) {
+        if (isOwner(ownerId)) {
             Label codeLabel = new Label("Code: " + code);
             codeLabel.setTextFill(Color.RED);
             hbox.getChildren().add(codeLabel);
@@ -319,37 +325,40 @@ public class MainSceneController {
         try {
             conn = HttpUtils.createConnection("http://localhost:8080/api/meetings/" + meetingId + "/participants", "GET", jwtToken, false);
             int responseCode = conn.getResponseCode();
+            StringBuilder response = new StringBuilder();
+            try (Scanner scanner = new Scanner(conn.getInputStream())) {
+                while (scanner.hasNextLine()) {
+                    response.append(scanner.nextLine());
+                }
+            }
+
             if (responseCode == HttpURLConnection.HTTP_OK) {
-                try (Scanner scanner = new Scanner(conn.getInputStream())) {
-                    StringBuilder response = new StringBuilder();
-                    while (scanner.hasNextLine()) {
-                        response.append(scanner.nextLine());
-                    }
+                JSONObject responseObject = new JSONObject(response.toString());
+                JSONArray participantsArray = responseObject.getJSONArray("participants");
 
-                    JSONArray usersArray = new JSONArray(response.toString());
+                List<JSONObject> userList = new ArrayList<>();
+                for (int i = 0; i < participantsArray.length(); i++) {
+                    userList.add(participantsArray.getJSONObject(i));
+                }
+                userList.sort(Comparator.comparing(user -> (user.getString("firstName") + " " + user.getString("lastName"))));
 
-                    List<JSONObject> userList = new ArrayList<>();
-                    for (int i = 0; i < usersArray.length(); i++) {
-                        userList.add(usersArray.getJSONObject(i));
-                    }
-                    userList.sort(Comparator.comparing(user -> (user.getString("firstName") + " " + user.getString("lastName"))));
+                for (JSONObject user : userList) {
+                    String userName = user.getString("firstName") + " " + user.getString("lastName");
+                    String numberedUserName = (++lastUserNumber) + ". " + userName;
 
-                    for (JSONObject user : userList) {
-                        String userName = user.getString("firstName") + " " + user.getString("lastName");
-                        String numberedUserName = (++lastUserNumber) + ". " + userName;
+                    HBox userBox = new HBox();
+                    userBox.setSpacing(10);
 
-                        HBox userBox = new HBox();
-                        userBox.setSpacing(10);
+                    Label userLabel = new Label(numberedUserName);
+                    userBox.getChildren().add(userLabel);
 
-                        Label userLabel = new Label(numberedUserName);
-                        userBox.getChildren().add(userLabel);
-
+                    if (isOwner(meetingId)) {
                         Button removeButton = new Button("Remove");
                         removeButton.setOnAction(event -> handleRemoveUserButtonAction(meetingId, user.getString("username")));
                         userBox.getChildren().add(removeButton);
-
-                        usersListVBox.getChildren().add(userBox);
                     }
+
+                    usersListVBox.getChildren().add(userBox);
                 }
             } else {
                 System.out.println("Failed to load users. Server responded with code " + responseCode);
@@ -362,6 +371,7 @@ public class MainSceneController {
             }
         }
     }
+
     private void handleRemoveUserButtonAction(Long meetingId, String username) {
         HttpURLConnection conn = null;
         try {
