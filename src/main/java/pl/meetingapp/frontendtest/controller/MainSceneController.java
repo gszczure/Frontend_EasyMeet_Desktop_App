@@ -354,6 +354,7 @@ public class MainSceneController {
                     Label userLabel = new Label(numberedUserName);
                     userBox.getChildren().add(userLabel);
 
+                    //TODO: naprawic blad zapisu
                     if (isOwner(meetingId) && user.getLong("id") != ownerId) {
                         Button removeButton = new Button("Remove");
                         removeButton.setOnAction(event -> handleRemoveUserButtonAction(meetingId, user.getString("username")));
