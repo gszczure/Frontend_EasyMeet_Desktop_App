@@ -149,9 +149,8 @@ public class MainSceneController {
 
         // TitleBox (HBox) - Nagłówek TitledPane
         HBox titleBox = new HBox();
-        titleBox.setPadding(new Insets(10, 10, 0, 10));
+        titleBox.setPadding(new Insets(2, 5, 2, 5)); //1. gora 2.lewa 3.dol 4.prawa
         titleBox.setSpacing(10);
-        titleBox.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
 
         // HBox dla etykiet i przycisku
         HBox titleContentBox = new HBox();
@@ -165,26 +164,27 @@ public class MainSceneController {
         ownerLabel.setTextFill(Color.BLACK);
         titleContentBox.getChildren().add(ownerLabel);
 
-        // Dodanie przycisku "-" tylko dla właściciela
+        // Dodanie przycisku "X" tylko dla właściciela
         if (isOwner(ownerId)) {
+            Region spacer = new Region(); // Dodajemy pustą przestrzeń przed przyciskiem "X"
+            HBox.setHgrow(spacer, Priority.ALWAYS);
+            titleContentBox.getChildren().add(spacer);
+
             Button deleteButton = new Button("X");
             deleteButton.setOnAction(event -> handleDeleteMeetingButtonAction(meetingId));
-            deleteButton.setStyle("-fx-background-color: #FF0000; -fx-text-fill: white; -fx-font-size: 10px; -fx-pref-width: 20px; -fx-pref-height: 10px; -fx-padding: 2px;");
-            // Ustawienie padding po prawej stronie na 0
-            titleBox.setPadding(new Insets(10, 0, 0, 10));
+            deleteButton.setStyle("-fx-background-color: #FF0000; -fx-text-fill: white; -fx-font-size: 10px; -fx-pref-width: 20px; -fx-pref-height: 10px;");
             titleContentBox.getChildren().add(deleteButton);
         }
 
         titleBox.getChildren().add(titleContentBox);
 
-        // Ustawienie wyrównania elementów w HBox na prawą stronę (NIE DZIALA NIE WIEDZIEC CZEMU)
-        HBox.setHgrow(titleContentBox, Priority.ALWAYS);
-
+        // content (VBox) - Zawiera zawartość TitledPane
         VBox content = new VBox();
         content.setSpacing(10);
 
+        // HBox dla daty i kodu (hbox)
         HBox hbox = new HBox();
-        hbox.setPadding(new Insets(10, 10, 0, 10));
+        hbox.setPadding(new Insets(5, 10, 0, 10));
 
         Label dateLabel = new Label();
         dateLabel.setTextFill(Color.GREEN);
@@ -205,6 +205,7 @@ public class MainSceneController {
 
         fetchMeetingDate(meetingId, dateLabel);
 
+        // HBox dla przycisków (buttonBox)
         HBox buttonBox = new HBox();
         buttonBox.setSpacing(10);
         buttonBox.setPadding(new Insets(10, 0, 0, 0));
