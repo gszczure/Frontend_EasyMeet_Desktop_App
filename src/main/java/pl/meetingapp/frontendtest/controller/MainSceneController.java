@@ -400,6 +400,7 @@ public class MainSceneController {
     }
 
 
+    //TODO: Do zmiany uzywajac metody do skrocenia polaczenia
     private void handleRemoveUserButtonAction(Long meetingId, String username) {
         HttpURLConnection conn = null;
         try {
@@ -484,16 +485,17 @@ public class MainSceneController {
             if (response == confirmButton) {
                 HttpURLConnection conn = null;
                 try {
-                    URL url = new URL("http://localhost:8080/api/meetings/" + meetingId);
-                    conn = (HttpURLConnection) url.openConnection();
-                    conn.setRequestMethod("DELETE");
-                    conn.setRequestProperty("Authorization", "Bearer " + jwtToken);
-                    conn.setRequestProperty("Content-Type", "application/json");
+                    conn = HttpUtils.createConnection(
+                            "http://localhost:8080/api/meetings/" + meetingId,
+                            "DELETE",
+                            jwtToken,
+                            false
+                    );
 
                     int responseCode = conn.getResponseCode();
                     if (responseCode == HttpURLConnection.HTTP_OK) {
                         messageLabel.setText("Meeting deleted successfully.");
-                        loadMeetings(); // Odśwież listę spotkań
+                        loadMeetings();
                     } else {
                         messageLabel.setText("Failed to delete meeting. Server responded with code " + responseCode);
                     }
