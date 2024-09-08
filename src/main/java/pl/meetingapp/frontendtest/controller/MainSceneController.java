@@ -98,7 +98,12 @@ public class MainSceneController {
         accordion.getPanes().clear();
         HttpURLConnection conn = null;
         try {
-            conn = HttpUtils.createConnection("http://localhost:8080/api/meetings/for-user", "GET", jwtToken, false);
+            conn = HttpUtils.createConnection(
+                    "http://localhost:8080/api/meetings/for-user",
+                    "GET",
+                    jwtToken,
+                    false
+            );
 
             int responseCode = conn.getResponseCode();
             if (responseCode == HttpURLConnection.HTTP_OK) {
@@ -162,9 +167,9 @@ public class MainSceneController {
 
         // Dodanie przycisku "-" tylko dla właściciela
         if (isOwner(ownerId)) {
-            Button deleteButton = new Button("-");
+            Button deleteButton = new Button("X");
             deleteButton.setOnAction(event -> handleDeleteMeetingButtonAction(meetingId));
-            deleteButton.setStyle("-fx-background-color: #FF0000; -fx-text-fill: white; -fx-pref-height: 20px; -fx-pref-width: 20px");
+            deleteButton.setStyle("-fx-background-color: #FF0000; -fx-text-fill: white; -fx-font-size: 10px; -fx-pref-width: 20px; -fx-pref-height: 10px; -fx-padding: 2px;");
             // Ustawienie padding po prawej stronie na 0
             titleBox.setPadding(new Insets(10, 0, 0, 10));
             titleContentBox.getChildren().add(deleteButton);
@@ -230,10 +235,15 @@ public class MainSceneController {
 
 
     private void fetchMeetingDate(Long meetingId, Label dateLabel) {
-        String url = "http://localhost:8080/api/meetings/" + meetingId + "/date";
         HttpURLConnection conn = null;
         try {
-            conn = HttpUtils.createConnection(url, "GET", jwtToken, false);
+            conn = HttpUtils.createConnection(
+                    "http://localhost:8080/api/meetings/" + meetingId + "/date",
+                    "GET",
+                    jwtToken,
+                    false
+            );
+
             int responseCode = conn.getResponseCode();
             if (responseCode == HttpURLConnection.HTTP_OK) {
                 try (Scanner scanner = new Scanner(conn.getInputStream())) {
@@ -291,7 +301,12 @@ public class MainSceneController {
 
         HttpURLConnection conn = null;
         try {
-            conn = HttpUtils.createConnection("http://localhost:8080/api/meetings/join", "POST", jwtToken, true);
+            conn = HttpUtils.createConnection(
+                    "http://localhost:8080/api/meetings/join",
+                    "POST",
+                    jwtToken,
+                    true
+            );
 
             String jsonPayload = "{\"code\":\"" + meetingCode + "\"}";
             try (OutputStream os = conn.getOutputStream()) {
@@ -345,7 +360,13 @@ public class MainSceneController {
 
         HttpURLConnection conn = null;
         try {
-            conn = HttpUtils.createConnection("http://localhost:8080/api/meetings/" + meetingId + "/participants", "GET", jwtToken, false);
+            conn = HttpUtils.createConnection(
+                    "http://localhost:8080/api/meetings/" + meetingId + "/participants",
+                    "GET",
+                    jwtToken,
+                    false
+            );
+
             int responseCode = conn.getResponseCode();
             StringBuilder response = new StringBuilder();
             try (Scanner scanner = new Scanner(conn.getInputStream())) {
