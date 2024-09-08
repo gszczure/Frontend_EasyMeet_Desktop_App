@@ -142,8 +142,38 @@ public class MainSceneController {
     private void addMeetingToAccordion(String name, String ownerName, String code, Long meetingId, Long ownerId) {
         TitledPane titledPane = new TitledPane();
 
-        String title = name + "               " + ownerName;
-        titledPane.setText(title);
+        // TitleBox (HBox) - Nagłówek TitledPane
+        HBox titleBox = new HBox();
+        titleBox.setPadding(new Insets(10, 10, 0, 10));
+        titleBox.setSpacing(10);
+        titleBox.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
+
+        // HBox dla etykiet i przycisku
+        HBox titleContentBox = new HBox();
+        titleContentBox.setSpacing(10);
+
+        Label nameLabel = new Label(name);
+        nameLabel.setTextFill(Color.BLACK);
+        titleContentBox.getChildren().add(nameLabel);
+
+        Label ownerLabel = new Label(ownerName);
+        ownerLabel.setTextFill(Color.BLACK);
+        titleContentBox.getChildren().add(ownerLabel);
+
+        // Dodanie przycisku "-" tylko dla właściciela
+        if (isOwner(ownerId)) {
+            Button deleteButton = new Button("-");
+            deleteButton.setOnAction(event -> handleDeleteMeetingButtonAction(meetingId));
+            deleteButton.setStyle("-fx-background-color: #FF0000; -fx-text-fill: white; -fx-pref-height: 20px; -fx-pref-width: 20px");
+            // Ustawienie padding po prawej stronie na 0
+            titleBox.setPadding(new Insets(10, 0, 0, 10));
+            titleContentBox.getChildren().add(deleteButton);
+        }
+
+        titleBox.getChildren().add(titleContentBox);
+
+        // Ustawienie wyrównania elementów w HBox na prawą stronę (NIE DZIALA NIE WIEDZIEC CZEMU)
+        HBox.setHgrow(titleContentBox, Priority.ALWAYS);
 
         VBox content = new VBox();
         content.setSpacing(10);
@@ -173,34 +203,26 @@ public class MainSceneController {
         HBox buttonBox = new HBox();
         buttonBox.setSpacing(10);
         buttonBox.setPadding(new Insets(10, 0, 0, 0));
-
         buttonBox.setAlignment(javafx.geometry.Pos.CENTER);
 
         Button usersButton = new Button("Users");
         usersButton.setOnAction(event -> handleUsersButtonAction(meetingId));
-        usersButton.setStyle("-fx-background-color: #263F73; -fx-text-fill: white;");
+        usersButton.setStyle("-fx-background-color: #263F73; -fx-text-fill: white; -fx-pref-width: 60px; -fx-pref-height: 26px");
 
         Button commonDatesButton = new Button("Common Dates");
         commonDatesButton.setOnAction(event -> handleCommonDatesButtonAction(meetingId));
-        commonDatesButton.setStyle("-fx-background-color: #263F73; -fx-text-fill: white;");
+        commonDatesButton.setStyle("-fx-background-color: #263F73; -fx-text-fill: white;-fx-pref-width: 120px; -fx-pref-height: 26px");
 
         Button dateButton = new Button("Date");
         dateButton.setOnAction(event -> handleDateButtonAction(meetingId));
-        dateButton.setStyle("-fx-background-color: #263F73; -fx-text-fill: white;");
+        dateButton.setStyle("-fx-background-color: #263F73; -fx-text-fill: white;-fx-pref-width: 60px; -fx-pref-height: 26px");
 
-
-
-        //TODO: pomyslec nad wielkoscia guzikow bo sie nie mieszcza
-        double buttonWidth = 300;
-        usersButton.setPrefWidth(buttonWidth);
-        dateButton.setPrefWidth(buttonWidth);
-        commonDatesButton.setPrefWidth(buttonWidth);
-
-        buttonBox.getChildren().addAll(usersButton,commonDatesButton, dateButton);
+        buttonBox.getChildren().addAll(usersButton, commonDatesButton, dateButton);
 
         content.getChildren().add(buttonBox);
 
         titledPane.setContent(content);
+        titledPane.setGraphic(titleBox);
         titledPane.setUserData(meetingId);
 
         accordion.getPanes().add(titledPane);
@@ -445,5 +467,45 @@ public class MainSceneController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void handleDeleteMeetingButtonAction(Long meetingId) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirm Deletion");
+        alert.setHeaderText("Are you sure you want to delete this meeting?");
+        alert.setContentText("This action cannot be undone.");
+
+        ButtonType confirmButton = new ButtonType("Delete", ButtonBar.ButtonData.OK_DONE);
+        ButtonType cancelButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+        alert.getButtonTypes().setAll(confirmButton, cancelButton);
+
+        alert.showAndWait().ifPresent(response -> {
+            if (response == confirmButton) {
+                HttpURLConnection conn = null;
+                try {
+                    URL url = new URL("http://localhost:8080/api/meetings/" + meetingId);
+                    conn = (HttpURLConnection) url.openConnection();
+                    conn.setRequestMethod("DELETE");
+                    conn.setRequestProperty("Authorization", "Bearer " + jwtToken);
+                    conn.setRequestProperty("Content-Type", "application/json");
+
+                    int responseCode = conn.getResponseCode();
+                    if (responseCode == HttpURLConnection.HTTP_OK) {
+                        messageLabel.setText("Meeting deleted successfully.");
+                        loadMeetings(); // Odśwież listę spotkań
+                    } else {
+                        messageLabel.setText("Failed to delete meeting. Server responded with code " + responseCode);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    messageLabel.setText("An error occurred while deleting the meeting.");
+                } finally {
+                    if (conn != null) {
+                        conn.disconnect();
+                    }
+                }
+            }
+        });
     }
 }
