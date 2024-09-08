@@ -4,6 +4,7 @@ import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -152,7 +153,7 @@ public class MainSceneController {
         titleBox.setPadding(new Insets(2, 5, 2, 5)); //1. gora 2.lewa 3.dol 4.prawa
         titleBox.setSpacing(10);
 
-        // HBox dla etykiet i przycisku
+        // HBox dla etykiet
         HBox titleContentBox = new HBox();
         titleContentBox.setSpacing(10);
 
@@ -163,18 +164,6 @@ public class MainSceneController {
         Label ownerLabel = new Label(ownerName);
         ownerLabel.setTextFill(Color.BLACK);
         titleContentBox.getChildren().add(ownerLabel);
-
-        // Dodanie przycisku "X" tylko dla właściciela
-        if (isOwner(ownerId)) {
-            Region spacer = new Region(); // Dodajemy pustą przestrzeń przed przyciskiem "X"
-            HBox.setHgrow(spacer, Priority.ALWAYS);
-            titleContentBox.getChildren().add(spacer);
-
-            Button deleteButton = new Button("X");
-            deleteButton.setOnAction(event -> handleDeleteMeetingButtonAction(meetingId));
-            deleteButton.setStyle("-fx-background-color: #FF0000; -fx-text-fill: white; -fx-font-size: 10px; -fx-pref-width: 20px; -fx-pref-height: 10px;");
-            titleContentBox.getChildren().add(deleteButton);
-        }
 
         titleBox.getChildren().add(titleContentBox);
 
@@ -203,13 +192,11 @@ public class MainSceneController {
 
         content.getChildren().add(hbox);
 
-        fetchMeetingDate(meetingId, dateLabel);
-
         // HBox dla przycisków (buttonBox)
         HBox buttonBox = new HBox();
         buttonBox.setSpacing(10);
         buttonBox.setPadding(new Insets(10, 0, 0, 0));
-        buttonBox.setAlignment(javafx.geometry.Pos.CENTER);
+        buttonBox.setAlignment(Pos.CENTER);
 
         Button usersButton = new Button("Users");
         usersButton.setOnAction(event -> handleUsersButtonAction(meetingId));
@@ -225,6 +212,14 @@ public class MainSceneController {
 
         buttonBox.getChildren().addAll(usersButton, commonDatesButton, dateButton);
 
+        // Dodanie przycisku "X" tylko dla właściciela
+        if (isOwner(ownerId)) {
+            Button deleteButton = new Button("X");
+            deleteButton.setOnAction(event -> handleDeleteMeetingButtonAction(meetingId));
+            deleteButton.setStyle("-fx-background-color: #FF0000; -fx-text-fill: white; -fx-font-size: 10px; -fx-pref-width: 26px; -fx-pref-height: 26;");
+            buttonBox.getChildren().add(deleteButton);
+        }
+
         content.getChildren().add(buttonBox);
 
         titledPane.setContent(content);
@@ -232,8 +227,9 @@ public class MainSceneController {
         titledPane.setUserData(meetingId);
 
         accordion.getPanes().add(titledPane);
-    }
 
+        fetchMeetingDate(meetingId, dateLabel);
+    }
 
     private void fetchMeetingDate(Long meetingId, Label dateLabel) {
         HttpURLConnection conn = null;

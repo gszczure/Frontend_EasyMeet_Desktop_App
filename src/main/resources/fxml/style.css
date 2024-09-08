@@ -5,10 +5,3 @@
      -fx-border-radius: 15;
  }
 
-.button-delete {
-    -fx-background-color: #FF0000; /* Czerwony kolor tła */
-    -fx-text-fill: white; /* Biały kolor tekstu */
-    -fx-font-size: 11px; /* Rozmiar czcionki */
-    -fx-padding: 5px 10px; /* Padding */
-}
-
