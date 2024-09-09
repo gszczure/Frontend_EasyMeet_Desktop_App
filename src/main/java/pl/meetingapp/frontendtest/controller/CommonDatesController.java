@@ -86,7 +86,7 @@ public class CommonDatesController {
                         dateStrings.add(date);
                     }
 
-                    //TODO: zmienic zeby na scenei byl ten error
+                    //TODO: zmienic zeby na scenie byl ten error a nie wyswietlany przed
                     if (dateStrings.isEmpty()) {
                         showAlert(AlertType.INFORMATION, "No Common Dates", "There are no common dates available for this meeting.");
                         messageLabel.setText("No common dates available.");

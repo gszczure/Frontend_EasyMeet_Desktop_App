@@ -73,11 +73,10 @@ public class LoginController {
                     Scene newScene = new Scene(FXMLLoader.load(getClass().getResource("/fxml/mainScene.fxml")));
                     stage.setScene(newScene);
                 } else {
-                    loginMessageLabel.setText("Niepoprawna nazwa użytkownika lub hasło!");
+                    loginMessageLabel.setText("Nie udało się połączyć z serwerem. Kod błędu: " + responseCode);
                 }
             } else {
-                //TODO: Sprawdzic czemu wyswietla sie ten napis ciagle przy wpisywaniu niepoprawnego hasla lub username
-                loginMessageLabel.setText("Nie udało się połączyć z serwerem. Kod błędu: " + responseCode);
+                loginMessageLabel.setText("Niepoprawna nazwa użytkownika lub hasło!");
             }
         } catch (IOException e) {
             e.printStackTrace();
