@@ -36,6 +36,9 @@ public class MainSceneController {
     private Button jointMeetingButton;
 
     @FXML
+    private Button leaveMeetingButton;
+
+    @FXML
     private Button addMeetingButton;
 
     @FXML
@@ -520,6 +523,64 @@ public class MainSceneController {
                 } catch (IOException e) {
                     e.printStackTrace();
                     messageLabel.setText("An error occurred while deleting the meeting.");
+                } finally {
+                    if (conn != null) {
+                        conn.disconnect();
+                    }
+                }
+            }
+        });
+    }
+    @FXML
+    private void handleLeaveMeetingButtonAction() {
+        // Pobranie id spotkania z wybranego TitledPane
+        TitledPane selectedPane = accordion.getExpandedPane();
+        if (selectedPane == null) {
+            messageLabel.setText("No meeting selected.");
+            return;
+        }
+
+        Long meetingId = (Long) selectedPane.getUserData();
+        if (meetingId == null) {
+            messageLabel.setText("Meeting ID not found.");
+            return;
+        }
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirm Leave");
+        alert.setHeaderText("Are you sure you want to leave this meeting?");
+        alert.setContentText("You will no longer be a participant.");
+
+        ButtonType confirmButton = new ButtonType("Leave", ButtonBar.ButtonData.OK_DONE);
+        ButtonType cancelButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+        alert.getButtonTypes().setAll(confirmButton, cancelButton);
+
+        alert.showAndWait().ifPresent(response -> {
+            if (response == confirmButton) {
+                HttpURLConnection conn = null;
+                try {
+                    conn = HttpUtils.createConnection(
+                            "http://localhost:8080/api/meetings/" + meetingId + "/leave",
+                            "DELETE",
+                            jwtToken,
+                            true
+                    );
+
+                    int responseCode = conn.getResponseCode();
+                    if (responseCode == HttpURLConnection.HTTP_OK) {
+                        messageLabel.setText("Successfully left the meeting.");
+                        loadMeetings();
+                        //TODO: massegelabel dodac do tego slide pane
+                        //TODO: naprawic bo sie nie zamyka
+                        //TODO: zrobic by kazdy oprocz wlsciceila to mogl robic
+//                        closeSlideInPane();
+                    } else {
+                        messageLabel.setText("Failed to leave meeting. Server responded with code " + responseCode);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    messageLabel.setText("An error occurred while leaving the meeting.");
                 } finally {
                     if (conn != null) {
                         conn.disconnect();
