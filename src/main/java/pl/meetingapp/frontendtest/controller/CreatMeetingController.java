@@ -39,7 +39,7 @@ public class CreatMeetingController {
     }
 
     @FXML
-    private void handleSaveButtonAction(ActionEvent event) {
+    private void handleSaveButtonAction(ActionEvent event) { //TODO: sprawdzic ten event
         String meetingTitle = meetingTitleTextField.getText().trim();
 
         if (meetingTitle.isEmpty()) {

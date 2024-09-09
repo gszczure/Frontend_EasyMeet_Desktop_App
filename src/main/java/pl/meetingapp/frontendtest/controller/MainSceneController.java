@@ -408,6 +408,9 @@ public class MainSceneController {
 
                     usersListVBox.getChildren().add(userBox);
                 }
+
+                leaveMeetingButton.setVisible(!isMeetingOwner); // guzik leave nie widoczny dla wlasciceila
+
             } else {
                 System.out.println("Failed to load users. Server responded with code " + responseCode);
             }
@@ -421,7 +424,7 @@ public class MainSceneController {
     }
 
 
-    //TODO: Do zmiany uzywajac metody do skrocenia polaczenia
+    //TODO: Do zmiany uzywajac metody createConnection do skrocenia polaczenia URL
     private void handleRemoveUserButtonAction(Long meetingId, String username) {
         HttpURLConnection conn = null;
         try {
@@ -533,7 +536,7 @@ public class MainSceneController {
     }
     @FXML
     private void handleLeaveMeetingButtonAction() {
-        // Pobranie id spotkania z wybranego TitledPane
+        // Pobranie id spotkania z rozwinietego TitledPane
         TitledPane selectedPane = accordion.getExpandedPane();
         if (selectedPane == null) {
             messageLabel.setText("No meeting selected.");
@@ -574,7 +577,7 @@ public class MainSceneController {
                         //TODO: massegelabel dodac do tego slide pane
                         //TODO: naprawic bo sie nie zamyka
                         //TODO: zrobic by kazdy oprocz wlsciceila to mogl robic
-//                        closeSlideInPane();
+                        closeSlideInPane();
                     } else {
                         messageLabel.setText("Failed to leave meeting. Server responded with code " + responseCode);
                     }
