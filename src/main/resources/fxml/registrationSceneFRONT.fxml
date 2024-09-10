@@ -149,7 +149,7 @@
                         <Cursor fx:constant="SE_RESIZE" />
                     </cursor>
                 </TextField>
-                <Label fx:id="registrationLabelMessage" contentDisplay="CENTER" layoutX="44.0" layoutY="59.0" prefHeight="17.0" prefWidth="258.0" textFill="RED" />
+                <Label fx:id="registrationLabelMessage" alignment="CENTER" contentDisplay="CENTER" layoutX="44.0" layoutY="59.0" prefHeight="17.0" prefWidth="258.0" textFill="RED" />
             </children>
         </AnchorPane>
     </center>

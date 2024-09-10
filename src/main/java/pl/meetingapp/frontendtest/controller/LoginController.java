@@ -37,6 +37,7 @@ public class LoginController {
     @FXML
     private Button cancelButton;
 
+    //TODO: zmienic na ang
     @FXML
     private void loginButtonOnAction() {
         String username = usernameTextField.getText().trim();

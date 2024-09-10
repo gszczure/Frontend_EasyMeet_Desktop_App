@@ -259,10 +259,8 @@ public class MainSceneController {
             if (responseCode == HttpURLConnection.HTTP_OK) {
                 try (Scanner scanner = new Scanner(conn.getInputStream())) {
                     if (scanner.hasNextLine()) {
-                        String jsonResponse = scanner.nextLine();
-                        JSONObject jsonObject = new JSONObject(jsonResponse);
-                        String date = jsonObject.optString("date", "none");
-                        dateLabel.setText("Date: " + date);
+                        String response = scanner.nextLine();
+                        dateLabel.setText("Date: " + response);
                     } else {
                         dateLabel.setText("Date: none");
                         dateLabel.setTextFill(Color.RED);
@@ -332,6 +330,9 @@ public class MainSceneController {
                 clearMessageLabelAfterDelay(messageLabel2, Duration.seconds(2));
                 loadMeetings();
                 closeSlideInPane();
+            } else if (responseCode == HttpURLConnection.HTTP_CONFLICT) {
+                messageLabel.setText("You already belong to this meeting.");
+                clearMessageLabelAfterDelay(messageLabel, Duration.seconds(2));
             } else {
                 messageLabel.setText("Invalid meeting code.");
                 clearMessageLabelAfterDelay(messageLabel, Duration.seconds(2));

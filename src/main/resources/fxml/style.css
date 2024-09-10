@@ -95,13 +95,14 @@
     -fx-font-size: 13;
 }
 
+/* Guzik do usuwania ludzi z spotkania (widzoczny tylko dla właściciela) */
 .remove-button {
     -fx-background-color: #e53935;
     -fx-text-fill: white;
     -fx-pref-height: 5;
     -fx-font-size: 11.5;
 }
-/* Guziki w main scene na górze sceny*/
+/* Guziki w main scene na górze sceny */
 .mianScene-Top-button {
     -fx-background-color: #263F73;
     -fx-text-fill: white;
