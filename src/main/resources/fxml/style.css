@@ -1,7 +1,112 @@
+/* Wszystkie guziki podstawowe */
 .button {
-     -fx-background-color: #263F73;
-     -fx-text-fill: white;
-     -fx-background-radius: 5;
-     -fx-border-radius: 15;
- }
+    -fx-background-color: #263F73;
+    -fx-text-fill: white;
+    -fx-background-radius: 5;
+    -fx-border-radius: 15;
+}
 
+/* Guzik do opuszczania spotkania przez użytkownika */
+.leave-meeting-button {
+    -fx-background-color: #e53935;
+    -fx-text-fill: white;
+    -fx-pref-height: 26;
+    -fx-pref-width: 88;
+}
+
+/* Guzik do zamykania wysuwanego panelu Users */
+.close-user-button {
+    -fx-background-color: #263F73;
+    -fx-text-fill: white;
+    -fx-pref-height: 26;
+    -fx-pref-width: 88;
+}
+
+/* Panel wysuwany Join */
+.joinSlideInPane {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #000000;
+}
+
+/* Label w panelu wysuwanym Join */
+.label-JoinSlideInPane {
+    -fx-alignment: center;
+    -fx-font-size: 24;
+    -fx-pref-height: 26;
+    -fx-pref-width: 278;
+    -fx-layout-x: 14;
+    -fx-layout-y: 14;
+    -fx-text-alignment: center;
+}
+
+/* TextField w panelu wysuwanym Join */
+.textField-joinSlideInPane {
+    -fx-prompt-text: "Enter meeting code";
+    -fx-pref-height: 30;  /* Ustal wysokość, aby był spójny */
+    -fx-pref-width: 230;  /* Szerokość może się różnić */
+}
+
+/* Guzik do dołączania w panelu wysuwanym Join */
+.joinButton {
+    -fx-background-color: #263F73;
+    -fx-text-fill: white;
+    -fx-pref-height: 26;
+    -fx-pref-width: 88;
+}
+
+/* Guzik do anulowania w panelu wysuwanym Join */
+.cancelButton {
+    -fx-background-color: #e53935;
+    -fx-text-fill: white;
+    -fx-pref-height: 26;
+    -fx-pref-width: 88;
+}
+
+/* Label z wiadomościami błędów lub komunikatami NIE TYLKO W joinSlideInPane */
+.messageLabel-joinSlideInPane {
+    -fx-text-fill: red;
+    -fx-alignment: center;
+    -fx-pref-height: 26;
+    -fx-pref-width: 230;
+}
+
+/* Panel użytkowników */
+.usersSlideInPane {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #000000;
+}
+
+/* Label w panelu użytkowników */
+.label-UsersSlideInPane {
+    -fx-alignment: center;
+    -fx-font-size: 24;
+    -fx-pref-height: 26;
+    -fx-pref-width: 278;
+    -fx-layout-x: 14;
+    -fx-layout-y: 14;
+    -fx-text-alignment: center;
+}
+
+/* VBox dla listy użytkowników w panelu */
+.usersListVBox {
+    -fx-spacing: 10.0;
+    -fx-alignment: top-left;
+    -fx-padding: 10;
+    -fx-font-size: 13;
+}
+
+.remove-button {
+    -fx-background-color: #e53935;
+    -fx-text-fill: white;
+    -fx-pref-height: 5;
+    -fx-font-size: 11.5;
+}
+/* Guziki w main scene na górze sceny*/
+.mianScene-Top-button {
+    -fx-background-color: #263F73;
+    -fx-text-fill: white;
+    -fx-background-radius: 5;
+    -fx-border-radius: 15;
+    -fx-pref-height: 26;
+    -fx-pref-width: 88;
+}

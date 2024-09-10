@@ -17,7 +17,7 @@
     <left>
         <AnchorPane prefHeight="407.0" prefWidth="228.0" style="-fx-background-color: #263F73;" BorderPane.alignment="CENTER">
             <children>
-                <Label alignment="CENTER" layoutY="137.0" prefHeight="18.0" prefWidth="228.0" text="MeetMe" textFill="WHITE">
+                <Label alignment="CENTER" layoutY="163.0" prefHeight="18.0" prefWidth="228.0" text="MeetMe" textFill="WHITE">
                     <font>
                         <Font name="Verdana Bold" size="24.0" />
                     </font>
@@ -25,7 +25,7 @@
                         <DropShadow />
                     </effect>
                 </Label>
-                <Label alignment="CENTER" layoutY="200.0" prefHeight="18.0" prefWidth="228.0" text="Meeting App" textFill="WHITE">
+                <Label alignment="CENTER" layoutY="226.0" prefHeight="18.0" prefWidth="228.0" text="Meeting App" textFill="WHITE">
                     <font>
                         <Font name="Verdana Bold" size="24.0" />
                     </font>
@@ -33,12 +33,12 @@
                         <DropShadow />
                     </effect>
                 </Label>
-                <Line endX="100.0" layoutX="114.0" layoutY="184.0" startX="-100.0" stroke="#f2f2f2">
+                <Line endX="100.0" layoutX="114.0" layoutY="210.0" startX="-100.0" stroke="#f2f2f2">
                     <effect>
                         <DropShadow />
                     </effect>
                 </Line>
-                <Label alignment="BOTTOM_LEFT" layoutX="27.0" layoutY="358.0" prefHeight="18.0" prefWidth="184.0" text="By Grzegorz Szczurek" textFill="WHITE" AnchorPane.bottomAnchor="24.0">
+                <Label alignment="BOTTOM_LEFT" layoutX="27.0" layoutY="358.0" prefHeight="18.0" prefWidth="184.0" text="By Grzegorz Szczurek" textFill="WHITE" AnchorPane.bottomAnchor="14.0">
                     <font>
                         <Font name="Verdana Bold" size="10.0" />
                     </font>
@@ -49,7 +49,7 @@
     <center>
         <AnchorPane prefHeight="400.0" prefWidth="332.0" BorderPane.alignment="CENTER">
             <children>
-                <Label alignment="CENTER" layoutX="65.0" layoutY="14.0" prefHeight="18.0" prefWidth="228.0" text="Registration" textAlignment="CENTER" textFill="#f5ecec">
+                <Label alignment="CENTER" layoutX="65.0" layoutY="14.0" prefHeight="18.0" prefWidth="228.0" text="Registration" textAlignment="CENTER">
                     <font>
                         <Font name="Verdana Bold" size="18.0" />
                     </font>
@@ -57,8 +57,8 @@
                         <InnerShadow />
                     </effect>
                 </Label>
-                <Button fx:id="cancelButton" layoutX="195.0" layoutY="419.0" mnemonicParsing="false" onAction="#cancelButtonAction" prefHeight="31.0" prefWidth="121.0" style="-fx-background-color: #263F73;" text="Cancel" textFill="WHITE" />
-                <Text layoutX="47.0" layoutY="106.0" strokeType="OUTSIDE" strokeWidth="0.0" text="First name">
+                <Button fx:id="cancelButton" layoutX="195.0" layoutY="419.0" mnemonicParsing="false" onAction="#cancelButtonAction" prefHeight="31.0" prefWidth="121.0" style="-fx-background-color: #263F73;" text="Cancel" textFill="WHITE" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="40.0" />
+                <Text layoutX="20.0" layoutY="99.0" strokeType="OUTSIDE" strokeWidth="0.0" text="First name" AnchorPane.leftAnchor="40.0">
                     <font>
                         <Font size="14.0" />
                     </font>
@@ -66,7 +66,7 @@
                         <Cursor fx:constant="SE_RESIZE" />
                     </cursor>
                 </Text>
-                <Text layoutX="46.0" layoutY="148.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Last name">
+                <Text layoutX="20.0" layoutY="141.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Last name" AnchorPane.leftAnchor="40.0">
                     <font>
                         <Font size="14.0" />
                     </font>
@@ -74,7 +74,7 @@
                         <Cursor fx:constant="SE_RESIZE" />
                     </cursor>
                 </Text>
-                <Text layoutX="46.0" layoutY="187.0" strokeType="OUTSIDE" strokeWidth="0.0" text="username">
+                <Text layoutX="20.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username" AnchorPane.leftAnchor="40.0">
                     <font>
                         <Font size="14.0" />
                     </font>
@@ -82,7 +82,7 @@
                         <Cursor fx:constant="SE_RESIZE" />
                     </cursor>
                 </Text>
-                <Text layoutX="46.0" layoutY="222.0" strokeType="OUTSIDE" strokeWidth="0.0" text="password">
+                <Text layoutX="20.0" layoutY="215.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password" AnchorPane.leftAnchor="40.0">
                     <font>
                         <Font size="14.0" />
                     </font>
@@ -90,7 +90,7 @@
                         <Cursor fx:constant="SE_RESIZE" />
                     </cursor>
                 </Text>
-                <Text layoutX="46.0" layoutY="293.0" strokeType="OUTSIDE" strokeWidth="0.0" text="email">
+                <Text layoutX="20.0" layoutY="286.0" strokeType="OUTSIDE" strokeWidth="0.0" text="E - mail" AnchorPane.leftAnchor="40.0">
                     <font>
                         <Font size="14.0" />
                     </font>
@@ -98,31 +98,31 @@
                         <Cursor fx:constant="SE_RESIZE" />
                     </cursor>
                 </Text>
-                <TextField fx:id="firstNameTextField" layoutX="140.0" layoutY="88.0" promptText="First name">
+                <TextField fx:id="firstNameTextField" layoutX="156.5" layoutY="81.0" promptText="First name" AnchorPane.rightAnchor="40.0">
                     <cursor>
                         <Cursor fx:constant="SE_RESIZE" />
                     </cursor></TextField>
-                <TextField fx:id="lastNameTextField" layoutX="140.0" layoutY="130.0" promptText="Last name">
+                <TextField fx:id="lastNameTextField" layoutX="156.5" layoutY="123.0" promptText="Last name" AnchorPane.rightAnchor="40.0">
                     <cursor>
                         <Cursor fx:constant="SE_RESIZE" />
                     </cursor></TextField>
-                <TextField fx:id="usernameTextField" layoutX="140.0" layoutY="169.0" promptText="username">
+                <TextField fx:id="usernameTextField" layoutX="156.5" layoutY="162.0" promptText="Username" AnchorPane.rightAnchor="40.0">
                     <cursor>
                         <Cursor fx:constant="SE_RESIZE" />
                     </cursor></TextField>
-                <TextField fx:id="emailTextField" layoutX="140.0" layoutY="275.0" promptText="email">
+                <TextField fx:id="emailTextField" layoutX="156.5" layoutY="268.0" promptText="E - mail" AnchorPane.rightAnchor="40.0">
                     <cursor>
                         <Cursor fx:constant="SE_RESIZE" />
                     </cursor></TextField>
                 <Line endX="243.0" layoutX="107.0" layoutY="48.0" startX="-100.0" strokeWidth="2.0" />
-                <Line endX="241.0" layoutX="108.0" layoutY="364.0" startX="-100.0" strokeWidth="2.0" />
-                <Button fx:id="registrationButton" layoutX="59.0" layoutY="377.0" mnemonicParsing="false" onAction="#registrationButtonOnAction" prefHeight="31.0" prefWidth="235.0" style="-fx-background-color: #263F73;" text="Registration" textFill="WHITE" />
-                <PasswordField fx:id="passwordPasswordField" layoutX="140.0" layoutY="204.0" promptText="password">
+                <Line endX="241.0" layoutX="108.0" layoutY="359.0" startX="-100.0" strokeWidth="2.0" />
+                <Button fx:id="registrationButton" layoutX="54.0" layoutY="375.0" mnemonicParsing="false" onAction="#registrationButtonOnAction" prefHeight="31.0" prefWidth="250.0" style="-fx-background-color: #263F73;" text="Sing Up" textFill="WHITE" AnchorPane.bottomAnchor="58.0" AnchorPane.leftAnchor="53.0" AnchorPane.rightAnchor="53.0" />
+                <PasswordField fx:id="passwordPasswordField" layoutX="156.5" layoutY="197.0" promptText="Password" AnchorPane.rightAnchor="40.0">
                     <cursor>
                         <Cursor fx:constant="SE_RESIZE" />
                     </cursor>
                 </PasswordField>
-                <Text layoutX="46.0" layoutY="259.0" strokeType="OUTSIDE" strokeWidth="0.0" text="password">
+                <Text layoutX="20.0" layoutY="252.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Confirm Password" AnchorPane.leftAnchor="40.0">
                     <font>
                         <Font size="14.0" />
                     </font>
@@ -130,13 +130,13 @@
                         <Cursor fx:constant="SE_RESIZE" />
                     </cursor>
                 </Text>
-                <PasswordField fx:id="confirmPasswordPasswordField" layoutX="140.0" layoutY="241.0" promptText="password">
+                <PasswordField fx:id="confirmPasswordPasswordField" layoutX="156.5" layoutY="234.0" promptText="Confirm password" AnchorPane.rightAnchor="40.0">
                     <cursor>
                         <Cursor fx:constant="SE_RESIZE" />
                     </cursor>
                 </PasswordField>
-                <Button fx:id="backButton" layoutX="42.0" layoutY="419.0" mnemonicParsing="false" onAction="#backButtonOnAction" prefHeight="31.0" prefWidth="121.0" style="-fx-background-color: #263F73;" text="Back" textFill="WHITE" />
-                <Text layoutX="43.0" layoutY="331.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Phone number">
+                <Button fx:id="backButton" layoutX="42.0" layoutY="419.0" mnemonicParsing="false" onAction="#backButtonOnAction" prefHeight="31.0" prefWidth="121.0" style="-fx-background-color: #263F73;" text="Back" textFill="WHITE" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="40.0" />
+                <Text layoutX="20.0" layoutY="324.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Phone number" AnchorPane.leftAnchor="40.0">
                     <font>
                         <Font size="14.0" />
                     </font>
@@ -144,7 +144,7 @@
                         <Cursor fx:constant="SE_RESIZE" />
                     </cursor>
                 </Text>
-                <TextField fx:id="phoneNumberTextField" layoutX="140.0" layoutY="313.0" promptText="Phone number">
+                <TextField fx:id="phoneNumberTextField" layoutX="156.5" layoutY="306.0" promptText="Phone number" AnchorPane.rightAnchor="40.0">
                     <cursor>
                         <Cursor fx:constant="SE_RESIZE" />
                     </cursor>

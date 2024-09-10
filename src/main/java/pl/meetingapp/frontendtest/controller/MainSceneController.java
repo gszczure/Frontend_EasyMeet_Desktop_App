@@ -1,5 +1,7 @@
 package pl.meetingapp.frontendtest.controller;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -60,6 +62,9 @@ public class MainSceneController {
     private Label messageLabel;
 
     @FXML
+    private Label messageLabel2;
+
+    @FXML
     private AnchorPane usersSlideInPane;
 
     @FXML
@@ -82,6 +87,11 @@ public class MainSceneController {
         return currentUserId != null && currentUserId.equals(ownerId);
     }
 
+    private void clearMessageLabelAfterDelay(Label label, Duration delay) {
+        Timeline timeline = new Timeline(new KeyFrame(delay, event -> label.setText("")));
+        timeline.setCycleCount(1);
+        timeline.play();
+    }
 
     @FXML
     private void handleCreateMeetingButtonAction() throws IOException {
@@ -137,7 +147,8 @@ public class MainSceneController {
                     }
                 }
             } else {
-                System.out.println("Failed to load meetings. Server responded with code " + responseCode);
+                messageLabel2.setText("Failed to load meetings. Server responded with code " + responseCode);
+                clearMessageLabelAfterDelay(messageLabel2, Duration.seconds(2));
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -296,6 +307,7 @@ public class MainSceneController {
         String meetingCode = meetingCodeTextField.getText().trim();
         if (meetingCode.isEmpty()) {
             messageLabel.setText("Meeting code cannot be empty.");
+            clearMessageLabelAfterDelay(messageLabel, Duration.seconds(2));
             return;
         }
 
@@ -316,15 +328,18 @@ public class MainSceneController {
 
             int responseCode = conn.getResponseCode();
             if (responseCode == HttpURLConnection.HTTP_OK) {
-                messageLabel.setText("Successfully joined the meeting.");
+                messageLabel2.setText("Successfully joined the meeting.");
+                clearMessageLabelAfterDelay(messageLabel2, Duration.seconds(2));
                 loadMeetings();
                 closeSlideInPane();
             } else {
                 messageLabel.setText("Invalid meeting code.");
+                clearMessageLabelAfterDelay(messageLabel, Duration.seconds(2));
             }
         } catch (IOException e) {
             e.printStackTrace();
             messageLabel.setText("An error occurred while joining the meeting.");
+            clearMessageLabelAfterDelay(messageLabel, Duration.seconds(2));
         } finally {
             if (conn != null) {
                 conn.disconnect();
@@ -402,6 +417,7 @@ public class MainSceneController {
                     Long userId = user.getLong("id");
                     if (isMeetingOwner && !userId.equals(ownerId)) {
                         Button removeButton = new Button("Remove");
+                        removeButton.getStyleClass().add("remove-button");
                         removeButton.setOnAction(event -> handleRemoveUserButtonAction(meetingId, user.getString("username")));
                         userBox.getChildren().add(removeButton);
                     }
@@ -412,7 +428,8 @@ public class MainSceneController {
                 leaveMeetingButton.setVisible(!isMeetingOwner); // guzik leave nie widoczny dla wlasciceila
 
             } else {
-                System.out.println("Failed to load users. Server responded with code " + responseCode);
+                messageLabel2.setText("Failed to load users. Server responded with code " + responseCode);
+                clearMessageLabelAfterDelay(messageLabel2, Duration.seconds(2));
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -436,14 +453,17 @@ public class MainSceneController {
 
             int responseCode = conn.getResponseCode();
             if (responseCode == HttpURLConnection.HTTP_OK) {
-                messageLabel.setText("User removed successfully.");
+                messageLabel2.setText("User removed successfully.");
+                clearMessageLabelAfterDelay(messageLabel2, Duration.seconds(2));
                 handleUsersButtonAction(meetingId); // Odśwież listę użytkowników
             } else {
-                messageLabel.setText("Failed to remove user. Server responded with code " + responseCode);
+                messageLabel2.setText("Failed to remove user. Server responded with code " + responseCode);
+                clearMessageLabelAfterDelay(messageLabel2, Duration.seconds(2));
             }
         } catch (IOException e) {
             e.printStackTrace();
-            messageLabel.setText("An error occurred while removing the user.");
+            messageLabel2.setText("An error occurred while removing the user.");
+            clearMessageLabelAfterDelay(messageLabel2, Duration.seconds(2));
         } finally {
             if (conn != null) {
                 conn.disconnect();
@@ -518,14 +538,18 @@ public class MainSceneController {
 
                     int responseCode = conn.getResponseCode();
                     if (responseCode == HttpURLConnection.HTTP_OK) {
-                        messageLabel.setText("Meeting deleted successfully.");
+                        messageLabel2.setText("Meeting deleted successfully.");
+                        clearMessageLabelAfterDelay(messageLabel2, Duration.seconds(2));
                         loadMeetings();
                     } else {
-                        messageLabel.setText("Failed to delete meeting. Server responded with code " + responseCode);
+                        messageLabel2.setText("Failed to delete meeting. Server responded with code " + responseCode);
+                        clearMessageLabelAfterDelay(messageLabel2, Duration.seconds(2));
+
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
-                    messageLabel.setText("An error occurred while deleting the meeting.");
+                    messageLabel2.setText("An error occurred while deleting the meeting.");
+                    clearMessageLabelAfterDelay(messageLabel2, Duration.seconds(2));
                 } finally {
                     if (conn != null) {
                         conn.disconnect();
@@ -538,16 +562,7 @@ public class MainSceneController {
     private void handleLeaveMeetingButtonAction() {
         // Pobranie id spotkania z rozwinietego TitledPane
         TitledPane selectedPane = accordion.getExpandedPane();
-        if (selectedPane == null) {
-            messageLabel.setText("No meeting selected.");
-            return;
-        }
-
         Long meetingId = (Long) selectedPane.getUserData();
-        if (meetingId == null) {
-            messageLabel.setText("Meeting ID not found.");
-            return;
-        }
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirm Leave");
@@ -572,18 +587,18 @@ public class MainSceneController {
 
                     int responseCode = conn.getResponseCode();
                     if (responseCode == HttpURLConnection.HTTP_OK) {
-                        messageLabel.setText("Successfully left the meeting.");
+                        messageLabel2.setText("Successfully left the meeting.");                    clearMessageLabelAfterDelay(messageLabel2, Duration.seconds(2));
                         loadMeetings();
                         //TODO: massegelabel dodac do tego slide pane
-                        //TODO: naprawic bo sie nie zamyka
-                        //TODO: zrobic by kazdy oprocz wlsciceila to mogl robic
-                        closeSlideInPane();
+                        handleCloseUsersButtonAction();
                     } else {
-                        messageLabel.setText("Failed to leave meeting. Server responded with code " + responseCode);
+                        messageLabel2.setText("Failed to leave meeting. Server responded with code " + responseCode);
+                        clearMessageLabelAfterDelay(messageLabel2, Duration.seconds(2));
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
-                    messageLabel.setText("An error occurred while leaving the meeting.");
+                    messageLabel2.setText("An error occurred while leaving the meeting.");
+                    clearMessageLabelAfterDelay(messageLabel2, Duration.seconds(2));
                 } finally {
                     if (conn != null) {
                         conn.disconnect();
