@@ -7,13 +7,13 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="496.0" prefWidth="613.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.meetingapp.frontendtest.controller.CommonDatesController">
-    <Label fx:id="messageLabel" alignment="CENTER" text="Common Dates" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="14.0">
+    <Label fx:id="messageLabel" alignment="CENTER" layoutY="35.0" text="Common Dates" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="35.0">
         <font>
             <Font size="24.0" />
         </font>
     </Label>
-    <Button fx:id="saveDateButton" layoutX="35.0" layoutY="443.0" onAction="#handleSaveDateButtonAction" prefHeight="26.0" prefWidth="103.0" style="-fx-background-color: green;" text="Save Date" textFill="WHITE" AnchorPane.bottomAnchor="26.0" AnchorPane.leftAnchor="14.0" />
+    <Button fx:id="saveDateButton" layoutX="49.0" layoutY="431.0" onAction="#handleSaveDateButtonAction" prefHeight="26.0" prefWidth="170.0" style="-fx-background-color: green;" text="Save Date" textFill="WHITE" AnchorPane.bottomAnchor="39.0" AnchorPane.leftAnchor="70.0" />
 
     <ListView fx:id="datesListView" layoutX="10.0" layoutY="101.0" prefHeight="294.0" prefWidth="593.0" AnchorPane.bottomAnchor="101.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="101.0" />
-   <Button fx:id="backButton" layoutX="496.0" layoutY="444.0" mnemonicParsing="false" onAction="#handleBackButtonAction" prefHeight="26.0" prefWidth="103.0" style="-fx-background-color: #263F73;" text="Back" textFill="WHITE" AnchorPane.bottomAnchor="26.0" AnchorPane.rightAnchor="14.0" />
+   <Button fx:id="backButton" layoutX="375.0" layoutY="431.0" mnemonicParsing="false" onAction="#handleBackButtonAction" prefHeight="26.0" prefWidth="170.0" style="-fx-background-color: #263F73;" text="Back" textFill="WHITE" AnchorPane.bottomAnchor="39.0" AnchorPane.rightAnchor="70.0" />
 </AnchorPane>
