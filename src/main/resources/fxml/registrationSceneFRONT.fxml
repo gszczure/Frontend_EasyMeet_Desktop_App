@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="464.0" prefWidth="585.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.meetingapp.frontendtest.controller.RegistrationController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="464.0" prefWidth="585.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.meetingapp.frontendtest.controller.RegistrationController" stylesheets="@style.css">
     <left>
         <AnchorPane prefHeight="407.0" prefWidth="228.0" style="-fx-background-color: #263F73;" BorderPane.alignment="CENTER">
             <children>
@@ -57,7 +57,7 @@
                         <InnerShadow />
                     </effect>
                 </Label>
-                <Button fx:id="cancelButton" layoutX="195.0" layoutY="419.0" mnemonicParsing="false" onAction="#cancelButtonAction" prefHeight="31.0" prefWidth="121.0" style="-fx-background-color: #263F73;" text="Cancel" textFill="WHITE" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="40.0" />
+                <Button fx:id="cancelButton" layoutX="195.0" layoutY="419.0" mnemonicParsing="false" onAction="#cancelButtonAction" prefHeight="31.0" prefWidth="121.0" text="Cancel" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="40.0" />
                 <Text layoutX="20.0" layoutY="99.0" strokeType="OUTSIDE" strokeWidth="0.0" text="First name" AnchorPane.leftAnchor="40.0">
                     <font>
                         <Font size="14.0" />
@@ -116,7 +116,7 @@
                     </cursor></TextField>
                 <Line endX="243.0" layoutX="107.0" layoutY="48.0" startX="-100.0" strokeWidth="2.0" />
                 <Line endX="241.0" layoutX="108.0" layoutY="359.0" startX="-100.0" strokeWidth="2.0" />
-                <Button fx:id="registrationButton" layoutX="54.0" layoutY="375.0" mnemonicParsing="false" onAction="#registrationButtonOnAction" prefHeight="31.0" prefWidth="250.0" style="-fx-background-color: #263F73;" text="Sing Up" textFill="WHITE" AnchorPane.bottomAnchor="58.0" AnchorPane.leftAnchor="53.0" AnchorPane.rightAnchor="53.0" />
+                <Button fx:id="registrationButton" layoutX="54.0" layoutY="375.0" mnemonicParsing="false" onAction="#registrationButtonOnAction" prefHeight="31.0" prefWidth="250.0" text="Sing Up" AnchorPane.bottomAnchor="58.0" AnchorPane.leftAnchor="53.0" AnchorPane.rightAnchor="53.0" />
                 <PasswordField fx:id="passwordPasswordField" layoutX="156.5" layoutY="197.0" promptText="Password" AnchorPane.rightAnchor="40.0">
                     <cursor>
                         <Cursor fx:constant="SE_RESIZE" />
@@ -135,7 +135,7 @@
                         <Cursor fx:constant="SE_RESIZE" />
                     </cursor>
                 </PasswordField>
-                <Button fx:id="backButton" layoutX="42.0" layoutY="419.0" mnemonicParsing="false" onAction="#backButtonOnAction" prefHeight="31.0" prefWidth="121.0" style="-fx-background-color: #263F73;" text="Back" textFill="WHITE" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="40.0" />
+                <Button fx:id="backButton" layoutX="42.0" layoutY="419.0" mnemonicParsing="false" onAction="#backButtonOnAction" prefHeight="31.0" prefWidth="121.0" text="Back" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="40.0" />
                 <Text layoutX="20.0" layoutY="324.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Phone number" AnchorPane.leftAnchor="40.0">
                     <font>
                         <Font size="14.0" />
