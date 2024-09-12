@@ -135,11 +135,6 @@ public class CommonDatesController {
     }
 
     private void saveSelectedDate() {
-        if (selectedDate == null) {
-            showAlert(AlertType.ERROR, "No Date Selected", "Please select a date to save.");
-            return;
-        }
-
         // Pobieramy oryginalną datę z mapy na podstawie wybranej sformatowanej daty
         String originalDate = formattedToOriginalDateMap.get(selectedDate);
 
@@ -153,7 +148,7 @@ public class CommonDatesController {
             );
             conn.setRequestProperty("Content-Type", "application/json");
 
-            String jsonPayload = "{\"date\":\"" + originalDate + "\"}"; // Używamy oryginalnej daty
+            String jsonPayload = "{\"date\":\"" + originalDate + "\"}";
             try (OutputStream os = conn.getOutputStream()) {
                 byte[] input = jsonPayload.getBytes("utf-8");
                 os.write(input, 0, input.length);
