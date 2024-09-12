@@ -17,10 +17,11 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Scanner;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.*;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import pl.meetingapp.frontendtest.JavaFXApp;
@@ -260,7 +261,16 @@ public class MainSceneController {
                 try (Scanner scanner = new Scanner(conn.getInputStream())) {
                     if (scanner.hasNextLine()) {
                         String response = scanner.nextLine();
-                        dateLabel.setText("Date: " + response);
+
+                        try {
+                            LocalDate date = LocalDate.parse(response);
+                            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM yyyy", Locale.ENGLISH);
+                            String formattedDate = date.format(formatter);
+                            dateLabel.setText("Date: " + formattedDate);
+                        } catch (DateTimeParseException e) {
+                            dateLabel.setText("Date: Invalid format");
+                            dateLabel.setTextFill(Color.RED);
+                        }
                     } else {
                         dateLabel.setText("Date: none");
                         dateLabel.setTextFill(Color.RED);
@@ -278,6 +288,7 @@ public class MainSceneController {
             }
         }
     }
+
 
     @FXML
     private void handleLogoutButtonAction() throws IOException {

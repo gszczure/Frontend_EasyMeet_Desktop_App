@@ -1,5 +1,6 @@
 package pl.meetingapp.frontendtest.controller;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,9 +19,9 @@ import pl.meetingapp.frontendtest.util.HttpUtils;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.time.LocalDate;
+import java.time.format.TextStyle;
+import java.util.*;
 
 public class CommonDatesController {
 
@@ -61,6 +62,8 @@ public class CommonDatesController {
         this.meetingId = meetingId;
     }
 
+    private Map<String, String> formattedToOriginalDateMap = new HashMap<>(); // Mapa przechowująca powiązania sformatowanej daty z oryginalną
+
     public void fetchCommonDates() {
         HttpURLConnection conn = null;
         try {
@@ -86,12 +89,25 @@ public class CommonDatesController {
                         dateStrings.add(date);
                     }
 
-                    //TODO: zmienic zeby na scenie byl ten error a nie wyswietlany przed
                     if (dateStrings.isEmpty()) {
-                        showAlert(AlertType.INFORMATION, "No Common Dates", "There are no common dates available for this meeting.");
-                        messageLabel.setText("No common dates available.");
+                        Platform.runLater(() -> { // Wyswietlenie sceny najpierw a potem komunikatu
+                            showAlert(AlertType.INFORMATION, "No Common Dates", "There are no common dates available for this meeting.");
+                            messageLabel.setText("No common dates available.");
+                        });
                     } else {
-                        datesListView.getItems().setAll(dateStrings);
+                        List<String> formattedDates = new ArrayList<>();
+                        for (String dateString : dateStrings) {
+                            LocalDate date = LocalDate.parse(dateString); // Parsowanie daty z formatu YYYY-MM-DD
+                            String formattedDate = date.getDayOfMonth() + " " +
+                                    date.getMonth().getDisplayName(TextStyle.FULL, Locale.ENGLISH) + " " +
+                                    date.getYear();
+                            formattedDates.add(formattedDate);
+
+                            formattedToOriginalDateMap.put(formattedDate, dateString);
+                        }
+
+                        datesListView.getItems().setAll(formattedDates);
+
                         messageLabel.setText("Dates successfully fetched.");
                     }
                 }
@@ -119,6 +135,14 @@ public class CommonDatesController {
     }
 
     private void saveSelectedDate() {
+        if (selectedDate == null) {
+            showAlert(AlertType.ERROR, "No Date Selected", "Please select a date to save.");
+            return;
+        }
+
+        // Pobieramy oryginalną datę z mapy na podstawie wybranej sformatowanej daty
+        String originalDate = formattedToOriginalDateMap.get(selectedDate);
+
         HttpURLConnection conn = null;
         try {
             conn = HttpUtils.createConnection(
@@ -129,7 +153,7 @@ public class CommonDatesController {
             );
             conn.setRequestProperty("Content-Type", "application/json");
 
-            String jsonPayload = "{\"date\":\"" + selectedDate + "\"}";
+            String jsonPayload = "{\"date\":\"" + originalDate + "\"}"; // Używamy oryginalnej daty
             try (OutputStream os = conn.getOutputStream()) {
                 byte[] input = jsonPayload.getBytes("utf-8");
                 os.write(input, 0, input.length);
