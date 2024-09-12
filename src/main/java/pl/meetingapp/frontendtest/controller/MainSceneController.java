@@ -218,7 +218,7 @@ public class MainSceneController {
         usersButton.setStyle("-fx-background-color: #263F73; -fx-text-fill: white; -fx-pref-width: 60px; -fx-pref-height: 26px");
 
         Button commonDatesButton = new Button("Common Dates");
-        commonDatesButton.setOnAction(event -> handleCommonDatesButtonAction(meetingId));
+        commonDatesButton.setOnAction(event -> handleCommonDatesButtonAction(meetingId, ownerId)); //przesylanie meetingId i ownerId
         commonDatesButton.setStyle("-fx-background-color: #263F73; -fx-text-fill: white;-fx-pref-width: 120px; -fx-pref-height: 26px");
 
         Button dateButton = new Button("Date");
@@ -242,7 +242,7 @@ public class MainSceneController {
         titledPane.setUserData(meetingId);
 
         accordion.getPanes().add(titledPane);
-
+//        titledPane.setUserData(new MeetingData(meetingId, ownerId)); // Store meetingId and ownerId
         fetchMeetingDate(meetingId, dateLabel);
     }
 
@@ -509,7 +509,7 @@ public class MainSceneController {
     }
 
     @FXML
-    private void handleCommonDatesButtonAction(Long meetingId) {
+    private void handleCommonDatesButtonAction(Long meetingId, Long ownerId) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/commonDatesScene.fxml"));
             Stage stage = (Stage) addMeetingButton.getScene().getWindow();
@@ -517,6 +517,7 @@ public class MainSceneController {
 
             CommonDatesController controller = loader.getController();
             controller.setMeetingId(meetingId);
+            controller.setOwnerId(ownerId);
             controller.fetchCommonDates();
 
 

@@ -39,7 +39,7 @@ public class CommonDatesController {
 
     private String jwtToken;
     private Long meetingId;
-
+    private Long ownerId;
     private String selectedDate;
 
     @FXML
@@ -57,9 +57,17 @@ public class CommonDatesController {
             selectedDate = newValue;
         });
     }
+    private boolean isOwner(Long ownerId) {
+        Long currentUserId = JavaFXApp.getUserId();
+        return currentUserId != null && currentUserId.equals(ownerId);
+    }
 
     public void setMeetingId(Long meetingId) {
         this.meetingId = meetingId;
+    }
+
+    public void setOwnerId(Long ownerId) {
+        this.ownerId = ownerId;
     }
 
     private Map<String, String> formattedToOriginalDateMap = new HashMap<>(); // Mapa przechowująca powiązania sformatowanej daty z oryginalną
@@ -122,6 +130,9 @@ public class CommonDatesController {
                 conn.disconnect();
             }
         }
+
+        saveDateButton.setVisible(isOwner(ownerId)); // Widoczność guzika saveDateButton tylko dla właściciela
+
     }
 
 
