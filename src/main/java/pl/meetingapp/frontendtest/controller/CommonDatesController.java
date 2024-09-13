@@ -5,11 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.Alert;
+import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import org.json.JSONArray;
@@ -24,6 +20,9 @@ import java.time.format.TextStyle;
 import java.util.*;
 
 public class CommonDatesController {
+
+    public TextField commentTextField;
+    public Button saveCommentButton;
 
     @FXML
     private Label messageLabel;
@@ -57,6 +56,7 @@ public class CommonDatesController {
             selectedDate = newValue;
         });
     }
+
     private boolean isOwner(Long ownerId) {
         Long currentUserId = JavaFXApp.getUserId();
         return currentUserId != null && currentUserId.equals(ownerId);
@@ -91,27 +91,30 @@ public class CommonDatesController {
                     }
 
                     JSONArray datesArray = new JSONArray(response.toString());
-                    List<String> dateStrings = new ArrayList<>();
+                    List<LocalDate> dateList = new ArrayList<>();
                     for (int i = 0; i < datesArray.length(); i++) {
-                        String date = datesArray.getString(i);
-                        dateStrings.add(date);
+                        String dateString = datesArray.getString(i);
+                        LocalDate date = LocalDate.parse(dateString); // Parsowanie daty z formatu YYYY-MM-DD
+                        dateList.add(date);
                     }
 
-                    if (dateStrings.isEmpty()) {
-                        Platform.runLater(() -> { // Wyswietlenie sceny najpierw a potem komunikatu
+                    if (dateList.isEmpty()) {
+                        Platform.runLater(() -> { // Wyświetlenie sceny najpierw a potem komunikatu
                             showAlert(AlertType.INFORMATION, "No Common Dates", "There are no common dates available for this meeting.");
                             messageLabel.setText("No common dates available.");
                         });
                     } else {
+                        // Sortowanie dat w kolejności rosnącej
+                        dateList.sort(Comparator.naturalOrder());
+
                         List<String> formattedDates = new ArrayList<>();
-                        for (String dateString : dateStrings) {
-                            LocalDate date = LocalDate.parse(dateString); // Parsowanie daty z formatu YYYY-MM-DD
+                        for (LocalDate date : dateList) {
                             String formattedDate = date.getDayOfMonth() + " " +
                                     date.getMonth().getDisplayName(TextStyle.FULL, Locale.ENGLISH) + " " +
                                     date.getYear();
                             formattedDates.add(formattedDate);
 
-                            formattedToOriginalDateMap.put(formattedDate, dateString);
+                            formattedToOriginalDateMap.put(formattedDate, date.toString());
                         }
 
                         datesListView.getItems().setAll(formattedDates);
@@ -131,8 +134,10 @@ public class CommonDatesController {
             }
         }
 
-        saveDateButton.setVisible(isOwner(ownerId)); // Widoczność guzika saveDateButton tylko dla właściciela
-
+        // Ustaw widoczność przycisków tylko dla właściciela
+        saveDateButton.setVisible(isOwner(ownerId));
+        saveCommentButton.setVisible(isOwner(ownerId));
+        commentTextField.setVisible(isOwner(ownerId));
     }
 
 
@@ -187,6 +192,46 @@ public class CommonDatesController {
         Scene newScene = new Scene(FXMLLoader.load(getClass().getResource("/fxml/mainScene.fxml")));
         stage.setScene(newScene);
     }
+
+    @FXML
+    private void handleSaveCommentButtonAction(ActionEvent event) {
+        String comment = commentTextField.getText().trim();
+
+        saveComment(comment);
+    }
+
+    private void saveComment(String comment) {
+        HttpURLConnection conn = null;
+        try {
+            conn = HttpUtils.createConnection(
+                    "http://localhost:8080/api/meetings/" + meetingId + "/comment",
+                    "POST",
+                    jwtToken,
+                    true
+            );
+            conn.setRequestProperty("Content-Type", "text/plain");
+
+            try (OutputStream os = conn.getOutputStream()) {
+                byte[] input = comment.getBytes("utf-8");
+                os.write(input, 0, input.length);
+            }
+
+            int responseCode = conn.getResponseCode();
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                messageLabel.setText("Comment saved successfully.");
+            } else {
+                messageLabel.setText("Failed to save comment. Server responded with code " + responseCode);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            messageLabel.setText("An error occurred while saving the comment.");
+        } finally {
+            if (conn != null) {
+                conn.disconnect();
+            }
+        }
+    }
+
 
     private void showAlert(AlertType type, String title, String message) {
         Alert alert = new Alert(type);

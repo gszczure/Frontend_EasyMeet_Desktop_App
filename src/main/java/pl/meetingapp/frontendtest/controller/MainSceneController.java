@@ -194,6 +194,14 @@ public class MainSceneController {
         dateLabel.setTextFill(Color.GREEN);
         hbox.getChildren().add(dateLabel);
 
+        Label commentLabel = new Label();
+        commentLabel.setTextFill(Color.BLUE);
+
+        // HBox dla komentarza
+        HBox commentBox = new HBox();
+        commentBox.setPadding(new Insets(5, 10, 0, 10));
+        commentBox.getChildren().add(commentLabel);
+
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
         hbox.getChildren().add(spacer);
@@ -206,6 +214,7 @@ public class MainSceneController {
         }
 
         content.getChildren().add(hbox);
+        content.getChildren().add(commentBox);
 
         // HBox dla przycisków (buttonBox)
         HBox buttonBox = new HBox();
@@ -243,6 +252,42 @@ public class MainSceneController {
 
         accordion.getPanes().add(titledPane);
         fetchMeetingDate(meetingId, dateLabel);
+        fetchMeetingComment(meetingId, commentLabel);
+    }
+
+    private void fetchMeetingComment(Long meetingId, Label commentLabel) {
+        HttpURLConnection conn = null;
+        try {
+            conn = HttpUtils.createConnection(
+                    "http://localhost:8080/api/meetings/" + meetingId + "/comment",
+                    "GET",
+                    jwtToken,
+                    false
+            );
+
+            int responseCode = conn.getResponseCode();
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                try (Scanner scanner = new Scanner(conn.getInputStream())) {
+                    if (scanner.hasNextLine()) {
+                        String comment = scanner.nextLine();
+                        commentLabel.setText("Comment: " + comment);
+                    } else {
+                        commentLabel.setText("Comment: No comment");
+                        commentLabel.setTextFill(Color.RED);
+                    }
+                }
+            } else {
+                commentLabel.setText("Comment: Unavailable");
+                commentLabel.setTextFill(Color.RED);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            commentLabel.setText("Comment: Error");
+        } finally {
+            if (conn != null) {
+                conn.disconnect();
+            }
+        }
     }
 
     private void fetchMeetingDate(Long meetingId, Label dateLabel) {
@@ -287,7 +332,6 @@ public class MainSceneController {
             }
         }
     }
-
 
     @FXML
     private void handleLogoutButtonAction() throws IOException {

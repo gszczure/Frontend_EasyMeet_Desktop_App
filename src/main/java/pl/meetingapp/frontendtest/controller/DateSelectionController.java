@@ -116,7 +116,7 @@ public class DateSelectionController {
 
     public void setMeetingId(Long meetingId) {
         this.meetingId = meetingId;
-        loadSavedDateRanges();
+        loadSavedDateRanges(); //TODO: Sprawdzic po co to jest
     }
 
     @FXML
@@ -260,9 +260,9 @@ public class DateSelectionController {
         }
     }
 
+    // Metoda do sprawdzania czy uzytkownik to wlasciciel przedzialu daty
     private boolean isDateRangeOwnedByUser(DateRange dateRange, Long userId) {
         return userDateRangesMap.getOrDefault(userId, Collections.emptySet())
                 .contains(dateRange);
     }
-
 }
