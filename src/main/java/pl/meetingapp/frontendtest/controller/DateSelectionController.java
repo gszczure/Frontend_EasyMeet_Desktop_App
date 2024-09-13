@@ -30,7 +30,7 @@ public class DateSelectionController {
     private Button addDateButton;
 
     @FXML
-    private ListView<String> dateListView;
+    private ListView<DateRange> dateListView;
 
     @FXML
     private Button saveButton;
@@ -41,26 +41,25 @@ public class DateSelectionController {
     @FXML
     private Label messageLabel;
 
-    private List<String> selectedDates = new ArrayList<>();
+    private List<DateRange> selectedDates = new ArrayList<>();
     private Set<String> existingDateRanges = new HashSet<>();
     private String jwtToken;
     private Long meetingId;
+    private Map<Long, Set<DateRange>> userDateRangesMap = new HashMap<>(); // Mapa userId -> Zestaw przedziałów dat
 
     @FXML
     private void initialize() {
-        dateListView.setCellFactory(param -> new ListCell<String>() {
+        dateListView.setCellFactory(param -> new ListCell<DateRange>() {
             @Override
-            protected void updateItem(String item, boolean empty) {
+            protected void updateItem(DateRange item, boolean empty) {
                 super.updateItem(item, empty);
-                setText(empty ? null : item);
+                setText(empty ? null : item.toString());
             }
         });
 
         this.jwtToken = JavaFXApp.getJwtToken();
         loadSavedDateRanges();
     }
-
-    private Map<Long, Set<String>> userDateRangesMap = new HashMap<>(); // Mapa userId -> Zestaw przedziałów dat
 
     private void loadSavedDateRanges() {
         HttpURLConnection conn = null;
@@ -94,12 +93,11 @@ public class DateSelectionController {
 
                         Long dateRangeId = dateRange.getLong("id");
 
-                        String dateRangeDisplay = startDate + " to " + endDate + " ( Added by: " + userFullName + ", id: " + dateRangeId + ")";
-                        dateListView.getItems().add(dateRangeDisplay);
+                        DateRange newDateRange = new DateRange(startDate, endDate, dateRangeId, userFullName);
+                        dateListView.getItems().add(newDateRange); // Dodajemy DateRange
 
-                        // Dodajemy do mapy daty dla użytkownika bez tego nie załaduja sie daty
                         userDateRangesMap.putIfAbsent(userId, new HashSet<>());
-                        userDateRangesMap.get(userId).add(startDate + " to " + endDate);
+                        userDateRangesMap.get(userId).add(newDateRange); // Zapisujemy DateRange dla użytkownika
                     }
                 }
                 messageLabel.setText("Select date.");
@@ -116,7 +114,6 @@ public class DateSelectionController {
         }
     }
 
-
     public void setMeetingId(Long meetingId) {
         this.meetingId = meetingId;
         loadSavedDateRanges();
@@ -125,15 +122,21 @@ public class DateSelectionController {
     @FXML
     private void handleAddDateButtonAction() {
         if (startDatePicker.getValue() != null && endDatePicker.getValue() != null) {
-            String dateRange = startDatePicker.getValue() + " to " + endDatePicker.getValue();
+            String startDate = startDatePicker.getValue().toString();
+            String endDate = endDatePicker.getValue().toString();
 
             Long currentUserId = JavaFXApp.getUserId();
-            Set<String> userDates = userDateRangesMap.getOrDefault(currentUserId, new HashSet<>());
+            Set<DateRange> userDates = userDateRangesMap.getOrDefault(currentUserId, new HashSet<>());
 
-            if (!userDates.contains(dateRange)) {
-                selectedDates.add(dateRange);
-                dateListView.getItems().add(dateRange);
-                userDates.add(dateRange);
+            // Sprawdzenie, czy istnieje już taki zakres dat dla użytkownika
+            boolean dateExists = userDates.stream()
+                    .anyMatch(dr -> dr.getStartDate().equals(startDate) && dr.getEndDate().equals(endDate));
+
+            if (!dateExists) {
+                DateRange newDateRange = new DateRange(startDate, endDate, null, "");
+                selectedDates.add(newDateRange);
+                dateListView.getItems().add(newDateRange);
+                userDates.add(newDateRange);
                 startDatePicker.setValue(null);
                 endDatePicker.setValue(null);
             } else {
@@ -147,6 +150,12 @@ public class DateSelectionController {
     @FXML
     private void handleSaveButtonAction() {
         sendDateRangesToBackend();
+        refreshDateListView();
+
+    }
+    private void refreshDateListView() {
+        dateListView.getItems().clear();
+        loadSavedDateRanges();
     }
 
     @FXML
@@ -169,10 +178,9 @@ public class DateSelectionController {
             StringBuilder payload = new StringBuilder();
             payload.append("[");
             for (int i = 0; i < selectedDates.size(); i++) {
-                String dateRange = selectedDates.get(i);
-                String[] parts = dateRange.split(" to ");
-                String startDate = parts[0].trim();
-                String endDate = parts[1].split(" \\(")[0].trim();
+                DateRange dateRange = selectedDates.get(i);
+                String startDate = dateRange.getStartDate();
+                String endDate = dateRange.getEndDate();
 
                 if (!existingDateRanges.contains(startDate + " to " + endDate)) {
                     payload.append("{\"meetingId\":").append(meetingId)
@@ -209,12 +217,11 @@ public class DateSelectionController {
         }
     }
 
-
     @FXML
     private void handleDeleteDateButtonAction() {
-        String selectedItem = dateListView.getSelectionModel().getSelectedItem();
+        DateRange selectedItem = dateListView.getSelectionModel().getSelectedItem();
         if (selectedItem != null) {
-            Long dateRangeId = extractDateRangeId(selectedItem);
+            Long dateRangeId = selectedItem.getDateRangeId();
             Long currentUserId = JavaFXApp.getUserId();
 
             // Sprawdzanie, czy użytkownik jest właścicielem przedziału czasowego
@@ -225,21 +232,6 @@ public class DateSelectionController {
             }
         }
     }
-
-
-    private Long extractDateRangeId(String dateRangeDisplay) {
-        String[] parts = dateRangeDisplay.split(", id: ");
-        if (parts.length > 1) {
-            String idPart = parts[1].replace(")", "").trim();
-            try {
-                return Long.parseLong(idPart);
-            } catch (NumberFormatException e) {
-                e.printStackTrace();
-            }
-        }
-        return null;
-    }
-
 
     private void deleteDateRangeFromBackend(Long dateRangeId) {
         HttpURLConnection conn = null;
@@ -254,7 +246,7 @@ public class DateSelectionController {
             int responseCode = conn.getResponseCode();
             if (responseCode == HttpURLConnection.HTTP_NO_CONTENT) {
                 messageLabel.setText("Date range successfully deleted.");
-                dateListView.getItems().removeIf(item -> item.contains("(id: " + dateRangeId + ")"));
+                dateListView.getItems().removeIf(item -> item.getDateRangeId().equals(dateRangeId));
             } else {
                 messageLabel.setText("Failed to delete date range.");
             }
@@ -267,14 +259,10 @@ public class DateSelectionController {
             }
         }
     }
-    private boolean isDateRangeOwnedByUser(String dateRangeDisplay, Long userId) {
-        // Sprawdzanie, czy data jest w mapie i czy jest przypisana do uzytkownika
-        for (Map.Entry<Long, Set<String>> entry : userDateRangesMap.entrySet()) {
-            if (entry.getKey().equals(userId) && entry.getValue().contains(dateRangeDisplay.split(" \\(")[0].trim())) {
-                return true;
-            }
-        }
-        return false;
+
+    private boolean isDateRangeOwnedByUser(DateRange dateRange, Long userId) {
+        return userDateRangesMap.getOrDefault(userId, Collections.emptySet())
+                .contains(dateRange);
     }
 
 }
