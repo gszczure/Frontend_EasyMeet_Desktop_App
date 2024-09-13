@@ -573,7 +573,7 @@ public class MainSceneController {
     }
     @FXML
     private void handleLeaveMeetingButtonAction() {
-        // Pobranie id spotkania z rozwinietego TitledPane
+        // Pobranie id spotkania z rozwinietego TitledPane by wiedziec ktore spotkanie uzytkownik chce ospuscic
         TitledPane selectedPane = accordion.getExpandedPane();
         Long meetingId = (Long) selectedPane.getUserData();
 
