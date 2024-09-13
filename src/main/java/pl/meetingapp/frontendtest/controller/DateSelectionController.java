@@ -208,7 +208,7 @@ public class DateSelectionController {
             if (responseCode == HttpURLConnection.HTTP_OK) {
                 messageLabel.setText("Dates successfully saved.");
             } else {
-                messageLabel.setText("Failed to save dates. Server responded with code " + responseCode); //TODO: zmienic komentarz zeby bylo ze nie moze wybrac 2 tych samych dat
+                messageLabel.setText("You cannot save the same date ranges");
             }
         } catch (IOException e) {
             e.printStackTrace();
