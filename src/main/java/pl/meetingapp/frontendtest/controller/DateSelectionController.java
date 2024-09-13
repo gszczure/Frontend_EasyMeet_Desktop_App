@@ -13,13 +13,12 @@ import pl.meetingapp.frontendtest.util.HttpUtils;
 import java.io.OutputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 
 public class DateSelectionController {
+
+    @FXML
+    public Button deleteDateButton;
 
     @FXML
     private DatePicker startDatePicker;
@@ -46,6 +45,12 @@ public class DateSelectionController {
     private Set<String> existingDateRanges = new HashSet<>();
     private String jwtToken;
     private Long meetingId;
+    private Long ownerId;
+
+    private boolean isOwner(Long ownerId) {
+        Long currentUserId = JavaFXApp.getUserId();
+        return currentUserId != null && currentUserId.equals(ownerId);
+    }
 
     @FXML
     private void initialize() {
@@ -60,6 +65,8 @@ public class DateSelectionController {
         this.jwtToken = JavaFXApp.getJwtToken();
         loadSavedDateRanges();
     }
+
+    private Map<Long, Set<String>> userDateRangesMap = new HashMap<>(); // Mapa userId -> Zestaw przedziałów dat
 
     private void loadSavedDateRanges() {
         HttpURLConnection conn = null;
@@ -86,6 +93,7 @@ public class DateSelectionController {
                         String endDate = dateRange.getString("endDate");
 
                         JSONObject userJson = dateRange.getJSONObject("user");
+                        Long userId = userJson.getLong("id");
                         String firstName = userJson.getString("firstName");
                         String lastName = userJson.getString("lastName");
                         String userFullName = firstName + " " + lastName;
@@ -93,9 +101,11 @@ public class DateSelectionController {
                         Long dateRangeId = dateRange.getLong("id");
 
                         String dateRangeDisplay = startDate + " to " + endDate + " ( Added by: " + userFullName + ", id: " + dateRangeId + ")";
-                        selectedDates.add(dateRangeDisplay);
                         dateListView.getItems().add(dateRangeDisplay);
-                        existingDateRanges.add(startDate + " to " + endDate);
+
+                        // Dodajemy do mapy daty dla użytkownika bez tego nie załaduja sie daty
+                        userDateRangesMap.putIfAbsent(userId, new HashSet<>());
+                        userDateRangesMap.get(userId).add(startDate + " to " + endDate);
                     }
                 }
                 messageLabel.setText("Select date.");
@@ -110,26 +120,35 @@ public class DateSelectionController {
                 conn.disconnect();
             }
         }
+        deleteDateButton.setVisible(isOwner(ownerId)); // Guzik deleteDateButton widzoczny tylko dla właściciela
     }
+
 
     public void setMeetingId(Long meetingId) {
         this.meetingId = meetingId;
         loadSavedDateRanges();
     }
 
-    //TODO: pozmieniac by kazda inna osoba mogla dac przedzial innej osoby narazie jest tak ze 2 osoby nie moga ustaeic tego samego przedzialu
+    public void setOwnerId(Long ownerId) {
+        this.ownerId = ownerId;
+    }
+
     @FXML
     private void handleAddDateButtonAction() {
         if (startDatePicker.getValue() != null && endDatePicker.getValue() != null) {
             String dateRange = startDatePicker.getValue() + " to " + endDatePicker.getValue();
 
-            if (!dateListView.getItems().contains(dateRange)) {
+            Long currentUserId = JavaFXApp.getUserId();
+            Set<String> userDates = userDateRangesMap.getOrDefault(currentUserId, new HashSet<>());
+
+            if (!userDates.contains(dateRange)) {
                 selectedDates.add(dateRange);
                 dateListView.getItems().add(dateRange);
+                userDates.add(dateRange);
                 startDatePicker.setValue(null);
                 endDatePicker.setValue(null);
             } else {
-                messageLabel.setText("This date range already exists."); // dziala tylko kiedy dwa razy dodajemy ta sama date za jednym razem, kiedy prubujemy dodac ta sama date przy innym wejsciu na scene to nie zapisze sie ona w bazie danych i nie wyswietli podczas ladowania
+                messageLabel.setText("This date range already exists for you.");
             }
         } else {
             messageLabel.setText("Both start and end dates must be selected.");
@@ -168,6 +187,7 @@ public class DateSelectionController {
 
                 if (!existingDateRanges.contains(startDate + " to " + endDate)) {
                     payload.append("{\"meetingId\":").append(meetingId)
+                            .append(",\"userId\":").append(JavaFXApp.getUserId())
                             .append(",\"startDate\":\"").append(startDate)
                             .append("\",\"endDate\":\"").append(endDate)
                             .append("\"}");
@@ -188,7 +208,7 @@ public class DateSelectionController {
             if (responseCode == HttpURLConnection.HTTP_OK) {
                 messageLabel.setText("Dates successfully saved.");
             } else {
-                messageLabel.setText("Failed to save dates. Server responded with code " + responseCode);
+                messageLabel.setText("Failed to save dates. Server responded with code " + responseCode); //TODO: zmienic komentarz zeby bylo ze nie moze wybrac 2 tych samych dat
             }
         } catch (IOException e) {
             e.printStackTrace();
