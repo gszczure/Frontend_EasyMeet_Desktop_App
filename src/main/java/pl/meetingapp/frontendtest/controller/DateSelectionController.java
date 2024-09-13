@@ -45,12 +45,6 @@ public class DateSelectionController {
     private Set<String> existingDateRanges = new HashSet<>();
     private String jwtToken;
     private Long meetingId;
-    private Long ownerId;
-
-    private boolean isOwner(Long ownerId) {
-        Long currentUserId = JavaFXApp.getUserId();
-        return currentUserId != null && currentUserId.equals(ownerId);
-    }
 
     @FXML
     private void initialize() {
@@ -120,17 +114,12 @@ public class DateSelectionController {
                 conn.disconnect();
             }
         }
-        deleteDateButton.setVisible(isOwner(ownerId)); // Guzik deleteDateButton widzoczny tylko dla właściciela
     }
 
 
     public void setMeetingId(Long meetingId) {
         this.meetingId = meetingId;
         loadSavedDateRanges();
-    }
-
-    public void setOwnerId(Long ownerId) {
-        this.ownerId = ownerId;
     }
 
     @FXML
@@ -208,7 +197,7 @@ public class DateSelectionController {
             if (responseCode == HttpURLConnection.HTTP_OK) {
                 messageLabel.setText("Dates successfully saved.");
             } else {
-                messageLabel.setText("You cannot save the same date ranges");
+                messageLabel.setText("You cannot save the same date ranges.");
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -225,11 +214,18 @@ public class DateSelectionController {
     private void handleDeleteDateButtonAction() {
         String selectedItem = dateListView.getSelectionModel().getSelectedItem();
         if (selectedItem != null) {
-            // Ekstrakcja ID z wybranego przedziału dat
             Long dateRangeId = extractDateRangeId(selectedItem);
-            deleteDateRangeFromBackend(dateRangeId);
+            Long currentUserId = JavaFXApp.getUserId();
+
+            // Sprawdzanie, czy użytkownik jest właścicielem przedziału czasowego
+            if (isDateRangeOwnedByUser(selectedItem, currentUserId)) {
+                deleteDateRangeFromBackend(dateRangeId);
+            } else {
+                messageLabel.setText("You cannot delete a date range that is not yours.");
+            }
         }
     }
+
 
     private Long extractDateRangeId(String dateRangeDisplay) {
         String[] parts = dateRangeDisplay.split(", id: ");
@@ -270,6 +266,15 @@ public class DateSelectionController {
                 conn.disconnect();
             }
         }
+    }
+    private boolean isDateRangeOwnedByUser(String dateRangeDisplay, Long userId) {
+        // Sprawdzanie, czy data jest w mapie i czy jest przypisana do uzytkownika
+        for (Map.Entry<Long, Set<String>> entry : userDateRangesMap.entrySet()) {
+            if (entry.getKey().equals(userId) && entry.getValue().contains(dateRangeDisplay.split(" \\(")[0].trim())) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

@@ -222,7 +222,7 @@ public class MainSceneController {
         commonDatesButton.setStyle("-fx-background-color: #263F73; -fx-text-fill: white;-fx-pref-width: 120px; -fx-pref-height: 26px");
 
         Button dateButton = new Button("Date");
-        dateButton.setOnAction(event -> handleDateButtonAction(meetingId, ownerId)); // rowniez przesylanie ownerId aby rozpoznawac wlasciceiela
+        dateButton.setOnAction(event -> handleDateButtonAction(meetingId));
         dateButton.setStyle("-fx-background-color: #263F73; -fx-text-fill: white;-fx-pref-width: 60px; -fx-pref-height: 26px");
 
         buttonBox.getChildren().addAll(usersButton, commonDatesButton, dateButton);
@@ -492,14 +492,13 @@ public class MainSceneController {
     }
 
     @FXML
-    private void handleDateButtonAction(Long meetingId, Long ownerId) {
+    private void handleDateButtonAction(Long meetingId) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/dateSelectionScene.fxml"));
             Stage stage = (Stage) addMeetingButton.getScene().getWindow();
             Scene newScene = new Scene(loader.load());
 
             DateSelectionController controller = loader.getController();
-            controller.setOwnerId(ownerId);
             controller.setMeetingId(meetingId);
 
             stage.setScene(newScene);

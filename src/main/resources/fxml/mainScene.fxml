@@ -15,7 +15,6 @@
         <Accordion fx:id="accordion" />
     </VBox>
 
-<!--    TODO: powinny te same wielkosci miec te 3 guziki-->
     <!-- Przycisk wylogowania -->
     <Button fx:id="logoutButton" layoutX="14.0" layoutY="23.0" onAction="#handleLogoutButtonAction" styleClass="mianScene-Top-button" text="Logout" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="23.0"/>
 
