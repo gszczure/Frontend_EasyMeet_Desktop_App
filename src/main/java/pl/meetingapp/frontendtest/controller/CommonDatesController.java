@@ -151,7 +151,7 @@ public class CommonDatesController {
     }
 
     private void saveSelectedDate() {
-        // Pobieramy oryginalną datę z mapy na podstawie wybranej sformatowanej daty
+        // Pobieramy oryginalną datę z mapy na podstawie wybranej sformatowanej daty po to by w bazie danych doramt date był YYYY-MM-DD
         String originalDate = formattedToOriginalDateMap.get(selectedDate);
 
         HttpURLConnection conn = null;
