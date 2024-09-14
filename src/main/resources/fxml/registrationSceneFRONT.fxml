@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="464.0" prefWidth="585.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.meetingapp.frontendtest.controller.RegistrationController" stylesheets="@style.css">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="464.0" prefWidth="585.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.meetingapp.frontendtest.controller.RegistrationController">
     <left>
         <AnchorPane prefHeight="407.0" prefWidth="228.0" style="-fx-background-color: #263F73;" BorderPane.alignment="CENTER">
             <children>
@@ -98,26 +98,26 @@
                         <Cursor fx:constant="SE_RESIZE" />
                     </cursor>
                 </Text>
-                <TextField fx:id="firstNameTextField" layoutX="156.5" layoutY="81.0" promptText="First name" AnchorPane.rightAnchor="40.0">
+                <TextField fx:id="firstNameTextField" layoutX="156.5" layoutY="81.0" promptText="First name" styleClass="wpis" AnchorPane.rightAnchor="40.0">
                     <cursor>
                         <Cursor fx:constant="SE_RESIZE" />
                     </cursor></TextField>
-                <TextField fx:id="lastNameTextField" layoutX="156.5" layoutY="123.0" promptText="Last name" AnchorPane.rightAnchor="40.0">
+                <TextField fx:id="lastNameTextField" layoutX="156.5" layoutY="123.0" promptText="Last name" styleClass="wpis" AnchorPane.rightAnchor="40.0">
                     <cursor>
                         <Cursor fx:constant="SE_RESIZE" />
                     </cursor></TextField>
-                <TextField fx:id="usernameTextField" layoutX="156.5" layoutY="162.0" promptText="Username" AnchorPane.rightAnchor="40.0">
+                <TextField fx:id="usernameTextField" layoutX="156.5" layoutY="162.0" promptText="Username" styleClass="wpis" AnchorPane.rightAnchor="40.0">
                     <cursor>
                         <Cursor fx:constant="SE_RESIZE" />
                     </cursor></TextField>
-                <TextField fx:id="emailTextField" layoutX="156.5" layoutY="268.0" promptText="E - mail" AnchorPane.rightAnchor="40.0">
+                <TextField fx:id="emailTextField" layoutX="156.5" layoutY="268.0" promptText="E - mail" styleClass="wpis" AnchorPane.rightAnchor="40.0">
                     <cursor>
                         <Cursor fx:constant="SE_RESIZE" />
                     </cursor></TextField>
                 <Line endX="243.0" layoutX="107.0" layoutY="48.0" startX="-100.0" strokeWidth="2.0" />
                 <Line endX="241.0" layoutX="108.0" layoutY="359.0" startX="-100.0" strokeWidth="2.0" />
                 <Button fx:id="registrationButton" layoutX="54.0" layoutY="375.0" mnemonicParsing="false" onAction="#registrationButtonOnAction" prefHeight="31.0" prefWidth="250.0" text="Sing Up" AnchorPane.bottomAnchor="58.0" AnchorPane.leftAnchor="53.0" AnchorPane.rightAnchor="53.0" />
-                <PasswordField fx:id="passwordPasswordField" layoutX="156.5" layoutY="197.0" promptText="Password" AnchorPane.rightAnchor="40.0">
+                <PasswordField fx:id="passwordPasswordField" layoutX="156.5" layoutY="197.0" promptText="Password" styleClass="wpis" AnchorPane.rightAnchor="40.0">
                     <cursor>
                         <Cursor fx:constant="SE_RESIZE" />
                     </cursor>
@@ -130,7 +130,7 @@
                         <Cursor fx:constant="SE_RESIZE" />
                     </cursor>
                 </Text>
-                <PasswordField fx:id="confirmPasswordPasswordField" layoutX="156.5" layoutY="234.0" promptText="Confirm password" AnchorPane.rightAnchor="40.0">
+                <PasswordField fx:id="confirmPasswordPasswordField" layoutX="156.5" layoutY="234.0" promptText="Confirm password" styleClass="wpis" AnchorPane.rightAnchor="40.0">
                     <cursor>
                         <Cursor fx:constant="SE_RESIZE" />
                     </cursor>
@@ -144,7 +144,7 @@
                         <Cursor fx:constant="SE_RESIZE" />
                     </cursor>
                 </Text>
-                <TextField fx:id="phoneNumberTextField" layoutX="156.5" layoutY="306.0" promptText="Phone number" AnchorPane.rightAnchor="40.0">
+                <TextField fx:id="phoneNumberTextField" layoutX="156.5" layoutY="306.0" promptText="Phone number" styleClass="wpis" AnchorPane.rightAnchor="40.0">
                     <cursor>
                         <Cursor fx:constant="SE_RESIZE" />
                     </cursor>

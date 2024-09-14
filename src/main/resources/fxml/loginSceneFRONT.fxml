@@ -11,7 +11,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="520.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.meetingapp.frontendtest.controller.LoginController" stylesheets="@style.css">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="520.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.meetingapp.frontendtest.controller.LoginController">
     <left>
         <AnchorPane prefHeight="407.0" prefWidth="228.0" style="-fx-background-color: #263F73;" BorderPane.alignment="CENTER">
             <children>
@@ -65,9 +65,9 @@
                         <Font size="14.0" />
                     </font>
                 </Label>
-                <TextField fx:id="usernameTextField" layoutX="107.5" layoutY="126.0" promptText="Username" AnchorPane.rightAnchor="25.0" />
-                <PasswordField fx:id="passwordPasswordField" layoutX="107.5" layoutY="167.0" promptText="Password" AnchorPane.rightAnchor="25.0" />
-                <Button fx:id="loginButton" layoutX="32.0" layoutY="252.0" mnemonicParsing="false" onAction="#loginButtonOnAction" prefHeight="31.0" prefWidth="235.0" text="Sign In" AnchorPane.rightAnchor="24.0" />
+                <TextField fx:id="usernameTextField" layoutX="107.5" layoutY="126.0" promptText="Username" styleClass="wpis" AnchorPane.rightAnchor="25.0" />
+                <PasswordField fx:id="passwordPasswordField" layoutX="107.5" layoutY="167.0" promptText="Password" style="-fx-background-color: transparent; -fx-border-color: #263F73; -fx-border-width: 0px 0px 2px 0px;" styleClass="wpis" AnchorPane.rightAnchor="25.0" />
+                <Button fx:id="loginButton" layoutX="32.0" layoutY="252.0" mnemonicParsing="false" onAction="#loginButtonOnAction" prefHeight="31.0" prefWidth="235.0" text="Login" AnchorPane.rightAnchor="24.0" />
                 <Button fx:id="cancelButton" layoutX="33.0" layoutY="346.0" mnemonicParsing="false" onAction="#cancelButtonAction" prefHeight="31.0" prefWidth="235.0" text="Cancel" AnchorPane.bottomAnchor="23.0" AnchorPane.rightAnchor="24.0" />
                 <Label fx:id="loginMessageLabel" alignment="CENTER" layoutX="28.0" layoutY="95.0" prefHeight="18.0" prefWidth="228.0" textFill="RED" AnchorPane.rightAnchor="25.0">
                     <font>

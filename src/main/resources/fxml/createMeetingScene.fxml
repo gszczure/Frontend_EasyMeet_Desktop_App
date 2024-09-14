@@ -22,7 +22,7 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="meetingTitleTextField" layoutX="288.0" layoutY="56.0" promptText="Meeting Title" />
+            <TextField fx:id="meetingTitleTextField" layoutX="288.0" layoutY="56.0" promptText="Meeting Title" styleClass="wpis" stylesheets="@style.css" />
 
             <Button fx:id="saveButton" layoutX="187.0" layoutY="119.0" mnemonicParsing="false" onAction="#handleSaveButtonAction" prefHeight="31.0" prefWidth="100.0" style="-fx-background-color: #263F73;" text="Create" textFill="WHITE" />
             <Button fx:id="cancelButton" layoutX="308.0" layoutY="119.0" mnemonicParsing="false" onAction="#handleCancelButtonAction" prefHeight="31.0" prefWidth="100.0" style="-fx-background-color: #263F73;" text="Cancel" textFill="WHITE" />

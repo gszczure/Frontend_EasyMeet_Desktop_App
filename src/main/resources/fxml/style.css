@@ -111,3 +111,13 @@
     -fx-pref-height: 26;
     -fx-pref-width: 88;
 }
+
+.wpis {
+    -fx-background-color: transparent;
+    -fx-border-color: #263F73;
+    -fx-border-width: 0px 0px 2px 0px;
+}
+
+.background-image {
+    -fx-opacity: 0.5; /* Zmieniaj wartość od 0 (całkowicie przezroczyste) do 1 (całkowicie nieprzezroczyste) */
+}
