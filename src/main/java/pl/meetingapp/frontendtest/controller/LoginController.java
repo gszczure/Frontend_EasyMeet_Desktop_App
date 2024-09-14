@@ -12,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import org.json.JSONObject;
 import pl.meetingapp.frontendtest.JavaFXApp;
@@ -37,7 +38,9 @@ public class LoginController {
     @FXML
     private Button cancelButton;
 
-    //TODO: zmienic na ang
+    @FXML
+    private Label SingUpLabel;
+
     @FXML
     private void loginButtonOnAction() {
         String username = usernameTextField.getText().trim();
@@ -69,25 +72,25 @@ public class LoginController {
                 if (!token.isEmpty()) {
                     JavaFXApp.setJwtToken(token);
                     JavaFXApp.setUserId(userId);
-                    loginMessageLabel.setText("Logowanie się powiodło!");
+                    loginMessageLabel.setText("Login successful!");
                     Stage stage = (Stage) loginButton.getScene().getWindow();
                     Scene newScene = new Scene(FXMLLoader.load(getClass().getResource("/fxml/mainScene.fxml")));
                     stage.setScene(newScene);
                 } else {
-                    loginMessageLabel.setText("Nie udało się połączyć z serwerem. Kod błędu: " + responseCode);
+                    loginMessageLabel.setText("Failed to connect to the server. Error code: " + responseCode);
                 }
             } else {
-                loginMessageLabel.setText("Niepoprawna nazwa użytkownika lub hasło!");
+                loginMessageLabel.setText("Incorrect username or password!");
             }
         } catch (IOException e) {
             e.printStackTrace();
-            loginMessageLabel.setText("Wystąpił błąd.");
+            loginMessageLabel.setText("An error occurred.");
         }
     }
 
     @FXML
-    private void registrationButtonOnAction(ActionEvent e) throws IOException {
-        Stage stage = (Stage) registrationButton.getScene().getWindow();
+    private void registrationButtonOnAction(MouseEvent e) throws IOException {
+        Stage stage = (Stage) SingUpLabel.getScene().getWindow();
         Scene newScene = new Scene(FXMLLoader.load(getClass().getResource("/fxml/registrationSceneFRONT.fxml")));
         stage.setScene(newScene);
     }
