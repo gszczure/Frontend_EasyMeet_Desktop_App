@@ -116,7 +116,7 @@ public class DateSelectionController {
 
     public void setMeetingId(Long meetingId) {
         this.meetingId = meetingId;
-        loadSavedDateRanges(); //TODO: Sprawdzic po co to jest
+        loadSavedDateRanges();
     }
 
     @FXML

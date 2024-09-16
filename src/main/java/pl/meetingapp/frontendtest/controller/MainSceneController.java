@@ -3,6 +3,7 @@ package pl.meetingapp.frontendtest.controller;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -14,6 +15,7 @@ import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import javafx.stage.Stage;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -29,14 +31,14 @@ import pl.meetingapp.frontendtest.util.HttpUtils;
 
 public class MainSceneController {
 
+    public Label createMeetingMessageLabel;
+    public TextField meetingTitleTextField;
+
     @FXML
     private Accordion accordion;
 
     @FXML
     private Button logoutButton;
-
-    @FXML
-    private Button jointMeetingButton;
 
     @FXML
     private Button leaveMeetingButton;
@@ -45,19 +47,10 @@ public class MainSceneController {
     private Button addMeetingButton;
 
     @FXML
-    private Button commonDatesButton;
-
-    @FXML
-    private AnchorPane slideInPane;
+    private AnchorPane joinMeetingslideInPane;
 
     @FXML
     private TextField meetingCodeTextField;
-
-    @FXML
-    private Button joinButton;
-
-    @FXML
-    private Button cancelButton;
 
     @FXML
     private Label messageLabel;
@@ -71,44 +64,37 @@ public class MainSceneController {
     @FXML
     private VBox usersListVBox;
 
+    @FXML
+    private AnchorPane createMeetingSlideInPane;
+
     private int lastUserNumber = 0;
 
     private String jwtToken;
 
+    // Metoda służy do inicjalizacji widoku, ukrywania paneli oraz ładowania spotkań.
     @FXML
     private void initialize() {
-        slideInPane.setVisible(false);
+        joinMeetingslideInPane.setVisible(false);
         usersSlideInPane.setVisible(false);
+        createMeetingSlideInPane.setVisible(false);
         this.jwtToken = JavaFXApp.getJwtToken();
         loadMeetings();
     }
 
+    // Metoda służy do sprawdzania, czy aktualny użytkownik jest właścicielem spotkania.
     private boolean isOwner(Long ownerId) {
         Long currentUserId = JavaFXApp.getUserId();
         return currentUserId != null && currentUserId.equals(ownerId);
     }
 
+    // Metoda służy do czyszczenia tekstu etykiety po określonym czasie.
     private void clearMessageLabelAfterDelay(Label label, Duration delay) {
         Timeline timeline = new Timeline(new KeyFrame(delay, event -> label.setText("")));
         timeline.setCycleCount(1);
         timeline.play();
     }
 
-    @FXML
-    private void handleCreateMeetingButtonAction() throws IOException {
-        String token = jwtToken;
-
-        if (token == null || token.isEmpty()) {
-            Stage stage = (Stage) addMeetingButton.getScene().getWindow();
-            Scene newScene = new Scene(FXMLLoader.load(getClass().getResource("/fxml/loginScene.fxml")));
-            stage.setScene(newScene);
-        } else {
-            Stage stage = (Stage) addMeetingButton.getScene().getWindow();
-            Scene newScene = new Scene(FXMLLoader.load(getClass().getResource("/fxml/createMeetingScene.fxml")));
-            stage.setScene(newScene);
-        }
-    }
-
+    // Metoda służy do ładowania spotkań z serwera i dodawania ich do akordeonu.
     private void loadMeetings() {
         accordion.getPanes().clear();
         HttpURLConnection conn = null;
@@ -160,6 +146,7 @@ public class MainSceneController {
         }
     }
 
+    // Metoda służy do tworzenia i dodawania spotkania do akordeonu, w tym ustawiania daty, komentarza oraz przycisków
     private void addMeetingToAccordion(String name, String ownerName, String code, Long meetingId, Long ownerId) {
         TitledPane titledPane = new TitledPane();
 
@@ -255,6 +242,7 @@ public class MainSceneController {
         fetchMeetingComment(meetingId, commentLabel);
     }
 
+    // Metoda służy do pobierania komentarza dla spotkania i wyświetlania go na etykiecie.
     private void fetchMeetingComment(Long meetingId, Label commentLabel) {
         HttpURLConnection conn = null;
         try {
@@ -290,6 +278,7 @@ public class MainSceneController {
         }
     }
 
+    // Metoda służy do pobierania daty spotkania i wyświetlania jej na etykiecie.
     private void fetchMeetingDate(Long meetingId, Label dateLabel) {
         HttpURLConnection conn = null;
         try {
@@ -333,6 +322,7 @@ public class MainSceneController {
         }
     }
 
+    // Metoda służy do wylogowywania urzytkowników, czyszczenia tokenu JWT i ID użytkownika, a następnie przeładowania sceny na scenę logowania.
     @FXML
     private void handleLogoutButtonAction() throws IOException {
         JavaFXApp.clearJwtToken();
@@ -343,19 +333,9 @@ public class MainSceneController {
         stage.setScene(newScene);
     }
 
+    // Metoda służy do dołączenia do spotkania na podstawie podanego kodu spotkania.
     @FXML
-    private void handleJoinMeetingButtonAction() {
-        if (!slideInPane.isVisible()) {
-            slideInPane.setVisible(true);
-            TranslateTransition slideIn = new TranslateTransition(Duration.millis(300), slideInPane);
-            slideIn.setFromX(slideInPane.getTranslateX());
-            slideIn.setToX(0);
-            slideIn.play();
-        }
-    }
-
-    @FXML
-    private void handleJoinButtonAction() {
+    private void handleJoinButtonAction() { //TODO: Naprawic te else if
         String meetingCode = meetingCodeTextField.getText().trim();
         if (meetingCode.isEmpty()) {
             messageLabel.setText("Meeting code cannot be empty.");
@@ -383,7 +363,7 @@ public class MainSceneController {
                 messageLabel2.setText("Successfully joined the meeting.");
                 clearMessageLabelAfterDelay(messageLabel2, Duration.seconds(2));
                 loadMeetings();
-                closeSlideInPane();
+                handleCancelJoinMeetingButtonAction();
             } else if (responseCode == HttpURLConnection.HTTP_CONFLICT) {
                 messageLabel.setText("You already belong to this meeting.");
                 clearMessageLabelAfterDelay(messageLabel, Duration.seconds(2));
@@ -402,29 +382,8 @@ public class MainSceneController {
         }
     }
 
-    @FXML
-    private void handleCancelButtonAction() {
-        closeSlideInPane();
-    }
-
-    private void closeSlideInPane() {
-        TranslateTransition slideOut = new TranslateTransition(Duration.millis(300), slideInPane);
-        slideOut.setFromX(slideInPane.getTranslateX());
-        slideOut.setToX(slideInPane.getWidth());
-        slideOut.setOnFinished(event -> slideInPane.setVisible(false));
-        slideOut.play();
-    }
-
-    @FXML
-    private void handleUsersButtonAction(Long meetingId) {
-        if (!usersSlideInPane.isVisible()) {
-            usersSlideInPane.setVisible(true);
-            TranslateTransition slideIn = new TranslateTransition(Duration.millis(300), usersSlideInPane);
-            slideIn.setFromX(usersSlideInPane.getTranslateX());
-            slideIn.setToX(0);
-            slideIn.play();
-        }
-
+    // Metoda służy do ładowania uczestników spotkania.
+    private void loadUsers(Long meetingId) {
         lastUserNumber = 0;
         usersListVBox.getChildren().clear();
 
@@ -455,7 +414,6 @@ public class MainSceneController {
                 }
                 userList.sort(Comparator.comparing(user -> (user.getString("firstName") + " " + user.getString("lastName"))));
 
-                // wyodrębnienie ownerID z JSON aby rozrozniac wlasciciela
                 Long ownerId = responseObject.getJSONObject("owner").getLong("id");
                 boolean isMeetingOwner = isOwner(ownerId);
 
@@ -480,7 +438,7 @@ public class MainSceneController {
                     usersListVBox.getChildren().add(userBox);
                 }
 
-                leaveMeetingButton.setVisible(!isMeetingOwner); // guzik leave nie widoczny dla wlasciceila
+                leaveMeetingButton.setVisible(!isMeetingOwner);
 
             } else {
                 messageLabel2.setText("Failed to load users. Server responded with code " + responseCode);
@@ -495,7 +453,7 @@ public class MainSceneController {
         }
     }
 
-
+    // Metoda obsługująca usunięcie użytkownika z listy uczestników spotkania (tylko włąściciciel).
     //TODO: Do zmiany uzywajac metody createConnection do skrocenia polaczenia URL
     private void handleRemoveUserButtonAction(Long meetingId, String username) {
         HttpURLConnection conn = null;
@@ -510,7 +468,7 @@ public class MainSceneController {
             if (responseCode == HttpURLConnection.HTTP_OK) {
                 messageLabel2.setText("User removed successfully.");
                 clearMessageLabelAfterDelay(messageLabel2, Duration.seconds(2));
-                handleUsersButtonAction(meetingId); // Odśwież listę użytkowników
+                loadUsers(meetingId); // Odśwież listę użytkowników
             } else {
                 messageLabel2.setText("Failed to remove user. Server responded with code " + responseCode);
                 clearMessageLabelAfterDelay(messageLabel2, Duration.seconds(2));
@@ -526,15 +484,7 @@ public class MainSceneController {
         }
     }
 
-    @FXML
-    private void handleCloseUsersButtonAction() {
-        TranslateTransition slideOut = new TranslateTransition(Duration.millis(300), usersSlideInPane);
-        slideOut.setFromX(usersSlideInPane.getTranslateX());
-        slideOut.setToX(usersSlideInPane.getPrefWidth());
-        slideOut.setOnFinished(e -> usersSlideInPane.setVisible(false));
-        slideOut.play();
-    }
-
+    // Metoda obsługująca przycisk do zmiany sceny na dateSelectionScene.
     @FXML
     private void handleDateButtonAction(Long meetingId) {
         try {
@@ -551,6 +501,7 @@ public class MainSceneController {
         }
     }
 
+    // Metoda obsługująca przycisk do zmiany sceny na commonDatesScene.
     @FXML
     private void handleCommonDatesButtonAction(Long meetingId, Long ownerId) {
         try {
@@ -570,6 +521,7 @@ public class MainSceneController {
         }
     }
 
+    // Metoda obsługująca usunięcie spotkania po potwierdzeniu przez właściciela.
     private void handleDeleteMeetingButtonAction(Long meetingId) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirm Deletion");
@@ -614,6 +566,8 @@ public class MainSceneController {
             }
         });
     }
+
+    // Metoda obsługująca opuszczenia spotkania po potwierdzeniu przez użytkownika.
     @FXML
     private void handleLeaveMeetingButtonAction() {
         // Pobranie id spotkania z rozwinietego TitledPane by wiedziec ktore spotkanie uzytkownik chce ospuscic
@@ -643,9 +597,9 @@ public class MainSceneController {
 
                     int responseCode = conn.getResponseCode();
                     if (responseCode == HttpURLConnection.HTTP_OK) {
-                        messageLabel2.setText("Successfully left the meeting.");                    clearMessageLabelAfterDelay(messageLabel2, Duration.seconds(2));
+                        messageLabel2.setText("Successfully left the meeting.");
+                        clearMessageLabelAfterDelay(messageLabel2, Duration.seconds(2));
                         loadMeetings();
-                        //TODO: massegelabel dodac do tego slide pane
                         handleCloseUsersButtonAction();
                     } else {
                         messageLabel2.setText("Failed to leave meeting. Server responded with code " + responseCode);
@@ -662,5 +616,135 @@ public class MainSceneController {
                 }
             }
         });
+    }
+
+    // Metoda obsługująca zapisywanie nowego spotkania.
+    @FXML
+    private void handleSaveButtonAction() {
+        String meetingTitle = meetingTitleTextField.getText().trim();
+
+        // Maksymalna długość nazwy spotkania
+        final int MAX_TITLE_LENGTH = 25;
+
+        if (meetingTitle.isEmpty()) {
+            createMeetingMessageLabel.setText("Meeting title must be provided.");
+            return;
+        }
+
+        if (meetingTitle.length() > MAX_TITLE_LENGTH) {
+            createMeetingMessageLabel.setText("Meeting title must be less than " + MAX_TITLE_LENGTH + " characters.");
+            return;
+        }
+
+        HttpURLConnection conn = null;
+        try {
+            conn = HttpUtils.createConnection(
+                    "http://localhost:8080/api/meetings/create",
+                    "POST",
+                    jwtToken,
+                    true);
+
+            String jsonPayload = "{\"name\":\"" + meetingTitle + "\"}";
+
+            try (OutputStream os = conn.getOutputStream()) {
+                byte[] input = jsonPayload.getBytes("utf-8");
+                os.write(input, 0, input.length);
+            }
+
+            int code = conn.getResponseCode();
+            if (code == HttpURLConnection.HTTP_OK) {
+                messageLabel2.setText("The meeting has been created.");
+                clearMessageLabelAfterDelay(messageLabel2, Duration.seconds(2));
+                loadMeetings();
+                handleCancelCreateMeetingButtonAction();
+            } else {
+                StringBuilder response = new StringBuilder();
+                InputStream errorStream = conn.getErrorStream();
+                if (errorStream != null) {
+                    try (Scanner scanner = new Scanner(errorStream)) {
+                        while (scanner.hasNextLine()) {
+                            response.append(scanner.nextLine());
+                        }
+                    }
+                    createMeetingMessageLabel.setText("Adding failed.");
+                } else {
+                    createMeetingMessageLabel.setText("Adding failed. Server responded with code " + code + ". No error stream available.");
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            createMeetingMessageLabel.setText("An error occurred while creating the meeting.");
+        } finally {
+            if (conn != null) {
+                conn.disconnect();
+            }
+        }
+    }
+
+    // Metoda obsługująca otworzenie panelu tworzenia spotkania z animacją wysuwania.
+    @FXML
+    public void handleAddMeetingButtonAction() {
+        if (!createMeetingSlideInPane.isVisible()) {
+            createMeetingSlideInPane.setVisible(true);
+            TranslateTransition slideIn = new TranslateTransition(Duration.millis(300), createMeetingSlideInPane);
+            slideIn.setFromX(createMeetingSlideInPane.getTranslateX());
+            slideIn.setToX(0);
+            slideIn.play();
+        }
+    }
+
+    // Metoda obsługująca zamknięcie panelu tworzenia spotkania z animacją wsuwania.
+    @FXML
+    public void handleCancelCreateMeetingButtonAction() {
+        TranslateTransition slideOut = new TranslateTransition(Duration.millis(300), createMeetingSlideInPane);
+        slideOut.setFromX(createMeetingSlideInPane.getTranslateX());
+        slideOut.setToX(createMeetingSlideInPane.getPrefWidth());
+        slideOut.setOnFinished(e -> createMeetingSlideInPane.setVisible(false));
+        slideOut.play();
+    }
+
+    // Metoda obsługująca otworzenie panelu z lista urzytkowników z animacją wysuwania.
+    @FXML
+    private void handleUsersButtonAction(Long meetingId) {
+        if (!usersSlideInPane.isVisible()) {
+            usersSlideInPane.setVisible(true);
+            TranslateTransition slideIn = new TranslateTransition(Duration.millis(300), usersSlideInPane);
+            slideIn.setFromX(usersSlideInPane.getTranslateX());
+            slideIn.setToX(0);
+            slideIn.play();
+            loadUsers(meetingId);
+        }
+    }
+
+    // Metoda obsługująca zamknięcie panelu z listą użytkowników z animacją wsuwania.
+    @FXML
+    private void handleCloseUsersButtonAction() {
+        TranslateTransition slideOut = new TranslateTransition(Duration.millis(300), usersSlideInPane);
+        slideOut.setFromX(usersSlideInPane.getTranslateX());
+        slideOut.setToX(usersSlideInPane.getPrefWidth());
+        slideOut.setOnFinished(e -> usersSlideInPane.setVisible(false));
+        slideOut.play();
+    }
+
+    // Metoda obsługująca otworzenie panelu dołączania do spotkania z animacją wysuwania.
+    @FXML
+    private void handleJoinMeetingButtonAction() {
+        if (!joinMeetingslideInPane.isVisible()) {
+            joinMeetingslideInPane.setVisible(true);
+            TranslateTransition slideIn = new TranslateTransition(Duration.millis(300), joinMeetingslideInPane);
+            slideIn.setFromX(joinMeetingslideInPane.getTranslateX());
+            slideIn.setToX(0);
+            slideIn.play();
+        }
+    }
+
+    // Metoda obsługująca zamknięcie panelu dołączania do spotkania z animacją wsuwania.
+    @FXML
+    private void handleCancelJoinMeetingButtonAction() {
+        TranslateTransition slideOut = new TranslateTransition(Duration.millis(300), joinMeetingslideInPane);
+        slideOut.setFromX(joinMeetingslideInPane.getTranslateX());
+        slideOut.setToX(joinMeetingslideInPane.getWidth());
+        slideOut.setOnFinished(event -> joinMeetingslideInPane.setVisible(false));
+        slideOut.play();
     }
 }

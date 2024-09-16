@@ -187,7 +187,7 @@ public class CommonDatesController {
     }
 
     @FXML
-    private void handleBackButtonAction(ActionEvent e) throws IOException { //TODO: sprawdzic czy potrzebne action event
+    private void handleBackButtonAction() throws IOException {
         Stage stage = (Stage) backButton.getScene().getWindow();
         Scene newScene = new Scene(FXMLLoader.load(getClass().getResource("/fxml/mainScene.fxml")));
         stage.setScene(newScene);
