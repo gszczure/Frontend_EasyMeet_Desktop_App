@@ -193,6 +193,7 @@ public class CommonDatesController {
         stage.setScene(newScene);
     }
 
+    // Metoda do zapisywania komentarzy dla spotkania
     @FXML
     private void handleSaveCommentButtonAction(ActionEvent event) {
         String comment = commentTextField.getText().trim();

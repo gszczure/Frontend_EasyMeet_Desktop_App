@@ -47,7 +47,10 @@ public class LoginController {
         String password = passwordPasswordField.getText().trim();
 
         try {
-            HttpURLConnection connection = HttpUtils.createConnection("http://localhost:8080/api/auth/login", "POST", null, true);
+            HttpURLConnection connection = HttpUtils.createConnection("http://localhost:8080/api/auth/login",
+                    "POST",
+                    null,
+                    true);
 
             String jsonInputString = "{\"username\": \"" + username + "\", \"password\": \"" + password + "\"}";
 
@@ -89,7 +92,7 @@ public class LoginController {
     }
 
     @FXML
-    private void registrationButtonOnAction(MouseEvent e) throws IOException {
+    private void registrationButtonOnAction(MouseEvent e) throws IOException { //TODO: zmienic nazwe metody bi juz nie ma guzika tylko tekst
         Stage stage = (Stage) SingUpLabel.getScene().getWindow();
         Scene newScene = new Scene(FXMLLoader.load(getClass().getResource("/fxml/registrationSceneFRONT.fxml")));
         stage.setScene(newScene);
