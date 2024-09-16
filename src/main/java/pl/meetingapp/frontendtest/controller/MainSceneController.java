@@ -3,7 +3,6 @@ package pl.meetingapp.frontendtest.controller;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -211,15 +210,15 @@ public class MainSceneController {
 
         Button usersButton = new Button("Users");
         usersButton.setOnAction(event -> handleUsersButtonAction(meetingId));
-        usersButton.setStyle("-fx-background-color: #263F73; -fx-text-fill: white; -fx-pref-width: 60px; -fx-pref-height: 26px");
+        usersButton.getStyleClass().add("usersButton");
 
         Button commonDatesButton = new Button("Common Dates");
-        commonDatesButton.setOnAction(event -> handleCommonDatesButtonAction(meetingId, ownerId)); //przesylanie meetingId i ownerId
-        commonDatesButton.setStyle("-fx-background-color: #263F73; -fx-text-fill: white;-fx-pref-width: 120px; -fx-pref-height: 26px");
+        commonDatesButton.setOnAction(event -> handleCommonDatesButtonAction(meetingId, ownerId)); // przesyłanie meetingId i ownerId
+        commonDatesButton.getStyleClass().add("commonDatesButton");
 
         Button dateButton = new Button("Date");
         dateButton.setOnAction(event -> handleDateButtonAction(meetingId));
-        dateButton.setStyle("-fx-background-color: #263F73; -fx-text-fill: white;-fx-pref-width: 60px; -fx-pref-height: 26px");
+        dateButton.getStyleClass().add("dateButton");
 
         buttonBox.getChildren().addAll(usersButton, commonDatesButton, dateButton);
 
@@ -227,7 +226,7 @@ public class MainSceneController {
         if (isOwner(ownerId)) {
             Button deleteButton = new Button("X");
             deleteButton.setOnAction(event -> handleDeleteMeetingButtonAction(meetingId));
-            deleteButton.setStyle("-fx-background-color: #FF0000; -fx-text-fill: white; -fx-font-size: 10px; -fx-pref-width: 26px; -fx-pref-height: 26;");
+            deleteButton.getStyleClass().add("deleteButton");
             buttonBox.getChildren().add(deleteButton);
         }
 

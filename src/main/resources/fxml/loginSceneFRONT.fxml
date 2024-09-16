@@ -69,7 +69,7 @@
                     </font>
                 </Label>
                 <TextField fx:id="usernameTextField" layoutX="107.5" layoutY="150.0" promptText="Username" styleClass="wpis" AnchorPane.rightAnchor="25.0" />
-                <PasswordField fx:id="passwordPasswordField" layoutX="107.5" layoutY="191.0" promptText="Password" style="-fx-background-color: transparent; -fx-border-color: #263F73; -fx-border-width: 0px 0px 2px 0px;" styleClass="wpis" AnchorPane.rightAnchor="25.0" />
+                <PasswordField fx:id="passwordPasswordField" layoutX="107.5" layoutY="191.0" promptText="Password" styleClass="wpis" AnchorPane.rightAnchor="25.0" />
                 <Button fx:id="loginButton" layoutX="21.0" layoutY="266.0" mnemonicParsing="false" onAction="#loginButtonOnAction" prefHeight="31.0" prefWidth="235.0" styleClass="loginAndSingUpBnt" text="Login" AnchorPane.leftAnchor="21.0" AnchorPane.rightAnchor="21.0">
                <font>
                   <Font name="System Bold" size="14.0" />

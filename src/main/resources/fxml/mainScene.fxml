@@ -32,7 +32,7 @@
     <Button fx:id="jointMeetingButton" layoutX="402.0" layoutY="23.0" mnemonicParsing="false" onAction="#handleJoinMeetingButtonAction" styleClass="mianScene-Top-button" text="Join Meeting" AnchorPane.rightAnchor="125.0" AnchorPane.topAnchor="23.0" />
 
     <!-- Wysuwane panel dołączania spotkania -->
-    <AnchorPane fx:id="joinMeetingslideInPane" prefHeight="496.0" prefWidth="250.0" styleClass="joinSlideInPane" visible="false" AnchorPane.rightAnchor="0.0">
+    <AnchorPane fx:id="joinMeetingslideInPane" prefHeight="496.0" prefWidth="250.0" styleClass="slideInPane" visible="false" AnchorPane.rightAnchor="0.0">
         <!-- Zawartość wysuwanego okna -->
         <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="278.0" styleClass="label-JoinSlideInPane" text="Join Meeting" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="30.0">
             <font>
@@ -46,7 +46,7 @@
     </AnchorPane>
 
     <!-- Wysuwany panel z listą użytkowników -->
-    <AnchorPane fx:id="usersSlideInPane" layoutX="366.0" prefHeight="496.0" prefWidth="250.0" styleClass="usersSlideInPane" AnchorPane.rightAnchor="0.0">
+    <AnchorPane fx:id="usersSlideInPane" layoutX="366.0" prefHeight="496.0" prefWidth="250.0" styleClass="slideInPane" AnchorPane.rightAnchor="0.0">
         <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="278.0" styleClass="label-UsersSlideInPane" text="Users" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="30.0">
             <font>
                 <Font name="System Bold" size="18.0" />
@@ -60,7 +60,7 @@
     </AnchorPane>
 
     <!-- Wysuwany panel tworzenia spotkania -->
-    <AnchorPane fx:id="createMeetingSlideInPane" prefHeight="496.0" prefWidth="250.0" styleClass="joinSlideInPane" visible="false" AnchorPane.rightAnchor="0.0">
+    <AnchorPane fx:id="createMeetingSlideInPane" prefHeight="496.0" prefWidth="250.0" styleClass="slideInPane" visible="false" AnchorPane.rightAnchor="0.0">
         <!-- Zawartość panelu -->
         <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="278.0" styleClass="label-JoinSlideInPane" text="Create Meeting" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="30.0">
             <font>

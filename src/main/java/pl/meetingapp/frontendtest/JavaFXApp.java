@@ -21,10 +21,6 @@ public class JavaFXApp extends Application {
         loadScene("/fxml/loginSceneFRONT.fxml", 520, 400); // Ustawienie domyślnego rozmiaru
     }
 
-    public static void setStage(Stage primaryStage) {
-        stage = primaryStage;
-    }
-
     public static Stage getStage() {
         return stage;
     }

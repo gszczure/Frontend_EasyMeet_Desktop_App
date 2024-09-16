@@ -59,7 +59,7 @@
                         <InnerShadow />
                     </effect>
                 </Label>
-                <Button fx:id="cancelButton" layoutX="317.0" layoutY="5.0" mnemonicParsing="false" onAction="#cancelButtonAction" prefHeight="33.0" prefWidth="37.0" styleClass="closeBnt" AnchorPane.bottomAnchor="433.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="5.0">
+                <Button fx:id="cancelButton" layoutX="317.0" layoutY="5.0" mnemonicParsing="false" onAction="#cancelButtonAction" styleClass="closeBnt" AnchorPane.bottomAnchor="433.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="5.0">
                <graphic>
                   <ImageView fitHeight="12.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -147,7 +147,7 @@
                         <Cursor fx:constant="SE_RESIZE" />
                     </cursor>
                 </PasswordField>
-                <Button fx:id="backButton" layoutY="-1.0" mnemonicParsing="false" onAction="#backButtonOnAction" prefHeight="20.0" prefWidth="27.0" styleClass="backBnt" AnchorPane.bottomAnchor="434.0" AnchorPane.leftAnchor="3.0" AnchorPane.topAnchor="5.0">
+                <Button fx:id="backButton" layoutY="-1.0" mnemonicParsing="false" onAction="#backButtonOnAction" styleClass="backBnt" AnchorPane.bottomAnchor="434.0" AnchorPane.leftAnchor="3.0" AnchorPane.topAnchor="5.0">
                <graphic>
                   <ImageView fitHeight="22.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
                      <image>

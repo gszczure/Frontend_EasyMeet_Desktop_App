@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="440.0" prefWidth="613.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.meetingapp.frontendtest.controller.DateSelectionController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="440.0" prefWidth="613.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.meetingapp.frontendtest.controller.DateSelectionController" stylesheets="@style.css">
     <center>
         <VBox alignment="CENTER" fillWidth="true" spacing="10.0">
             <Label fx:id="messageLabel" alignment="CENTER" maxWidth="Infinity" minWidth="0.0" prefHeight="47.0" prefWidth="613.0" text="Select Date Ranges" textAlignment="CENTER">
@@ -21,17 +21,18 @@
          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Please select the dates you are available." />
             <DatePicker fx:id="startDatePicker" promptText="Start Date" />
             <DatePicker fx:id="endDatePicker" promptText="End Date" />
-            <Button fx:id="addDateButton" onAction="#handleAddDateButtonAction" prefHeight="26.0" prefWidth="187.0" style="-fx-background-color: #263F73; color: white;" text="Add Date Range" textFill="WHITE" />
+            <Button fx:id="addDateButton" onAction="#handleAddDateButtonAction" text="Add Date Range" styleClass="addDateButton" />
             <ListView fx:id="dateListView" prefHeight="177.0" prefWidth="613.0" />
             <!-- New Delete Button -->
-            <Button fx:id="deleteDateButton" onAction="#handleDeleteDateButtonAction" prefHeight="26.0" prefWidth="187.0" style="-fx-background-color: #E53935; color: white;" text="Delete Selected" textFill="WHITE" />
+            <Button fx:id="deleteDateButton" onAction="#handleDeleteDateButtonAction" text="Delete Selected" styleClass="deleteDateButton" />
+
         </VBox>
     </center>
     <bottom>
         <AnchorPane prefHeight="39.0" prefWidth="613.0">
             <children>
-                <Button fx:id="saveButton" layoutX="96.0" layoutY="7.0" onAction="#handleSaveButtonAction" prefHeight="26.0" prefWidth="191.0" style="-fx-background-color: #263F73; color: white;" text="Save" textFill="WHITE" AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="96.0" />
-                <Button fx:id="cancelButton" layoutX="336.0" layoutY="7.0" onAction="#handleCancelButtonAction" prefHeight="26.0" prefWidth="191.0" style="-fx-background-color: #263F73; color: white;" text="Cancel" textFill="WHITE" AnchorPane.bottomAnchor="7.0" AnchorPane.rightAnchor="96.0" />
+                <Button fx:id="saveButton" layoutX="96.0" layoutY="7.0" onAction="#handleSaveButtonAction" text="Save" styleClass="saveButton-dateselection" AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="96.0" />
+                <Button fx:id="cancelButton" layoutX="336.0" layoutY="7.0" onAction="#handleCancelButtonAction" text="Cancel" styleClass="cancelButton-dateselection" AnchorPane.bottomAnchor="7.0" AnchorPane.rightAnchor="96.0" />
             </children>
         </AnchorPane>
     </bottom>

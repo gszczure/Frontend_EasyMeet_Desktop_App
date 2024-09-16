@@ -7,18 +7,19 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="496.0" prefWidth="613.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.meetingapp.frontendtest.controller.CommonDatesController">
+<AnchorPane prefHeight="496.0" prefWidth="613.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.meetingapp.frontendtest.controller.CommonDatesController" stylesheets="@style.css">
     <Label fx:id="messageLabel" alignment="CENTER" layoutY="35.0" text="Common Dates" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="35.0">
         <font>
             <Font size="24.0" />
         </font>
     </Label>
-    <Button fx:id="saveDateButton" layoutX="222.0" layoutY="321.0" onAction="#handleSaveDateButtonAction" prefHeight="26.0" prefWidth="170.0" style="-fx-background-color: green;" text="Save Date" textFill="WHITE" AnchorPane.bottomAnchor="149.0" AnchorPane.leftAnchor="222.0" />
+    <Button fx:id="saveDateButton" layoutX="222.0" layoutY="321.0" onAction="#handleSaveDateButtonAction" text="Save Date" styleClass="saveDateButton" AnchorPane.bottomAnchor="149.0" AnchorPane.leftAnchor="222.0"
+    />
 
     <ListView fx:id="datesListView" layoutX="10.0" layoutY="101.0" prefHeight="208.0" prefWidth="593.0" AnchorPane.bottomAnchor="187.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="101.0" />
-   <Button fx:id="backButton" layoutX="399.0" layoutY="447.0" mnemonicParsing="false" onAction="#handleBackButtonAction" prefHeight="26.0" prefWidth="170.0" style="-fx-background-color: #263F73;" text="Back" textFill="WHITE" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="44.0" />
-   <Button fx:id="saveCommentButton" layoutX="41.0" layoutY="447.0" mnemonicParsing="false" onAction="#handleSaveCommentButtonAction" prefHeight="26.0" prefWidth="170.0" style="-fx-background-color: green;" text="Save Comment" textFill="WHITE" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="45.0" />
-   <TextField fx:id="commentTextField" layoutX="142.0" layoutY="360.0" prefHeight="86.0" prefWidth="593.0" promptText="Type or edit your comment here, including meeting details or other relevant information." AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+    <Button fx:id="backButton" layoutX="399.0" layoutY="447.0" mnemonicParsing="false" onAction="#handleBackButtonAction" text="Back" styleClass="backButton" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="44.0" />
+    <Button fx:id="saveCommentButton" layoutX="41.0" layoutY="447.0" mnemonicParsing="false" onAction="#handleSaveCommentButtonAction" text="Save Comment" styleClass="saveCommentButton" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="45.0" />
+    <TextField fx:id="commentTextField" layoutX="142.0" layoutY="360.0" prefHeight="86.0" prefWidth="593.0" promptText="Type or edit your comment here, including meeting details or other relevant information." AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
       <font>
          <Font size="14.0" />
       </font>
