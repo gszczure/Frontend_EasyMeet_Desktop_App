@@ -103,7 +103,7 @@
                </image>
             </ImageView>
             <Label layoutX="94.0" layoutY="321.0" text="New User?" AnchorPane.leftAnchor="94.0" />
-            <Label fx:id="SingUpLabel" layoutX="157.0" layoutY="321.0" onMouseClicked="#registrationButtonOnAction" text="Sing up" textFill="#3408e4">
+            <Label fx:id="SingUpLabel" layoutX="157.0" layoutY="321.0" onMouseClicked="#registrationLabelOnAction" text="Sing up" textFill="#3408e4">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>

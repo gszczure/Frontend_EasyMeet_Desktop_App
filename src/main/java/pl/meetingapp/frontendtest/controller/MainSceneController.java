@@ -325,7 +325,7 @@ public class MainSceneController {
     @FXML
     private void handleLogoutButtonAction() throws IOException {
         JavaFXApp.clearJwtToken();
-        JavaFXApp.clearUserId(); //TODO: Upewnic sie po co to
+        JavaFXApp.clearUserId();
 
         Stage stage = (Stage) logoutButton.getScene().getWindow();
         Scene newScene = new Scene(FXMLLoader.load(getClass().getResource("/fxml/loginSceneFRONT.fxml")));
@@ -334,7 +334,7 @@ public class MainSceneController {
 
     // Metoda służy do dołączenia do spotkania na podstawie podanego kodu spotkania.
     @FXML
-    private void handleJoinButtonAction() { //TODO: Naprawic te else if
+    private void handleJoinButtonAction() {
         String meetingCode = meetingCodeTextField.getText().trim();
         if (meetingCode.isEmpty()) {
             messageLabel.setText("Meeting code cannot be empty.");
@@ -453,17 +453,18 @@ public class MainSceneController {
     }
 
     // Metoda obsługująca usunięcie użytkownika z listy uczestników spotkania (tylko włąściciciel).
-    //TODO: Do zmiany uzywajac metody createConnection do skrocenia polaczenia URL
     private void handleRemoveUserButtonAction(Long meetingId, String username) {
         HttpURLConnection conn = null;
         try {
-            URL url = new URL("http://localhost:8080/api/meetings/" + meetingId + "/participants/" + username);
-            conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("DELETE");
-            conn.setRequestProperty("Authorization", "Bearer " + jwtToken);
-            conn.setRequestProperty("Content-Type", "application/json");
+            conn = HttpUtils.createConnection(
+                    "http://localhost:8080/api/meetings/" + meetingId + "/participants/" + username,
+                    "DELETE",
+                    jwtToken,
+                    false
+            );
 
             int responseCode = conn.getResponseCode();
+
             if (responseCode == HttpURLConnection.HTTP_OK) {
                 messageLabel2.setText("User removed successfully.");
                 clearMessageLabelAfterDelay(messageLabel2, Duration.seconds(2));
@@ -482,6 +483,7 @@ public class MainSceneController {
             }
         }
     }
+
 
     // Metoda obsługująca przycisk do zmiany sceny na dateSelectionScene.
     @FXML

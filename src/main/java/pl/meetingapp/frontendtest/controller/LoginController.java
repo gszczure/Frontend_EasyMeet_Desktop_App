@@ -92,7 +92,7 @@ public class LoginController {
     }
 
     @FXML
-    private void registrationButtonOnAction(MouseEvent e) throws IOException { //TODO: zmienic nazwe metody bi juz nie ma guzika tylko tekst
+    private void registrationLabelOnAction(MouseEvent e) throws IOException {
         Stage stage = (Stage) SingUpLabel.getScene().getWindow();
         Scene newScene = new Scene(FXMLLoader.load(getClass().getResource("/fxml/registrationSceneFRONT.fxml")));
         stage.setScene(newScene);
