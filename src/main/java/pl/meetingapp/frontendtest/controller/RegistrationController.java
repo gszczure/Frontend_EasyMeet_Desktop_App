@@ -86,7 +86,11 @@ public class RegistrationController {
 
         HttpURLConnection connection = null;
         try {
-            connection = HttpUtils.createConnection("http://localhost:8080/api/auth/register", "POST", null, true);
+            connection = HttpUtils.createConnection(
+                    "https://backendmeetingapp.onrender.com/api/auth/register",
+                    "POST",
+                    null,
+                    true);
 
             String jsonInputString = "{\"username\": \"" + username + "\", \"password\": \"" + password + "\", \"email\": \"" + email + "\", \"firstName\": \"" + firstName + "\", \"lastName\": \"" + lastName + "\", \"phoneNumber\": \"" + phoneNumber + "\"}";
 

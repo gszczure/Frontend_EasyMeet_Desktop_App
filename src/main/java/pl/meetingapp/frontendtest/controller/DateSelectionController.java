@@ -65,7 +65,7 @@ public class DateSelectionController {
         HttpURLConnection conn = null;
         try {
             conn = HttpUtils.createConnection(
-                    "http://localhost:8080/api/date-ranges/meeting/" + meetingId,
+                    "https://backendmeetingapp.onrender.com/api/date-ranges/meeting/" + meetingId,
                     "GET",
                     jwtToken,
                     false
@@ -169,7 +169,7 @@ public class DateSelectionController {
         HttpURLConnection conn = null;
         try {
             conn = HttpUtils.createConnection(
-                    "http://localhost:8080/api/date-ranges",
+                    "https://backendmeetingapp.onrender.com/api/date-ranges",
                     "POST",
                     jwtToken,
                     true
@@ -237,7 +237,7 @@ public class DateSelectionController {
         HttpURLConnection conn = null;
         try {
             conn = HttpUtils.createConnection(
-                    "http://localhost:8080/api/date-ranges/" + dateRangeId,
+                    "https://backendmeetingapp.onrender.com/api/date-ranges/" + dateRangeId,
                     "DELETE",
                     jwtToken,
                     false

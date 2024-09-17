@@ -76,7 +76,7 @@ public class CommonDatesController {
         HttpURLConnection conn = null;
         try {
             conn = HttpUtils.createConnection(
-                    "http://localhost:8080/api/date-ranges/meeting/" + meetingId + "/common-dates",
+                    "https://backendmeetingapp.onrender.com/api/date-ranges/meeting/" + meetingId + "/common-dates",
                     "GET",
                     jwtToken,
                     false
@@ -157,7 +157,7 @@ public class CommonDatesController {
         HttpURLConnection conn = null;
         try {
             conn = HttpUtils.createConnection(
-                    "http://localhost:8080/api/meetings/" + meetingId + "/date",
+                    "https://backendmeetingapp.onrender.com/api/meetings/" + meetingId + "/date",
                     "POST",
                     jwtToken,
                     true
@@ -205,7 +205,7 @@ public class CommonDatesController {
         HttpURLConnection conn = null;
         try {
             conn = HttpUtils.createConnection(
-                    "http://localhost:8080/api/meetings/" + meetingId + "/comment",
+                    "https://backendmeetingapp.onrender.com/api/meetings/" + meetingId + "/comment",
                     "POST",
                     jwtToken,
                     true

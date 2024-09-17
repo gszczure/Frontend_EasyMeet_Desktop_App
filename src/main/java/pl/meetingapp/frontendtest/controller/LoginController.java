@@ -33,9 +33,6 @@ public class LoginController {
     private Label loginMessageLabel;
 
     @FXML
-    private Button registrationButton;
-
-    @FXML
     private Button cancelButton;
 
     @FXML
@@ -47,7 +44,8 @@ public class LoginController {
         String password = passwordPasswordField.getText().trim();
 
         try {
-            HttpURLConnection connection = HttpUtils.createConnection("http://localhost:8080/api/auth/login",
+            HttpURLConnection connection = HttpUtils.createConnection(
+                    "https://backendmeetingapp.onrender.com/api/auth/login",
                     "POST",
                     null,
                     true);
