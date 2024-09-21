@@ -58,7 +58,7 @@
                         <InnerShadow />
                     </effect>
                 </Label>
-                <Label layoutX="29.0" layoutY="156.0" prefHeight="18.0" prefWidth="61.0" text="Username" AnchorPane.leftAnchor="29.0">
+                <Label layoutX="29.0" layoutY="156.0" prefHeight="18.0" prefWidth="65.0" text="Username" AnchorPane.leftAnchor="29.0">
                     <font>
                         <Font size="14.0" />
                     </font>
