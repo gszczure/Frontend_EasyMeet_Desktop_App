@@ -16,7 +16,7 @@ Below, you'll find details about installation, technologies, and the app's core 
 
 ## Technologies
 
-- **Backend**: The backend code is available on GitHub: [BACKENDMEETINGAPP](https://github.com/gszczure/BACKENDMEETINGAPP). The backend is built using **Java**, requiring a minimum version of 14 (Oracle Java SDK 19 recommended).
+- **Backend**: The backend code is available on GitHub: [BACKENDMEETINGAPP](https://github.com/gszczure/BACKENDMEETINGAPP). The backend is built using **Java** and **Spring**, requiring a minimum version of 14 (Oracle Java SDK 19 recommended).
 - **Frontend**: The frontend was developed using **JavaFX** and **Scene Builder** with some **CSS** for styling.
 - **Authentication**: User authentication is managed using **JWT (JSON Web Token)**, ensuring secure session management.
 - **Database**: The app uses a **PostgreSQL** database, and user passwords are **hashed** before being stored in the database for an additional layer of security.
