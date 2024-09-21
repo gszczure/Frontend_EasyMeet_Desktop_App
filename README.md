@@ -24,6 +24,10 @@ Below, you'll find details about installation, technologies, and the app's core 
   - The backend is hosted on **Render**.
   - The database is hosted on **Railway**.
 
+## See the demonstration of the first version of the application
+
+[Watch the demonstration on YouTube](https://youtu.be/fVYEp7d8_mM)
+
 ## System Requirements
 
 To run the application, the following is required:
