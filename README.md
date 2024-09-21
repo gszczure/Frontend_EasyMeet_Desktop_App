@@ -1,0 +1,50 @@
+# MeetMeApp
+
+MeetMeApp is an application for organizing meetups, allowing users to create and join events, such as "BBQ in Pisary." The app was created to address the challenge of finding a convenient date for a gathering among a larger group of friends, where each person had different time preferences. Thanks to the app, finding a common date for a meeting has become much easier.
+
+Below, you'll find details about installation, technologies, and the app's core features.
+
+## Features
+
+- **Event creation**: Registered users can create their own events.
+- **Sharing codes**: Each event generates a unique code that can be shared with other users. By entering this code, they can join the event.
+- **Participant management**: The event owner can remove participants, and participants can voluntarily leave the event.
+- **Meeting date selection**:
+  - Users can add any number of date ranges that suit them.
+  - Each user can **only delete their own date ranges**, not those of other participants.
+  - The app shows common available dates for all participants. The event owner has the option to select the final date from the available options.
+
+## Technologies
+
+- **Backend**: The backend code is available on GitHub: [BACKENDMEETINGAPP](https://github.com/gszczure/BACKENDMEETINGAPP). The backend is built using **Java**, requiring a minimum version of 14 (Oracle Java SDK 19 recommended).
+- **Frontend**: The frontend was developed using **JavaFX** and **Scene Builder** with some **CSS** for styling.
+- **Authentication**: User authentication is managed using **JWT (JSON Web Token)**, ensuring secure session management.
+- **Database**: The app uses a **PostgreSQL** database, and user passwords are **hashed** before being stored in the database for an additional layer of security.
+- **Hosting**:
+  - The backend is hosted on **Render**.
+  - The database is hosted on **Railway**.
+
+## System Requirements
+
+To run the application, the following is required:
+- **Java** version 14 or higher (Oracle Java SDK 19 recommended).
+
+Check your Java installation using the command:
+`java -version`
+
+## Installation
+
+1. Download and install the application.
+2. By default, the application installs in the directory `C:\\ProgramFiles\\MeetMeApp`.
+3. Locate the `.exe` file in the installation folder. **Do not move it directly to the desktop!** Instead, create a shortcut to this file on your desktop to ensure the application runs correctly.
+
+## Performance Note
+
+- The application may run **slowly during the first launch** because the server needs to start up. The wait time can be up to 4 minutes when logging in or registering.
+- Once the server is running, the application should operate faster.
+
+## Testing and Feedback
+
+The application is in development. All feedback, suggestions for improvements, changes, or feature removals are welcome.
+
+A test event is available with the code: `af86a`.
