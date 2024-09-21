@@ -18,7 +18,7 @@ public class JavaFXApp extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         stage = primaryStage;
-//        primaryStage.initStyle(StageStyle.UNDECORATED); Pasek na gorze aplikacji
+//        primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.setResizable(false);
         loadScene("/fxml/loginSceneFRONT.fxml", 520, 400); // Ustawienie domyślnego rozmiaru
     }
