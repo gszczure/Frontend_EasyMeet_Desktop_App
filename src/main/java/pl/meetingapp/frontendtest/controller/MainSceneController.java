@@ -98,7 +98,7 @@ public class MainSceneController {
         HttpURLConnection conn = null;
         try {
             conn = HttpUtils.createConnection(
-                    "https://backendmeetingapp.onrender.com/api/meetings/for-user",
+                    "http://localhost:8080/api/meetings/for-user",
                     "GET",
                     jwtToken,
                     false
@@ -245,7 +245,7 @@ public class MainSceneController {
         HttpURLConnection conn = null;
         try {
             conn = HttpUtils.createConnection(
-                    "https://backendmeetingapp.onrender.com/api/meetings/" + meetingId + "/comment",
+                    "http://localhost:8080/api/meetings/" + meetingId + "/comment",
                     "GET",
                     jwtToken,
                     false
@@ -281,7 +281,7 @@ public class MainSceneController {
         HttpURLConnection conn = null;
         try {
             conn = HttpUtils.createConnection(
-                    "https://backendmeetingapp.onrender.com/api/meetings/" + meetingId + "/date",
+                    "http://localhost:8080/api/meetings/" + meetingId + "/date",
                     "GET",
                     jwtToken,
                     false
@@ -344,7 +344,7 @@ public class MainSceneController {
         HttpURLConnection conn = null;
         try {
             conn = HttpUtils.createConnection(
-                    "https://backendmeetingapp.onrender.com/api/meetings/join",
+                    "http://localhost:8080/api/meetings/join",
                     "POST",
                     jwtToken,
                     true
@@ -388,7 +388,7 @@ public class MainSceneController {
         HttpURLConnection conn = null;
         try {
             conn = HttpUtils.createConnection(
-                    "https://backendmeetingapp.onrender.com/api/meetings/" + meetingId + "/participants",
+                    "http://localhost:8080/api/meetings/" + meetingId + "/participants",
                     "GET",
                     jwtToken,
                     false
@@ -456,7 +456,7 @@ public class MainSceneController {
         HttpURLConnection conn = null;
         try {
             conn = HttpUtils.createConnection(
-                    "https://backendmeetingapp.onrender.com/api/meetings/" + meetingId + "/participants/" + username,
+                    "http://localhost:8080/api/meetings/" + meetingId + "/participants/" + username,
                     "DELETE",
                     jwtToken,
                     false
@@ -538,7 +538,7 @@ public class MainSceneController {
                 HttpURLConnection conn = null;
                 try {
                     conn = HttpUtils.createConnection(
-                            "https://backendmeetingapp.onrender.com/api/meetings/" + meetingId,
+                            "http://localhost:8080/api/meetings/" + meetingId,
                             "DELETE",
                             jwtToken,
                             false
@@ -589,7 +589,7 @@ public class MainSceneController {
                 HttpURLConnection conn = null;
                 try {
                     conn = HttpUtils.createConnection(
-                            "https://backendmeetingapp.onrender.com/api/meetings/" + meetingId + "/leave",
+                            "http://localhost:8080/api/meetings/" + meetingId + "/leave",
                             "DELETE",
                             jwtToken,
                             true
@@ -639,7 +639,7 @@ public class MainSceneController {
         HttpURLConnection conn = null;
         try {
             conn = HttpUtils.createConnection(
-                    "https://backendmeetingapp.onrender.com/api/meetings/create",
+                    "http://localhost:8080/api/meetings/create",
                     "POST",
                     jwtToken,
                     true);

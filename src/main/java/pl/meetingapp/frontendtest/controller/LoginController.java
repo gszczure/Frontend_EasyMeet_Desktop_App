@@ -45,7 +45,7 @@ public class LoginController {
 
         try {
             HttpURLConnection connection = HttpUtils.createConnection(
-                    "https://backendmeetingapp.onrender.com/api/auth/login",
+                    "http://localhost:8080/api/auth/login",
                     "POST",
                     null,
                     true);

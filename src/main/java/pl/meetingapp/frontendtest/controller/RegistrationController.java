@@ -87,7 +87,7 @@ public class RegistrationController {
         HttpURLConnection connection = null;
         try {
             connection = HttpUtils.createConnection(
-                    "https://backendmeetingapp.onrender.com/api/auth/register",
+                    "http://localhost:8080/api/auth/register",
                     "POST",
                     null,
                     true);
