@@ -6,13 +6,20 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.IOException;
 
 public class JavaFXApp extends Application {
 
+    @Getter
+    @Setter
     private static Stage stage;
+    @Getter
+    @Setter
     private static String jwtToken;
+    @Getter
     private static Long userId;
 
     @Override
@@ -27,24 +34,8 @@ public class JavaFXApp extends Application {
         launch(args);
     }
 
-    public static Stage getStage() {
-        return stage;
-    }
-
-    public static Long getUserId() {
-        return userId;
-    }
-
     public static void setUserId(Long userId) {
         JavaFXApp.userId = userId;
-    }
-
-    public static void setJwtToken(String token) {
-        jwtToken = token;
-    }
-
-    public static String getJwtToken() {
-        return jwtToken;
     }
 
     public void loadScene(String fxml, double width, double height) throws IOException {

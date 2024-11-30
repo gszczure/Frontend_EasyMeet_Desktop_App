@@ -12,6 +12,7 @@ module pl.meetingapp.frontendtest {
     requires com.almasb.fxgl.all;
     requires java.net.http;
     requires org.json;
+    requires static lombok;
 
     opens pl.meetingapp.frontendtest to javafx.fxml;
     opens pl.meetingapp.frontendtest.controller to javafx.fxml;
