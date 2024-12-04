@@ -49,6 +49,6 @@ Check your Java installation using the command:
 
 ## Testing and Feedback
 
-The application is in development. All feedback, suggestions for improvements, changes, or feature removals are welcome.
+The application is in development. Currently, I am working on the second version on a separate branch and also on a version of the same application that functions as a website. All feedback, suggestions for improvements, changes, or feature removals are welcome.
 
 A test event is available with the code: `af86a`.
