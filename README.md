@@ -18,6 +18,7 @@ Below, you'll find details about installation, technologies, and the app's core 
 
 - **Backend**: The backend code is available on GitHub: [BACKENDMEETINGAPP](https://github.com/gszczure/BACKENDMEETINGAPP). The backend is built using **Java** and **Spring**, requiring a minimum version of 14 (Oracle Java SDK 19 recommended).
 - **Frontend**: The frontend was developed using **JavaFX** and **Scene Builder** with some **CSS** for styling.
+- **Website**: I am also working on the web version of the application. [Website](https://meetme-web-q5ol.onrender.com/). [Repository](https://github.com/gszczure/MeetMe_Web_App)
 - **Authentication**: User authentication is managed using **JWT (JSON Web Token)**, ensuring secure session management.
 - **Database**: The app uses a **PostgreSQL** database, and user passwords are **hashed** before being stored in the database for an additional layer of security.
 - **Hosting**:
