@@ -5,7 +5,7 @@
 > It contains the **frontend of the EasyMeet App (desktop version)**.
 > This desktop version of the MeetMe app was the **pre-web version** of the application.  
 > The web version is still being actively updated.
-> New Version Available: 🌐 [MeetMe Web App](https://meetme-web-q5ol.onrender.com/)  |  📂 [EasyMeetApp Repo](https://github.com/gszczure/EasyMeet_App)
+> New Version Available: 🌐 [Visit EasyMeetApp](https://easymeetapp.onrender.com/)  |  📂 [EasyMeetApp Repo](https://github.com/gszczure/EasyMeet_App)
 
 # EasyMeetApp
 
