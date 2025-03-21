@@ -2,14 +2,14 @@
 > This repository **will no longer be maintained or updated**.  
 > No further improvements or changes will be made.  
 >  
-> It contains the **frontend of the MeetMe app (desktop version)**.
+> It contains the **frontend of the EasyMeet App (desktop version)**.
 > This desktop version of the MeetMe app was the **pre-web version** of the application.  
 > The web version is still being actively updated.
 > New Version Available: 🌐 [MeetMe Web App](https://meetme-web-q5ol.onrender.com/)  |  📂 [Frontend Repo](https://github.com/gszczure/MeetMe_Web_App)
 
-# MeetMeApp
+# EasyMeetApp
 
-MeetMeApp is an application for organizing meetups, allowing users to create and join events, such as "BBQ in Pisary." The app was created to address the challenge of finding a convenient date for a gathering among a larger group of friends, where each person had different time preferences. Thanks to the app, finding a common date for a meeting has become much easier.
+EasyMeetApp is an application for organizing meetups, allowing users to create and join events, such as "BBQ in Pisary." The app was created to address the challenge of finding a convenient date for a gathering among a larger group of friends, where each person had different time preferences. Thanks to the app, finding a common date for a meeting has become much easier.
 
 Below, you'll find details about installation, technologies, and the app's core features.
 
